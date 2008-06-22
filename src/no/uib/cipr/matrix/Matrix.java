@@ -736,7 +736,6 @@ public interface Matrix extends Iterable<MatrixEntry> {
         Maxvalue;
 
 		/**
-		 * @param norm
 		 * @return the String as required by the netlib libraries to represent this norm.
 		 */
 		public String netlib() {
