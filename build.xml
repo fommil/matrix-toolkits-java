@@ -3,7 +3,7 @@
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
 <project name="Matrix_Toolkits_for_Java" default="default" basedir=".">
-    <description>Builds, tests, and runs the project Matrix Toolkit for Java.</description>
+    <description>Builds, tests, and runs the project Matrix Toolkits for Java.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
