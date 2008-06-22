@@ -1,0 +1,131 @@
+<html>
+	<body>
+		Dense and structured sparse matrices, along with matrix factorisations
+		and solvers. The main components are:
+		<ul>
+			<li><strong>Matrix and vector interfaces</strong>
+			<ul>
+				<li><a href="Matrix.html">Matrix</a> -
+				 Linear algebra matrix.</li>
+				<li><a href="Vector.html">Vector</a> -
+				 Linear algebra vector.</li>
+			</ul>
+			</li>
+			<li><strong>Matrix and vector implementations</strong>
+			<ul>
+
+			<li><a href="DenseVector.html">DenseVector</a> -
+			 Stores the vector in a dense array.</li>
+			</li>
+
+			<li><strong>Dense matrices</strong> - Stores the data columnwise in a linear array.
+			<ul>
+				<li><a href="DenseMatrix.html">DenseMatrix</a> -
+				 Recommended matrix for general cases.</li>
+				<li><strong>{Lower,Upper}{Symm,SPD}DenseMatrix</strong> -
+				 Assumes implicit symmetry, and that the matrix is positive definite (SPD).
+				 Stores entries in either the upper or lower triangular part.</li>
+				<li><strong>[Unit]{Lower,Upper}TriangDenseMatrix</strong> -
+				 Only stores in the lower or upper triangular part, and assumes the rest is zero.
+				 If the matrix is unit, the main diagonal is implicitly assumes to be one.</li>
+			</ul></li>
+
+			<li><strong>Packed matrices</strong> - Stores either the lower or upper triangular part of the matrix.
+			<ul>
+				<li><strong>{Lower,Upper}{Symm,SPD}PackMatrix</strong> -
+				 Like their dense counterparts, but consumes less memory.</li>
+				<li><strong>[Unit]{Lower,Upper}TriangPackMatrix</strong> -
+				 Also like their dense counterparts, but consumes less memory.</li>
+			</ul></li>
+
+			<li><strong>Banded matrices</strong> - Stores the matrix in a dense band.
+			<ul>
+				<li><a href="BandMatrix.html">BandMatrix</a> -
+				 General band matrix with the possibility of different upper and lower triangular bandwidths.</li>
+				<li><strong>{Lower,Upper}{Symm,SPD}BandMatrix</strong> -
+				 Like their dense counterparts, but consumes less memory by only storing the lower or upper parts.</li>
+				<li><strong>[Unit]{Lower,Upper}TriangBandMatrix</strong> -
+				 Also like their dense counterparts, but consumes less memory by only storing the lower or upper parts..</li>
+			</ul></li>
+
+			<li><strong>Tridiagonal matrices</strong> - Stores just three diagonals.
+			<ul>
+				<li><a href="TridiagMatrix.html">TridiagMatrix</a> -
+				 Standard tridiagonal matrix.</li>
+				<li><strong>{Symm,SPD}TridiagMatrix</strong> -
+				 Stores only the main diagonal and an off-diagonal.
+				 May also assume that the matrix is positive definite.</li>
+			</ul></li>
+
+			</ul></li>
+
+			<li><strong>Abstract implementations</strong>
+			<ul>
+				<li><a href="AbstractMatrix.html">AbstractMatrix</a> -
+				 Implements all the matrix operations, but doesn't specify the matrix storage.</li>
+				<li><a href="AbstractVector.html">AbstractVector</a> -
+				 Implements all the vector operations, but doesn't specify the vector storage.</li>
+			</ul></li>
+
+			<li><strong>Utility methods and iterators</strong>
+			<ul>
+				<li><a href="Matrices.html">Matrices</a> -
+				 Creates submatrices and synchronized matrices. Also has several
+				 miscellaneous utility methods.</li>
+				<li><a href="MatrixEntry.html">MatrixEntry</a> -
+				 Entry returned when iterating over a matrix using the for-each
+				 statement.</li>
+				<li><a href="VectorEntry.html">VectorEntry</a> -
+				 Entry returned when iterating over a vector using the for-each
+				 statement.</li>
+			</ul></li>
+
+			<li><strong>LU decompositions</strong>
+			<ul>
+				<li><a href="BandLU.html">BandLU</a> -
+				 LU decomposition of a banded matrix.</li>
+				<li><a href="DenseLU.html">DenseLU</a> -
+				 LU decomposition of a dense matrix.</li>
+				<li><a href="BandCholesky.html">BandCholesky</a> -
+				 Cholesky decomposition of a banded matrix.</li>
+				<li><a href="DenseCholesky.html">DenseCholesky</a> -
+				 Cholesky decomposition of a dense SPD matrix.</li>
+				<li><a href="PackCholesky.html">PackCholesky</a> -
+				 Cholesky decomposition of a packed SPD matrix.</li>
+			</ul>
+			</li>
+			<li><strong>Orthogonal decompositions</strong>
+			<ul>
+				<li><a href="LQ.html">LQ</a> -
+				 LQ decomposition.</li>
+				<li><a href="QL.html">QL</a> -
+				 QL decomposition.</li>
+				<li><a href="QR.html">QR</a> -
+				 QR decomposition.</li>
+				<li><a href="RQ.html">RQ</a> -
+				 RQ decomposition.</li>
+				<li><a href="GivensRotation.html">GivensRotation</a> -
+				 Givens plane rotation.</li>
+			</ul>
+			</li>
+			<li><strong>Spectral decompositions</strong>
+			<ul>
+				<li><a href="EVD.html">EVD</a> -
+				 Eigenvalue decomposition of general matrices.</li>
+				<li><a href="SVD.html">SVD</a> -
+				 Singular value decomposition</li>
+				<li><a href="SymmBandEVD.html">SymmBandEVD</a> -
+				 Eigenvalue decomposition of symmetrical, banded matrices.</li>
+				<li><a href="SymmDenseEVD.html">SymmDenseEVD</a> -
+				 Eigenvalue decomposition of symmetrical, dense matrices.</li>
+				<li><a href="SymmPackEVD.html">SymmPackEVD</a> -
+				 Eigenvalue decomposition of symmetrical, packed matrices.</li>
+				<li><a href="SymmTridiagEVD.html">SymmTridiagEVD</a> -
+				 Eigenvalue decomposition of symmetrical, tridiagonal matrices.</li>
+			</ul>
+			</li>
+		</ul>
+		<p>
+		</p>
+	</body>
+</html>

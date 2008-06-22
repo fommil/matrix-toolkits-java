@@ -1,0 +1,63 @@
+<html>
+<body>
+Unstructured sparse matrices and vectors with iterative solvers and
+preconditioners. The classes and interfaces can be grouped as follows:
+<ul>
+ <li><strong>General sparse matrices</strong>
+  <ul>
+   <li><a href="CompRowMatrix.html">CompRowMatrix</a> -
+    Compressed row storage. Generally the best sparse matrix if the non-zero
+    structure is known.</li>
+   <li><a href="CompColMatrix.html">CompColMatrix</a> -
+    Compressed column storage.</li>
+   <li><a href="CompDiagMatrix.html">CompDiagMatrix</a> -
+    Compressed diagonal storage.</li>
+   <li><a href="FlexCompRowMatrix.html">FlexCompRowMatrix</a> -
+    Flexible compressed row storage. Stores each row as a growable sparse
+    vector.</li>
+   <li><a href="FlexCompColMatrix.html">FlexCompColMatrix</a> -
+    Flexible compressed column storage. Stores each column as a growable sparse
+    vector.</li>
+   <li><a href="SparseVector.html">SparseVector</a> -
+    Growable sparse vector.</li>
+  </ul>
+ </li>
+ <li><strong>Iterative solvers</strong>
+  <ul>
+   <li><a href="BiCG.html">BiCG</a> -
+   BiConjugate gradients.</li>
+   <li><a href="BiCGstab.html">BiCGstab</a> -
+   BiConjugate gradients stabilized.</li>
+   <li><a href="CG.html">CG</a> -
+   Conjugate gradients.</li>
+   <li><a href="CGS.html">CGS</a> -
+   Conjugate gradients squared.</li>
+   <li><a href="Chebyshev.html">Chebyshev</a> -
+   The Chebyshev iteration for symmetrical, positive definite matrices.</li>
+   <li><a href="GMRES.html">GMRES</a> -
+   Generalized minimal residual using restart.</li>
+   <li><a href="IR.html">IR</a> -
+   Iterative refinement (Richardson's method).</li>
+   <li><a href="QMR.html">QMR</a> -
+   Quasi-minimal residual.</li>
+  </ul>
+ </li>
+ <li><strong>Preconditioners</strong>
+  <ul>
+   <li><a href="DiagonalPreconditioner.html">DiagonalPreconditioner</a> -
+    Diagonal preconditioning.</li>
+   <li><a href="SSOR.html">SSOR</a> -
+    Symmetrical sucessive overrelaxation.</li>
+   <li><a href="ICC.html">ICC</a> -
+    Incomplete Cholesky without fill-in.</li>
+   <li><a href="ILU.html">ILU</a> -
+    Incomplete LU without fill-in.</li>
+   <li><a href="ILUT.html">ILUT</a> -
+    Incomplete LU with fill-in using a threshold approach.</li>
+   <li><a href="AMG.html">AMG</a> -
+    Algebraic multigrid by smoothed aggregation.</li>
+  </ul>
+ </li>
+</ul>
+</body>
+</html>
