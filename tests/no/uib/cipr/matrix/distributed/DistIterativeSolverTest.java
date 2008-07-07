@@ -2,6 +2,10 @@ package no.uib.cipr.matrix.distributed;
 
 import java.util.Arrays;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
@@ -243,11 +247,14 @@ public class DistIterativeSolverTest extends TestCase {
     }
 
     private void compare(Thread[] t) throws InterruptedException {
+		ExecutorService pool =
+			Executors.newFixedThreadPool(t.length);
+		
         for (Thread ti : t)
-            ti.start();
-
-        for (Thread ti : t)
-            ti.join();
+            pool.execute(ti);
+		
+		pool.shutdown();
+		pool.awaitTermination(20, TimeUnit.SECONDS);
 
         for (int i = 0; i < x.size(); ++i)
             assertEquals(x.get(i), output[i], 1e-10);
