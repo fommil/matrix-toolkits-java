@@ -110,7 +110,7 @@ abstract class AbstractSymmBandMatrix extends AbstractBandMatrix {
 
         intW info = new intW(0);
         LAPACK.getInstance().dgbsv(numRows, kd, kd, X.numColumns(),
-                Af.getData(), Matrices.ld(2 * kl + ku + 1), ipiv, Xd,
+                Af.getData(), Matrices.ld(2 * kd + kd + 1), ipiv, Xd,
                 Matrices.ld(numRows), info);
 
         if (info.val > 0)
