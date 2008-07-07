@@ -189,8 +189,8 @@ public class DenseCholesky {
                     B.getData(), Matrices.ld(Cu.numRows()), info);
         else
             LAPACK.getInstance().dpotrs(UpLo.Lower.netlib(), Cl.numRows(),
-                    B.numColumns(), Cl.getData(), Matrices.ld(Cu.numRows()),
-                    B.getData(), Matrices.ld(Cu.numRows()), info);
+                    B.numColumns(), Cl.getData(), Matrices.ld(Cl.numRows()),
+                    B.getData(), Matrices.ld(Cl.numRows()), info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
