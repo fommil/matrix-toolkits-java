@@ -28,20 +28,20 @@ import no.uib.cipr.matrix.Utilities;
 
 public class DistIterativeSolverTest extends TestCase {
 
-    CollectiveCommunications coll;
+    volatile CollectiveCommunications coll;
 
-    DenseMatrix A_unsymm;
+    volatile DenseMatrix A_unsymm;
 
-    UpperSymmDenseMatrix A_symm;
+    volatile UpperSymmDenseMatrix A_symm;
 
-    DenseVector x, b_unsymm, b_symm;
+	volatile DenseVector x, b_unsymm, b_symm;
 
     /**
      * Partitioning
      */
-    int[] localLength;
+	volatile int[] localLength;
 
-    double[] output;
+	volatile double[] output;
 
     @Override
     protected void setUp() throws Exception {
