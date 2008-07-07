@@ -261,9 +261,9 @@ public class DistIterativeSolverTest extends TestCase {
     }
 
     private abstract class DistIterativeSolver implements Runnable {
-        protected int rank;
+        final protected int rank;
 
-        protected Vector.Norm norm;
+        final protected Vector.Norm norm;
 
         public DistIterativeSolver(int rank, Vector.Norm norm) {
             this.rank = rank;
