@@ -188,7 +188,7 @@ public class PackCholesky {
                     B.numColumns(), Cu.getData(), B.getData(), Matrices.ld(Cu.numRows()), info);
         else
             LAPACK.getInstance().dpptrs(UpLo.Lower.netlib(), Cl.numRows(),
-                    B.numColumns(), Cl.getData(), B.getData(), Matrices.ld(Cu.numRows()), info);
+                    B.numColumns(), Cl.getData(), B.getData(), Matrices.ld(Cl.numRows()), info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
