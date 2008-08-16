@@ -1,14 +1,14 @@
 /**
  * May 21, 2007
- * @author Samuel Halliday, ThinkTank Mathematics Limited
- * Copyright ThinkTank Mathematics Limited 2007
+ * @author Samuel Halliday, ThinkTank Maths Limited
+ * Copyright ThinkTank Maths Limited 2007
  */
 package no.uib.cipr.matrix.sparse;
 
 import no.uib.cipr.matrix.Vector;
 
 /**
- * @author Samuel Halliday, ThinkTank Mathematics Limited
+ * @author Samuel Halliday, ThinkTank Maths Limited
  */
 public interface ISparseVector extends Vector {
 
