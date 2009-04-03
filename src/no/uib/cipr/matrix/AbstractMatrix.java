@@ -240,7 +240,7 @@ public abstract class AbstractMatrix implements Matrix {
     }
 
     public Matrix rank1(double alpha, Vector x) {
-        return rank1(1, x, x);
+        return rank1(alpha, x, x);
     }
 
     public Matrix rank1(Vector x, Vector y) {
