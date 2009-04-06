@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Matrix_Toolkits_for_Java" default="default" basedir=".">
     <description>Builds, tests, and runs the project Matrix Toolkits for Java.</description>
-    <property name="version" value="0.9.11" />
+    <property name="version" value="0.9.12" />
     <import file="nbproject/build-impl.xml"/>
 	
 	<target name="-post-clean">
