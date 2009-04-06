@@ -500,7 +500,7 @@ public class DenseMatrix extends AbstractDenseMatrix {
         // Compute the factorization
         info.val = 0;
         LAPACK.getInstance().dgels(trans.netlib(), numRows, numColumns, nrhs,
-                newData, Matrices.ld(numRows), Xtmp.getData(), Matrices.ld(numColumns),
+                newData, Matrices.ld(numRows), Xtmp.getData(), Matrices.ld(numRows, numColumns),
                 work, lwork, info);
 
         if (info.val < 0)
