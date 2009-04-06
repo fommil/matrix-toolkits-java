@@ -87,35 +87,35 @@ public class Chebyshev extends AbstractIterativeSolver {
             throw new IllegalArgumentException("eigmin > eigmax");
     }
 
-    public Vector solve(Matrix A, Vector b, Vector x)
-            throws IterativeSolverNotConvergedException {
-        checkSizes(A, b, x);
+	public Vector solve(Matrix A, Vector b, Vector x) throws IterativeSolverNotConvergedException {
+       checkSizes(A, b, x);
 
-        double alpha = 0, beta = 0, c = 0, d = 0;
+       double alpha = 0, beta = 0, c = 0, d = 0;
 
-        A.multAdd(-1, x, r.set(b));
+       A.multAdd(-1, x, r.set(b));
 
-        c = (eigmax - eigmin) / 2;
-        d = (eigmax + eigmin) / 2;
+       c = (eigmax - eigmin) / 2.0;
+       d = (eigmax + eigmin) / 2.0;
 
-        for (iter.setFirst(); !iter.converged(r, x); iter.next()) {
-            M.apply(r, z);
+       for (iter.setFirst(); !iter.converged(r, x); iter.next()) {
+           M.apply(r, z);
 
-            if (iter.isFirst()) {
-                p.set(z);
-                alpha = 2 / d;
-            } else {
-                beta = alpha * c * c / 4;
-                alpha = 1 / (d - beta);
-                p.scale(beta).add(z);
-            }
+           if (iter.isFirst()) {
+               p.set(z);
+               alpha = 2.0 / d;
+           } else {
+               beta = (alpha * c) / 2.0;
+               beta *= beta;
+               alpha = 1.0 / (d - beta);
+               p.scale(beta).add(z);
+           }
 
-            A.mult(p, q);
-            x.add(alpha, p);
-            r.add(-alpha, q);
-        }
+           A.mult(p, q);
+           x.add(alpha, p);
+           r.add(-alpha, q);
+       }
 
-        return x;
-    }
+       return x;
+   }
 
 }
