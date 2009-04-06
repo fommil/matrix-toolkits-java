@@ -63,4 +63,14 @@ public class DenseMatrixTest extends MatrixTestAbstract {
             super.testVectorSolve();
     }
 
+	public void testIssue13(){
+		Vector bv = Matrices.random(100);
+		Matrix am = Matrices.random(100, 100);
+		Vector xv = new DenseVector(am.numColumns());
+		for (int x = 0; x < am.numColumns(); x++) {
+			xv.set(x, 1);
+		}
+		xv = Matrices.random(xv.size());
+		xv = am.solve(bv, xv);
+	}
 }
