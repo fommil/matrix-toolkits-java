@@ -25,11 +25,11 @@ import org.netlib.util.intW;
 /**
  * Computes QR decompositions with column pivoting:
  * 
- * {@code P*A = Q*R} where
+ * {@code A*P = Q*R} where
  * 
  * {@code A(m,n)}, {@code Q(m,m)}, and {@code R(m,n)}, more generally:
  * 
- * {@code P*A = [Q1 Q2] * [R11, R12; 0 R22]} and {@code R22} elements are
+ * {@code A*P = [Q1 Q2] * [R11, R12; 0 R22]} and {@code R22} elements are
  * negligible.
  * 
  */
