@@ -24,7 +24,6 @@ import java.util.Arrays;
 
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Vector;
-import no.uib.cipr.matrix.sparse.SparseVector;
 import no.uib.cipr.matrix.Utilities;
 import no.uib.cipr.matrix.VectorTestAbstract;
 

@@ -234,6 +234,7 @@ public class SparseVector extends AbstractVector implements ISparseVector {
     @Override
     public SparseVector zero() {
         java.util.Arrays.fill(data, 0);
+		used = 0;
         return this;
     }
 
