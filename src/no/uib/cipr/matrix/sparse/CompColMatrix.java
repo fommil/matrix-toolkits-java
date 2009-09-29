@@ -38,7 +38,7 @@ import no.uib.cipr.matrix.io.MatrixSize;
 import no.uib.cipr.matrix.io.MatrixVectorReader;
 
 /**
- * Compressed row storage (CRS) matrix
+ * Compressed column storage (CCS) matrix
  */
 public class CompColMatrix extends AbstractMatrix {
 
