@@ -38,7 +38,17 @@ import java.util.concurrent.ThreadFactory;
  * instance, <code>double[]</code> or <code>int[]</code>), and the types
  * must be compatible. It follows that <code>Object[]</code> is an array of
  * native arrays, such as <code>int[][]</code>.
+ *
+ * @deprecated the <code>no.uib.cipr.matrix.distributed</code> package has been deprecated because
+ * of a number of hard to fix concurrency bugs. It is distributed only for backwards compatibility,
+ * but is not recommended. The utility of this package is questionable, as it does not allow
+ * distribution of computation between JVMs or across a network. For many people, distributed
+ * computing of multiple matrices can be achieved at a user-level through the
+ * <a href="http://jppf.org">JPPF Framework</a>.
+ * Users who need to deal with few very large matrices may wish to implement their own storage classes
+ * and solvers using JPPF, but this will not be supported directly in matrix-toolkits-java.
  */
+@Deprecated
 public class Communicator {
 
     /**
