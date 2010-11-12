@@ -182,7 +182,6 @@ public class QRP {
 
 	/**
 	 * Returns the upper triangular factor
-	 * @return
 	 */
 	public DenseMatrix getR() {
 		return R;
@@ -190,7 +189,6 @@ public class QRP {
 
 	/**
 	 * Returns the orthogonal matrix
-	 * @return
 	 */
 	public DenseMatrix getQ() {
 		return Q;
@@ -199,7 +197,6 @@ public class QRP {
 	/**
 	 * Returns the column pivoting vector.
 	 * This function is cheaper than {@link #getP()}.
-	 * @return
 	 */
 	public int[] getPVector() {
 		return jpvt;
@@ -209,7 +206,6 @@ public class QRP {
 	 * Returns the column pivoting matrix.
 	 * This function allocates a new Matrix to be returned,
 	 * a more cheap option is tu use {@link #getPVector()}.
-	 * @return
 	 */
 	public Matrix getP() {
 		Matrix P = new DenseMatrix(jpvt.length, jpvt.length);
@@ -221,7 +217,6 @@ public class QRP {
 
 	/**
 	 * Returns the rank of the factored matrix
-	 * @return 
 	 */
 	public int getRank() {
 		return rank;
