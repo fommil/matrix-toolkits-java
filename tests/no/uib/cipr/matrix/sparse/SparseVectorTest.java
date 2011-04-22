@@ -21,10 +21,12 @@
 package no.uib.cipr.matrix.sparse;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Vector;
 import no.uib.cipr.matrix.Utilities;
+import no.uib.cipr.matrix.VectorEntry;
 import no.uib.cipr.matrix.VectorTestAbstract;
 
 /**
@@ -45,8 +47,6 @@ public class SparseVectorTest extends VectorTestAbstract {
     }
 
 	public void testSparseVectorIndices() {
-		// NOTE: the MTJ compact behaviour has been patched in our (TT) codebase
-		
 		/*
 		 * MTJ subtlety in getIndex() for SparseVector. before calling
 		 * getIndex(), you must call compact()... implementations may choose to
@@ -82,4 +82,19 @@ public class SparseVectorTest extends VectorTestAbstract {
 				+ index.length + ", with elements " + Arrays.toString(index);
 	}
 
+	public void testBug27() {
+		double[] tfVector = {0.0,0.5,0.0,0.4,0.0};
+		DenseVector dense= new DenseVector(tfVector, false);
+		SparseVector vectorTF =  new SparseVector(dense);
+		vectorTF.compact();
+
+		assertTrue(vectorTF.getUsed() == 2);  // vectorTF.getUsed() returns 5
+
+		for (Iterator<VectorEntry> it = vectorTF.iterator();it.hasNext();) {
+            VectorEntry ve= it.next();
+            int index = ve.index();
+            double value = ve.get();
+            assertTrue(tfVector[index]== value);
+        }
+	}
 }

@@ -341,9 +341,7 @@ public class SparseVector extends AbstractVector implements ISparseVector {
      * Compacts the vector
      */
     public void compact() {
-        int nz = used;
-        // ??: why was this originally using cardinality?
-        // int nz = Matrices.cardinality(this);
+		int nz = Matrices.cardinality(this); // catches zero entries
 
         if (nz < data.length) {
             int[] newIndex = new int[nz];
