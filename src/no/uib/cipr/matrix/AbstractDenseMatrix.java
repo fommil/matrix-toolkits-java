@@ -44,6 +44,17 @@ abstract class AbstractDenseMatrix extends AbstractMatrix {
     public AbstractDenseMatrix(int numRows, int numColumns) {
         super(numRows, numColumns);
 
+        // We know that numRows and numColumns is positive from the super
+        // constructor.
+        
+        final long size = (long) numRows * numColumns;
+        if (size > Integer.MAX_VALUE)
+        {
+            throw new IllegalArgumentException("Matrix of "
+                + numRows + " x " + numColumns
+                + " = " + size + " elements is too large to be allocated using a single Java array.");
+        }
+
         data = new double[numRows * numColumns];
     }
 

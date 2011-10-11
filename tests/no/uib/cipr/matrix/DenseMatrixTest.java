@@ -73,4 +73,51 @@ public class DenseMatrixTest extends MatrixTestAbstract {
 		xv = Matrices.random(xv.size());
 		xv = am.solve(bv, xv);
 	}
+
+	public void testIssue32(){
+
+        // The issue here is that we should not allow matrices with more than
+        // Integer.MAX_VALUE entries.
+        boolean exceptionThrown = false;
+        try
+        {
+            Matrix m = new DenseMatrix(Integer.MAX_VALUE, 2);
+        }
+        catch (IllegalArgumentException e)
+        {
+            exceptionThrown = true;
+        }
+        finally
+        {
+            assertTrue(exceptionThrown);
+        }
+
+        exceptionThrown = false;
+        try
+        {
+            Matrix m = new DenseMatrix(Integer.MAX_VALUE, 3);
+        }
+        catch (IllegalArgumentException e)
+        {
+            exceptionThrown = true;
+        }
+        finally
+        {
+            assertTrue(exceptionThrown);
+        }
+
+        exceptionThrown = false;
+        try
+        {
+            Matrix m = new DenseMatrix(Integer.MAX_VALUE - 10, 3);
+        }
+        catch (IllegalArgumentException e)
+        {
+            exceptionThrown = true;
+        }
+        finally
+        {
+            assertTrue(exceptionThrown);
+        }
+    }
 }
