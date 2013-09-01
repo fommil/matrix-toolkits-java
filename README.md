@@ -5,7 +5,9 @@ Java linear algebra library powered by BLAS and LAPACK
 
 *MTJ* is designed to be used as a library for developing numerical applications, both for small and large scale computations. The library is based on [BLAS](http://www.netlib.org/blas) and [LAPACK](http://www.netlib.org/lapack) for its dense and structured sparse computations, and on the [Templates](http://www.netlib.org/templates) project for unstructured sparse operations.
 
-MTJ uses the [netlib-java](https://github.com/fommil/netlib-java/) project as a backend, which can be set up to use machine-optimised BLAS libraries for improved performance of dense matrix operations, falling back to a pure Java implementation. This ensures perfect portability, while allowing for improved performance in a production environment.
+MTJ uses the [netlib-java](https://github.com/fommil/netlib-java/) project as a backend,
+which can be set up to use machine-optimised BLAS libraries for improved performance of
+dense matrix operations.
 
 History
 =======
