@@ -15,11 +15,23 @@ This project was originally written by Bjørn-Ove Heimsund, who has taken a step
 Installation
 ============
 
-```
+Releases are distributed on Maven central:
+
+```xml
 <dependency>
     <groupId>com.googlecode.matrix-toolkits-java</groupId>
     <artifactId>mtj</artifactId>
     <version>0.9.14</version>
+</dependency>
+```
+
+Snapshots are distributed on Sonatype's Snapshot Repository:
+
+```xml
+<dependency>
+  <groupId>com.googlecode.matrix-toolkits-java</groupId>
+  <artifactId>mtj</artifactId>
+  <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -41,7 +53,7 @@ Licence
 =======
 
 Copyright (C) 2003-2006 Bjørn-Ove Heimsund
-Copyright (C) 2006 Samuel Halliday
+Copyright (C) 2006-2013 Samuel Halliday
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
