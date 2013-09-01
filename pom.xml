@@ -1,54 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.googlecode.matrix-toolkits-java</groupId>
+    <artifactId>mtj</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
-    <groupId>com.googlecode.matrix-toolkits-java</groupId>
-    <artifactId>mtj</artifactId>
-    <version>0.9.14</version>
-    <packaging>jar</packaging>
+
     <name>Matrix Toolkits for Java</name>
-    <description>A comprehensive collection of matrix data structures, linear solvers, least squares methods, eigenvalue, and singular value decompositions.</description>
-    <url>http://code.google.com/p/matrix-toolkits-java/</url>
+    <description>A comprehensive collection of matrix data structures, linear solvers, least squares methods,
+        eigenvalue, and singular value decompositions.
+    </description>
+
+    <url>https://github.com/fommil/matrix-toolkits-java/</url>
+
     <licenses>
         <license>
             <name>GNU Lesser General Public License</name>
             <url>http://www.gnu.org/licenses/lgpl.html</url>
-            <distribution>repo</distribution>
         </license>
     </licenses>
+
     <scm>
-        <url>http://code.google.com/p/matrix-toolkits-java/source/browse/</url>
-        <connection>scm:svn:http://matrix-toolkits-java.googlecode.com/svn/trunk/</connection>
+        <url>https://github.com/fommil/matrix-toolkits-java</url>
+        <connection>scm:git:git@github.com:fommil/matrix-toolkits-java.git</connection>
+        <developerConnection>scm:git:git@github.com:fommil/matrix-toolkits-java.git</developerConnection>
     </scm>
+
     <developers>
         <developer>
             <name>Bjørn-Ove Heimsund</name>
         </developer>
         <developer>
             <name>Sam Halliday</name>
+            <id>fommil</id>
+            <email>sam.halliday@gmail.com</email>
         </developer>
     </developers>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/fommil/matrix-toolkits-java/issues</url>
+    </issueManagement>
+
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!-- mvn versions:display-dependency-updates -->
     <dependencies>
         <dependency>
             <groupId>com.googlecode.netlib-java</groupId>
             <artifactId>netlib-java</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.fommil.netlib</groupId>
-            <artifactId>netlib-native_ref-osx_64</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <classifier>natives</classifier>
+            <artifactId>all</artifactId>
+            <version>1.0</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.github.fommil</groupId>
             <artifactId>java-logging</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
 
         <dependency>
@@ -58,25 +107,35 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
+    <!-- mvn versions:display-plugin-updates -->
     <build>
-        <plugins>
-            <plugin>
-                    <groupId>com.googlecode.mavennatives</groupId>
-                    <artifactId>maven-nativedependencies-plugin</artifactId>
-                    <version>0.0.5</version>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.4</version>
                     <executions>
-                            <execution>
-                                    <id>unpacknatives</id>
-                                    <phase>generate-resources</phase>
-                                    <goals>
-                                            <goal>copy</goal>
-                                    </goals>
-                            </execution>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
                     </executions>
-            </plugin>
-        </plugins>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
