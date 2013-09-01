@@ -84,11 +84,6 @@
     <!-- mvn versions:display-dependency-updates -->
     <dependencies>
         <dependency>
-            <groupId>com.googlecode.netlib-java</groupId>
-            <artifactId>netlib-java</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.fommil.netlib</groupId>
             <artifactId>all</artifactId>
             <version>1.0</version>

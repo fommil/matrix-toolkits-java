@@ -20,11 +20,11 @@
 
 package no.uib.cipr.matrix;
 
-import java.util.Iterator;
-
-import org.netlib.blas.BLAS;
-import org.netlib.lapack.LAPACK;
+import com.github.fommil.netlib.BLAS;
+import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
+
+import java.util.Iterator;
 
 
 /**

@@ -37,7 +37,7 @@ import no.uib.cipr.matrix.io.MatrixInfo;
 import no.uib.cipr.matrix.io.MatrixSize;
 import no.uib.cipr.matrix.io.MatrixVectorReader;
 
-import org.netlib.blas.BLAS;
+import com.github.fommil.netlib.BLAS;
 
 /**
  * Compressed row storage (CRS) matrix

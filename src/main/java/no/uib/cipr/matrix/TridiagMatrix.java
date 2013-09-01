@@ -23,7 +23,7 @@ package no.uib.cipr.matrix;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.netlib.lapack.LAPACK;
+import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
 
 /**
