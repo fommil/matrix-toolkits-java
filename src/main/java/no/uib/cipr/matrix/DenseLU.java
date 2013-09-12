@@ -28,8 +28,6 @@ import org.netlib.util.intW;
 
 /**
  * Dense LU decomposition
- * 
- * FIXME: DenseLU is broken! Fix it
  */
 public class DenseLU {
 
