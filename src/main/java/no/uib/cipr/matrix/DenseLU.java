@@ -26,11 +26,7 @@ import org.netlib.util.doubleW;
 import org.netlib.util.intW;
 
 /**
- * Dense LU decomposition.
- * <p>
- * Note: This uses the LAPACK LU decomposition with partial pivots,
- * so the original matrix is reconstructed as {@code P * L * U}
- * (not {@code L * U} as is common in other libraries).
+ * Dense Partial Pivot LU decomposition: {@code A = P * L * U}.
  */
 public class DenseLU {
 
@@ -101,7 +97,9 @@ public class DenseLU {
      * Returns the permutation matrix.
      */
     public PermutationMatrix getP() {
-      return PermutationMatrix.fromPartialPivots(piv);
+      PermutationMatrix perm = PermutationMatrix.fromPartialPivots(piv);
+      perm.transpose();
+      return perm;
     }
 
     /**

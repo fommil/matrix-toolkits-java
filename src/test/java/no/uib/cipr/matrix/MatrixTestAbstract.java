@@ -20,12 +20,7 @@
 
 package no.uib.cipr.matrix;
 
-import no.uib.cipr.matrix.Matrices;
-import no.uib.cipr.matrix.Matrix;
-import no.uib.cipr.matrix.MatrixEntry;
-import no.uib.cipr.matrix.MatrixNotSPDException;
-import no.uib.cipr.matrix.MatrixSingularException;
-import no.uib.cipr.matrix.Vector;
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -1200,5 +1195,13 @@ public abstract class MatrixTestAbstract extends TestCase {
         for (int i = 0; i < xd.length; ++i)
             assertEquals(xd[i], yd[i], tol);
     }
+
+  public static void assertEquals(Matrix expected, Matrix test) {
+    for (int i = 0; i < test.numRows(); i++) {
+      for (int j = 0; j < test.numColumns(); j++) {
+        Assert.assertEquals(expected.get(i, j), test.get(i, j));
+      }
+    }
+  }
 
 }

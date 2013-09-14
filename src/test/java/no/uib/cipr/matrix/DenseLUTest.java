@@ -20,10 +20,7 @@
 
 package no.uib.cipr.matrix;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import java.util.Arrays;
 
 /**
  * Tests the dense LU decomposition
@@ -110,25 +107,14 @@ public class DenseLUTest extends TestCase {
     });
     DenseLU dlu = DenseLU.factorize(m);
 
-    // FIXME: should this really need a transpose?
-    Matrix p = new DenseMatrix(dlu.getP()).transpose();
+    Matrix p = dlu.getP();
     Matrix l = dlu.getL();
-    // FIXME: without the DenseMatrix wrappers, it fails
-    Matrix u = new DenseMatrix(dlu.getU());
-
-    System.out.println(Arrays.toString(dlu.getPivots()));
+    Matrix u = dlu.getU();
 
     Matrix lu = l.mult(u, new DenseMatrix(3, 3));
-    System.out.println(lu);
     Matrix x = p.mult(lu, new DenseMatrix(3, 3));
 
-    System.out.println(x);
-
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        Assert.assertEquals(m.get(i, j), x.get(i, j));
-      }
-    }
+    MatrixTestAbstract.assertEquals(m, x);
   }
 
 }
