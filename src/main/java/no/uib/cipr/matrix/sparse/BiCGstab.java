@@ -99,13 +99,13 @@ public class BiCGstab extends AbstractIterativeSolver {
             alpha = rho_1 / rtilde.dot(v);
             s.set(r).add(-alpha, v);
 
+            x.add(alpha, phat);
             if (iter.converged(s, x))
-                return x.add(alpha, phat);
+              return x;
 
             M.apply(s, shat);
             A.mult(shat, t);
             omega = t.dot(s) / t.dot(t);
-            x.add(alpha, phat);
             x.add(omega, shat);
             r.set(s).add(-omega, t);
 
