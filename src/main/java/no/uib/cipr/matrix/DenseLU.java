@@ -20,14 +20,17 @@
 
 package no.uib.cipr.matrix;
 
-import no.uib.cipr.matrix.Matrix.Norm;
-
 import com.github.fommil.netlib.LAPACK;
+import no.uib.cipr.matrix.Matrix.Norm;
 import org.netlib.util.doubleW;
 import org.netlib.util.intW;
 
 /**
- * Dense LU decomposition
+ * Dense LU decomposition.
+ * <p>
+ * Note: This uses the LAPACK LU decomposition with partial pivots,
+ * so the original matrix is reconstructed as {@code P * L * U}
+ * (not {@code L * U} as is common in other libraries).
  */
 public class DenseLU {
 
@@ -67,8 +70,7 @@ public class DenseLU {
      * @return The current decomposition
      */
     public static DenseLU factorize(Matrix A) {
-        return new DenseLU(A.numRows(), A.numColumns()).factor(new DenseMatrix(
-                A));
+        return new DenseLU(A.numRows(), A.numColumns()).factor(new DenseMatrix(A));
     }
 
     /**
@@ -96,23 +98,30 @@ public class DenseLU {
     }
 
     /**
+     * Returns the permutation matrix.
+     */
+    public PermutationMatrix getP() {
+      return PermutationMatrix.fromPartialPivots(piv);
+    }
+
+    /**
      * Returns the lower triangular factor
      */
     public UnitLowerTriangDenseMatrix getL() {
-        return new UnitLowerTriangDenseMatrix(LU, false);
+        return new UnitLowerTriangDenseMatrix(getLU(), false);
     }
 
     /**
      * Returns the upper triangular factor
      */
     public UpperTriangDenseMatrix getU() {
-        return new UpperTriangDenseMatrix(LU, false);
+        return new UpperTriangDenseMatrix(getLU(), false);
     }
 
     /**
      * Returns the decomposition matrix
      */
-    public DenseMatrix getLU() {
+    protected DenseMatrix getLU() {
         return LU;
     }
 

@@ -802,8 +802,7 @@ public abstract class AbstractMatrix implements Matrix {
 
         for (MatrixEntry e : this)
             if (e.get() != 0)
-                out.format("%10d %10d % .12e\n", e.row() + 1, e.column() + 1, e
-                        .get());
+                out.format("%10d %10d % .12e\n", e.row() + 1, e.column() + 1, e.get());
 
         return out.toString();
     }

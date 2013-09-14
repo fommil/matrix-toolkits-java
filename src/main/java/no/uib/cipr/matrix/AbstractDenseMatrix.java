@@ -20,6 +20,7 @@
 
 package no.uib.cipr.matrix;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -146,5 +147,22 @@ abstract class AbstractDenseMatrix extends AbstractMatrix {
         Arrays.fill(data, 0);
         return this;
     }
+
+  @Override
+  public String toString() {
+    StringBuilder out = new StringBuilder();
+    DecimalFormat df = new DecimalFormat("####0.00");
+
+    for (int i = 0; i < numRows(); i++) {
+      for (int j = 0; j < numColumns(); j++) {
+        double value = get(i, j);
+        if (value >= 0) out.append(" ");
+        out.append(" " + df.format(value));
+      }
+      out.append("\n");
+    }
+
+    return out.toString();
+  }
 
 }

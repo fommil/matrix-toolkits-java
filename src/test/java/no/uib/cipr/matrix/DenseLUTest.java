@@ -23,6 +23,8 @@ package no.uib.cipr.matrix;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+
 /**
  * Tests the dense LU decomposition
  */
@@ -100,38 +102,31 @@ public class DenseLUTest extends TestCase {
     lu.rcond(A, Matrix.Norm.Infinity);
   }
 
-  public void testDenseLUToInput() {
+  public void testDensePLU() {
     Matrix m = new DenseMatrix(new double[][]{
         {2, -1, -2},
         {-4, 6, 3},
         {-4, -2, 8}
     });
-    Matrix expectedL = new DenseMatrix(new double[][]{
-        {1, 0, 0},
-        {-2, 1, 0},
-        {-2, -1, 1}
-    });
-    Matrix expectedU = new DenseMatrix(new double[][]{
-        {2, -1, -2},
-        {0, 4, -1},
-        {0, 0, 3}
-    });
-
     DenseLU dlu = DenseLU.factorize(m);
 
-    System.out.println(dlu.getL().toString());
-    System.out.println(dlu.getU().toString());
+    // FIXME: should this really need a transpose?
+    Matrix p = new DenseMatrix(dlu.getP()).transpose();
+    Matrix l = dlu.getL();
+    // FIXME: without the DenseMatrix wrappers, it fails
+    Matrix u = new DenseMatrix(dlu.getU());
 
-    for (int i= 0 ; i < 3 ; i ++) {
-      for (int j = 0 ; j < 3 ; j++) {
-        Assert.assertEquals(expectedL.get(i, j), dlu.getL().get(i, j));
-        Assert.assertEquals(expectedU.get(i, j), dlu.getU().get(i, j));
-      }
-    }
+    System.out.println(Arrays.toString(dlu.getPivots()));
 
-    for (int i= 0 ; i < 3 ; i ++) {
-      for (int j = 0 ; j < 3 ; j++) {
-        Assert.assertEquals(m.get(i, j), dlu.getLU().get(i, j));
+    Matrix lu = l.mult(u, new DenseMatrix(3, 3));
+    System.out.println(lu);
+    Matrix x = p.mult(lu, new DenseMatrix(3, 3));
+
+    System.out.println(x);
+
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        Assert.assertEquals(m.get(i, j), x.get(i, j));
       }
     }
   }
