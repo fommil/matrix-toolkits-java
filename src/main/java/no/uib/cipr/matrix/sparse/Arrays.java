@@ -22,7 +22,9 @@ package no.uib.cipr.matrix.sparse;
 
 /**
  * Array utilities. Complements <code>java.util.Arrays</code>
+ * @deprecated java.utils.Arrays and Google Guava provide this functionality nowadays.
  */
+@Deprecated
 class Arrays {
 
     private Arrays() {
@@ -113,20 +115,7 @@ class Arrays {
      * @return Integer index to key. -1 if not found
      */
     public static int binarySearch(int[] index, int key, int begin, int end) {
-        end--;
-
-        while (begin <= end) {
-            int mid = (end + begin) >> 1;
-
-            if (index[mid] < key)
-                begin = mid + 1;
-            else if (index[mid] > key)
-                end = mid - 1;
-            else
-                return mid;
-        }
-
-        return -1;
+        return java.util.Arrays.binarySearch(index, begin, end, key);
     }
 
     private static int binarySearchInterval(int[] index, int key, int begin,
