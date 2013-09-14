@@ -160,7 +160,14 @@ public class UpperTriangDenseMatrix extends AbstractTriangDenseMatrix {
                 set(e.row(), e.column(), e.get());
     }
 
-    @Override
+  @Override
+  public Matrix set(Matrix A) {
+    zero();
+    copy(A);
+    return this;
+  }
+
+  @Override
     public UpperTriangDenseMatrix copy() {
         return new UpperTriangDenseMatrix(this);
     }

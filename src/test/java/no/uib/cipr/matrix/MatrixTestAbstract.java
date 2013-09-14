@@ -76,7 +76,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Tolerance for floating-point comparisons
      */
-    protected double tol = 1e-5;
+    protected double tol = 1e-4;
 
     /**
      * Maximum matrix size, to avoid too slow tests

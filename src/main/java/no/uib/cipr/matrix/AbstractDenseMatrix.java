@@ -127,7 +127,9 @@ abstract class AbstractDenseMatrix extends AbstractMatrix {
 
     @Override
     public Matrix set(Matrix B) {
-        if (!(B instanceof AbstractDenseMatrix))
+        // using instanceof results in weird problems
+        // with implementations that mask some values
+        if (!(getClass().isAssignableFrom(B.getClass())))
             return super.set(B);
 
         checkSize(B);

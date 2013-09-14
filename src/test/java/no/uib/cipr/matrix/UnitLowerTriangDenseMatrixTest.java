@@ -46,9 +46,6 @@ public class UnitLowerTriangDenseMatrixTest extends UnitTriangMatrixTestAbstract
     Matrix l = new UnitLowerTriangDenseMatrix(lu, false);
     Matrix u = new UpperTriangDenseMatrix(lu, false);
 
-    System.out.println(l.mult(u, new DenseMatrix(3,3)));
-    System.out.println(l.mult(new DenseMatrix(u), new DenseMatrix(3,3)));
-
     Matrix e = new DenseMatrix(new double[][]{
         {-4,    6,    3},
         {-4,   -2,    8},

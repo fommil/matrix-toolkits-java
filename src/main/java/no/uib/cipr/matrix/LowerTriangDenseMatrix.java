@@ -169,4 +169,11 @@ public class LowerTriangDenseMatrix extends AbstractTriangDenseMatrix {
                 set(e.row(), e.column(), e.get());
     }
 
+  @Override
+  public Matrix set(Matrix A) {
+    zero();
+    copy(A);
+    return this;
+  }
+
 }
