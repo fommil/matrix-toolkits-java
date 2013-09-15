@@ -1,10 +1,10 @@
 package no.uib.cipr.matrix.sparse;
 
 import com.github.fommil.netlib.ARPACK;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
+import no.uib.cipr.matrix.MatrixEntry;
 import no.uib.cipr.matrix.Vector;
 import org.netlib.util.doubleW;
 import org.netlib.util.intW;
@@ -19,7 +19,6 @@ import java.util.TreeMap;
  *
  * @author Sam Halliday
  */
-@RequiredArgsConstructor
 @Log
 public class ArpackSqSym {
 
@@ -27,7 +26,21 @@ public class ArpackSqSym {
 
   private static final double TOL = 0;
 
+  private static final boolean EXPENSIVE_CHECKS = true;
+
   private final Matrix matrix;
+
+
+  public ArpackSqSym(Matrix matrix) {
+    if (!matrix.isSquare())
+      throw new IllegalArgumentException("matrix must be square");
+    if (EXPENSIVE_CHECKS)
+      for (MatrixEntry entry: matrix) {
+        if (entry.get() != matrix.get(entry.column(), entry.row()))
+          throw new IllegalArgumentException("matrix must be symmetric");
+      }
+    this.matrix = matrix;
+  }
 
   /**
    * Solve the eigensystem for the number of eigenvalues requested.
@@ -36,15 +49,18 @@ public class ArpackSqSym {
    * @return a map from eigenvalues to corresponding eigenvectors.
    */
   public Map<Double, DenseVector> solve(int eigenvalues) {
-    if (eigenvalues <= 0 || eigenvalues >= matrix.numColumns())
-      throw new IllegalArgumentException(eigenvalues + " >= " + matrix.numColumns());
+    if (eigenvalues <= 0)
+      throw new IllegalArgumentException(eigenvalues + " <= 0");
+    if (eigenvalues >= matrix.numColumns())
+      throw new IllegalArgumentException(eigenvalues + " >= " + (matrix.numColumns()));
 
     int n = matrix.numRows();
     intW nev = new intW(eigenvalues);
 
     int ncv = Math.min(2 * eigenvalues, n);
+
     String bmat = "I";
-    String which = "LA"; // prefer algebraically larger eigenvalues
+    String which = "LM"; // largest magnitude
     doubleW tol = new doubleW(TOL);
     intW info = new intW(0);
     int[] iparam = new int[11];
@@ -75,11 +91,12 @@ public class ArpackSqSym {
 
     log.fine(i + " iterations for " + n);
 
-    if (info.val < 0) throw new IllegalStateException("info = " + info.val);
+    if (info.val != 0) throw new IllegalStateException("info = " + info.val);
 
     double[] d = new double[nev.val];
     boolean[] select = new boolean[ncv];
     double[] z = java.util.Arrays.copyOfRange(v, 0, nev.val * n);
+
     arpack.dseupd(true, "A", select, d, z, n, 0, bmat, n, which, nev, TOL, resid, ncv, v, n, iparam, ipntr, workd, workl, workl.length, info);
     if (info.val != 0) throw new IllegalStateException("info = " + info.val);
 
@@ -97,6 +114,12 @@ public class ArpackSqSym {
       double eigenvalue = d[i];
       double[] eigenvector = java.util.Arrays.copyOfRange(z, i * n, i * n + n);
       DenseVector vector = new DenseVector(eigenvector);
+      if (eigenvalue < 0) {
+        // return only positive eigenvalues since direction is arbitrary
+        // (this means the user really gets the strongest values)
+        eigenvalue = 0 - eigenvalue;
+        vector.scale(-1);
+      }
       solution.put(eigenvalue, vector);
     }
 

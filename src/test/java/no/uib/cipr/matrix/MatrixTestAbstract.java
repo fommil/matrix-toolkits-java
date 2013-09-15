@@ -1212,4 +1212,13 @@ public abstract class MatrixTestAbstract extends TestCase {
     }
   }
 
+  public static void assertEqualsOrOpposite(Vector expected, Vector test) {
+    assertEquals(expected.size(), test.size());
+    for (int i = 0; i < test.size(); i++) {
+      double a = expected.get(i);
+      double b = test.get(i);
+      assertTrue("abs(" + a + ") != abs(" + b + ")", Math.abs(a) - Math.abs(b) < 0.0001);
+    }
+  }
+
 }

@@ -14,49 +14,46 @@ import java.util.Map;
 @Log
 public class ArpackSqSymTest extends TestCase {
 
-
-  public void testEigensystem() throws NotConvergedException {
-    for (int i = 10; i < 1000; i = i + 10) {
-      DenseMatrix matrix = new DenseMatrix(i, i);
-      Utilities.populate(matrix);
+  public void testRandomEigensystem() throws NotConvergedException {
+    for (int i = 100; i <= 1000; i = i + 100) {
+      UpperSymmDenseMatrix matrix = new UpperSymmDenseMatrix(i);
+      Utilities.upperPopulateGauss(matrix);
 
       Map<Double, DenseVector> evd = evdSolve(matrix);
 
       ArpackSqSym solver = new ArpackSqSym(matrix);
-      Map<Double, DenseVector> results = solver.solve(i - 1);
+      int todo = i / 10;
 
-      Assert.assertEquals(i - 1, results.size());
-      result: for (Map.Entry<Double, DenseVector> e : results.entrySet()) {
+      Map<Double, DenseVector> results = solver.solve(todo);
+      Assert.assertEquals(todo, results.size());
+      for (Map.Entry<Double, DenseVector> e : results.entrySet()) {
+        // exact match of eigenvector / eigenvalue is not important for random matrices
+        // as the eigenvectors should always be the Euclidean directions
+        boolean value = false, vector = false;
         for (Map.Entry<Double, DenseVector> evdEntry : evd.entrySet()) {
-          log.info("eigenvalue = " + e.getKey());
-          if (e.getKey() - evdEntry.getKey() < 0.0001) {
-            MatrixTestAbstract.assertEquals(evdEntry.getValue(), e.getValue());
-            continue result;
-          }
-          if (e.getKey() + evdEntry.getKey() < 0.0001) {
-            DenseVector alt = new DenseVector(evdEntry.getValue());
-            alt.scale(-1);
-            MatrixTestAbstract.assertEquals(alt, e.getValue());
-            continue result;
-          }
-          fail("no matching eigenvalues: " + evd.keySet());
+          if (e.getKey() - Math.abs(evdEntry.getKey()) < 0.0001)
+            value = true;
+          if (e.getValue().dot(evdEntry.getValue()) < 0.9999)
+            vector = true;
         }
+        if (!value)
+          fail("no matching eigenvalue for " + e.getKey() +" : " + evd.keySet());
+        if (!vector)
+          fail("no matching eigenvector for " + e.getKey() +" : " + evd.keySet());
       }
     }
   }
 
-  private Map<Double, DenseVector> evdSolve(DenseMatrix matrix) throws NotConvergedException {
-    EVD evd = new EVD(matrix.numColumns());
+  private Map<Double, DenseVector> evdSolve(UpperSymmDenseMatrix matrix) throws NotConvergedException {
+    SymmDenseEVD evd= new SymmDenseEVD(matrix.numColumns(), true);
     evd.factor(matrix);
     Map<Double, DenseVector> results = new HashMap<Double, DenseVector>();
 
-    double[] eigenvalues = evd.getRealEigenvalues();
-    Matrix eigenvectorMatrix = evd.getRightEigenvectors();
+    double[] eigenvalues = evd.getEigenvalues();
+    Matrix eigenvectorMatrix = evd.getEigenvectors();
     for (int i = 0; i < eigenvalues.length; i++) {
       double eigenvalue = eigenvalues[i];
       DenseVector eigenvector = Matrices.getColumn(eigenvectorMatrix, i);
-      double scale = eigenvector.norm(Vector.Norm.Two);
-      log.info("scale = " + scale + ", would be " + (scale * eigenvalue));
       results.put(eigenvalue, eigenvector);
     }
     return results;

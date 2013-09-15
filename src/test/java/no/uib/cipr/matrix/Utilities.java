@@ -27,6 +27,8 @@ import java.util.Set;
 
 /**
  * Utilities for the testers
+ *
+ * NOTE: many of these random matrices are not guaranteed to have solutions
  */
 public final class Utilities {
 
@@ -328,6 +330,13 @@ public final class Utilities {
                 }
         return values;
     }
+
+  public static void upperPopulateGauss(Matrix A) {
+    Random random = new Random();
+    for (int i = 0; i < A.numRows(); i++)
+      for (int j = 0; j <= i; j++)
+        A.set(i, j, random.nextGaussian());
+  }
 
     /**
      * Populates the strictly lower triangular part of the matrix
