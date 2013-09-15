@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -1197,10 +1196,19 @@ public abstract class MatrixTestAbstract extends TestCase {
     }
 
   public static void assertEquals(Matrix expected, Matrix test) {
+    assertEquals(expected.numRows(), test.numRows());
+    assertEquals(expected.numColumns(), test.numColumns());
     for (int i = 0; i < test.numRows(); i++) {
       for (int j = 0; j < test.numColumns(); j++) {
-        Assert.assertEquals(expected.get(i, j), test.get(i, j));
+        assertEquals(expected.get(i, j), test.get(i, j), 0.0001);
       }
+    }
+  }
+
+  public static void assertEquals(Vector expected, Vector test) {
+    assertEquals(expected.size(), test.size());
+    for (int i = 0; i < test.size(); i++) {
+      assertEquals(expected.get(i), test.get(i), 0.0001);
     }
   }
 

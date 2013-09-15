@@ -25,12 +25,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import no.uib.cipr.matrix.EVD;
-import no.uib.cipr.matrix.Matrix;
-import no.uib.cipr.matrix.NotConvergedException;
-import no.uib.cipr.matrix.SVD;
-import no.uib.cipr.matrix.Vector;
-
 /**
  * Utilities for the testers
  */
@@ -235,11 +229,12 @@ public final class Utilities {
      * @return The matrix data in dense format
      */
     public static double[][] populate(Matrix A) {
+      Random random = new Random();
         int n = A.numRows(), m = A.numColumns();
         double[][] values = new double[n][m];
         for (int i = 0; i < n; ++i)
             for (int j = 0; j < m; ++j) {
-                double value = Math.random();
+              double value = random.nextGaussian();
                 values[i][j] = value;
                 A.set(i, j, value);
             }

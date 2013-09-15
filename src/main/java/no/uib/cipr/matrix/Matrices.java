@@ -679,4 +679,12 @@ public final class Matrices {
                 A.set(columnI, columnI, diagonal);
     }
 
+  public static DenseVector getColumn(Matrix m, int j) {
+    DenseVector v = new DenseVector(m.numRows());
+    for (int i = 0; i < v.size(); i++) {
+      v.set(i, m.get(i, j));
+    }
+    return v;
+  }
+
 }
