@@ -609,7 +609,7 @@ public class MatrixVectorReader extends BufferedReader {
     private int getInt() throws IOException {
         st.nextToken();
         if (st.ttype == StreamTokenizer.TT_WORD)
-            return Integer.parseInt(st.sval);
+            return Double.valueOf(st.sval).intValue();
         else if (st.ttype == StreamTokenizer.TT_EOF)
             throw new EOFException("End-of-File encountered during parsing");
         else

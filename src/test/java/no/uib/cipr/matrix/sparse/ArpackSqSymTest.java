@@ -4,7 +4,10 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import lombok.extern.java.Log;
 import no.uib.cipr.matrix.*;
+import no.uib.cipr.matrix.io.MatrixVectorReader;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +60,17 @@ public class ArpackSqSymTest extends TestCase {
       results.put(eigenvalue, eigenvector);
     }
     return results;
+  }
+
+  public static void main(String [] args) throws Exception {
+    File file = new File("A.txt");
+    Matrix m = new DenseMatrix(new MatrixVectorReader(new FileReader(file)));
+
+    ArpackSqSym solver = new ArpackSqSym(m);
+    Map<Double, DenseVector> results = solver.solve(m.numColumns() / 10);
+    for (Map.Entry<Double, DenseVector> result: results.entrySet()) {
+      log.info(result.getKey().toString());
+    }
   }
 
 }
