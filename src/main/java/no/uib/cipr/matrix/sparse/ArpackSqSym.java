@@ -24,7 +24,7 @@ public class ArpackSqSym {
 
   private final ARPACK arpack = ARPACK.getInstance();
 
-  private static final double TOL = 0;
+  private static final double TOL = 0.0001;
 
   private static final boolean EXPENSIVE_CHECKS = true;
 
@@ -84,7 +84,8 @@ public class ArpackSqSym {
     while (true) {
       i++;
       arpack.dsaupd(ido, bmat, n, which, nev.val, tol, resid, ncv, v, n, iparam, ipntr, workd, workl, workl.length, info);
-      if (ido.val != -1 && ido.val != 1) break;
+      if (ido.val == 99) break;
+      if (ido.val != -1 && ido.val != 1) throw new IllegalStateException("ido = " + ido.val);
       // could be refactored to handle the other types of mode
       av(workd, ipntr[0] - 1, ipntr[1] - 1);
     }
