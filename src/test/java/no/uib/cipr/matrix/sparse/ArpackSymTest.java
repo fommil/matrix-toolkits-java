@@ -15,7 +15,7 @@ import java.util.Map;
  * @author Sam Halliday
  */
 @Log
-public class ArpackSqSymTest extends TestCase {
+public class ArpackSymTest extends TestCase {
 
   public void testRandomEigensystem() throws NotConvergedException {
     for (int i = 100; i <= 1000; i = i + 100) {
@@ -24,7 +24,7 @@ public class ArpackSqSymTest extends TestCase {
 
       Map<Double, DenseVector> evd = evdSolve(matrix);
 
-      ArpackSqSym solver = new ArpackSqSym(matrix);
+      ArpackSym solver = new ArpackSym(matrix);
       int todo = i / 10;
 
       Map<Double, DenseVector> results = solver.solve(todo);
@@ -66,10 +66,10 @@ public class ArpackSqSymTest extends TestCase {
     File file = new File("A.txt");
     Matrix m = new DenseMatrix(new MatrixVectorReader(new FileReader(file)));
 
-    ArpackSqSym solver = new ArpackSqSym(m);
+    ArpackSym solver = new ArpackSym(m);
     Map<Double, DenseVector> results = solver.solve(m.numColumns() / 10);
     for (Map.Entry<Double, DenseVector> result: results.entrySet()) {
-      log.info(result.getKey().toString());
+      ArpackSymTest.log.info(result.getKey().toString());
     }
   }
 

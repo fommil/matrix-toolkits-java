@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Uses ARPACK to partially solve square symmetric eigensystems
+ * Uses ARPACK to partially solve symmetric eigensystems
  * (ARPACK is designed to compute a subset of eigenvalues/eigenvectors).
  *
  * @author Sam Halliday
  */
 @Log
-public class ArpackSqSym {
+public class ArpackSym {
 
   private final ARPACK arpack = ARPACK.getInstance();
 
@@ -31,7 +31,7 @@ public class ArpackSqSym {
   private final Matrix matrix;
 
 
-  public ArpackSqSym(Matrix matrix) {
+  public ArpackSym(Matrix matrix) {
     if (!matrix.isSquare())
       throw new IllegalArgumentException("matrix must be square");
     if (EXPENSIVE_CHECKS)
@@ -90,7 +90,7 @@ public class ArpackSqSym {
       av(workd, ipntr[0] - 1, ipntr[1] - 1);
     }
 
-    log.fine(i + " iterations for " + n);
+    ArpackSym.log.fine(i + " iterations for " + n);
 
     if (info.val != 0) throw new IllegalStateException("info = " + info.val);
 
@@ -102,7 +102,7 @@ public class ArpackSqSym {
     if (info.val != 0) throw new IllegalStateException("info = " + info.val);
 
     int computed = iparam[4];
-    log.fine("computed " + computed + " eigenvalues");
+    ArpackSym.log.fine("computed " + computed + " eigenvalues");
 
     Map<Double, DenseVector> solution = new TreeMap<Double, DenseVector>(new Comparator<Double>() {
       @Override
