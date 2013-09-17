@@ -25,66 +25,46 @@ import java.io.IOException;
 public class LinkedListSparseMatrix extends AbstractMatrix {
 
   // the next 100 lines could be done in one line of Scala... *sigh*
-  @AllArgsConstructor
-  private static class Entry implements Comparable<Entry> {
-    private final int row, col;
-    private double val;
-
-    @Override
-    public int compareTo(Entry o) {
-      throw new UnsupportedOperationException("TODO");
-    }
-  }
-
   // java.util.LinkedList is doubly linked
   // and therefore too heavyweight.
   @AllArgsConstructor
   private static class Node {
-    private final Entry head;
+    private final int row, col;
+    private double val;
     private Node tail;
   }
 
-  private static class RowLinked {
+  private static abstract class Linked {
 
-    private Node node;
+    Node node;
 
     // returns the node that either references this
     // index, or would be the one to update should it
     // be inserted: null if there are no entries.
-    private Node findPreceeding(int row, int col) {
-      assert row >= 0 && col >= 0;
-      Node last = null;
-      Node cur = node;
-      while (cur != null && cur.head.row <= row && cur.head.col < col) {
-        last = cur;
-        cur = cur.tail;
-      }
-      return last;
-    }
+    abstract Node findPreceeding(int row, int col);
 
     public double get(int row, int col) {
       Node prec = findPreceeding(row, col);
       if (prec == null) return 0;
       if (prec.tail == null) return 0;
-      if (prec.tail.head.row != row || prec.tail.head.col != col) return 0;
-      return prec.tail.head.val;
+      if (prec.tail.row != row || prec.tail.col != col) return 0;
+      return prec.tail.val;
     }
 
-    // also functions as insert
-    public void update(int row, int col, double val) {
+    public void set(int row, int col, double val) {
       if (val == 0) {
         remove(row, col);
         return;
       }
       Node prec = findPreceeding(row, col);
       if (prec == null) {
-        node = new Node(new Entry(row, col, val), null);
+        node = new Node(row, col, val, null);
       } else if (prec.tail == null) {
-        prec.tail = new Node(new Entry(row, col, val), null);
-      } else if (prec.tail.head.row != row || prec.tail.head.col != col) {
-        prec.tail = new Node(new Entry(row, col, val), prec.tail.tail);
+        prec.tail = new Node(row, col, val, null);
+      } else if (prec.tail.row != row || prec.tail.col != col) {
+        prec.tail = new Node(row, col, val, prec.tail.tail);
       } else {
-        prec.tail.head.val = val;
+        prec.tail.val = val;
       }
     }
 
@@ -92,11 +72,27 @@ public class LinkedListSparseMatrix extends AbstractMatrix {
       Node prec = findPreceeding(row, col);
       if (prec == null) return;
       if (prec.tail == null) return;
-      if (prec.tail.head.row != row || prec.tail.head.col != col) return;
+      if (prec.tail.row != row || prec.tail.col != col) return;
       prec.tail = prec.tail.tail;
     }
-
   }
+
+  private static class RowLinked extends Linked {
+    @Override
+    Node findPreceeding(int row, int col) {
+      assert row >= 0 && col >= 0;
+      Node last = null;
+      Node cur = node;
+      while (cur != null && cur.row <= row && cur.col < col) {
+        last = cur;
+        cur = cur.tail;
+      }
+      return last;
+    }
+  }
+
+
+  private RowLinked rows = new RowLinked();
 
 
   protected LinkedListSparseMatrix(int numRows, int numColumns) {
