@@ -643,7 +643,7 @@ public abstract class AbstractMatrix implements Matrix {
 
         zero();
         for (MatrixEntry e : B)
-            set(e.row(), e.column(), alpha * e.get());
+          if (e.get() != 0) set(e.row(), e.column(), alpha * e.get());
 
         return this;
     }
