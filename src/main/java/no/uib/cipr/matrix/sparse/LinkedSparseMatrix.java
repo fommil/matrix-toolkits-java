@@ -238,6 +238,15 @@ public class LinkedSparseMatrix extends AbstractMatrix {
   }
 
   @Override
+  public Matrix scale(double alpha) {
+    if (alpha == 0)
+      zero();
+    else if (alpha != 1) for (MatrixEntry e : this)
+      set(e.row(), e.column(), e.get() * alpha);
+    return this;
+  }
+
+  @Override
   public Vector multAdd(double alpha, Vector x, Vector y) {
     return super.multAdd(alpha, x, y);
   }
