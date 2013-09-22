@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * A Sorted Linked List implementation of an {@code n x m} Matrix that
- * has a maximum {@code O(n)} insertion cost, a maximum one-time
- * {@code O(n.m)} lookup cost (immediately following an insertion),
- * an effectively free iterator for performing multiplication:
+ * A Linked List (with shortcuts to important nodes)
+ * implementation of an {@code n x m} Matrix with {@code z} elements that
+ * has a typical {@code O(z / m)} insertion / lookup cost
+ * and an iterator that traverses columns then rows:
  * a good fit for unstructured sparse matrices.
  * <p/>
  * However, transpose
@@ -42,18 +42,11 @@ public class LinkedSparseMatrix extends AbstractMatrix {
     private Node tail;
   }
 
-  private abstract class Linked {
+  private class Linked {
 
     Node node;
 
-    // returns the node that either references this
-    // index, or would be the one to update should it
-    // be inserted: null if there are no entries.
-    abstract Node findPreceeding(int row, int col);
-
-    // implementations should note that this value
-    // has changed, so caches may need to be invalidated
-    abstract void invalidate(int row, int col);
+    Node[] rows = new Node[numRows];
 
     public double get(int row, int col) {
       if (node != null && node.row == row && node.col == col) return node.val;
@@ -70,16 +63,16 @@ public class LinkedSparseMatrix extends AbstractMatrix {
         return;
       }
       Node prec = findPreceeding(row, col);
-      assert prec == null || prec.row < row || (prec.row == row && prec.col < col): row + " " + col + " " + prec;
-      if (prec == null) {
-        assert node == null || node.row > row || (node.row == row && node.col > col): row + " " + col + " " + node;
+      assert prec == null || prec.row < row || (prec.row == row && prec.col < col) : row + " " + col + " " + prec;
+      if (node != null && node.row == row && node.col == col)
+        node.val = val;
+      else if (prec == null) {
+        assert node == null || node.row > row || (node.row == row && node.col > col) : row + " " + col + " " + node;
         node = new Node(row, col, val, node);
-      } else if (prec.tail == null) {
-        prec.tail = new Node(row, col, val, null);
-      } else if (prec.tail.row != row || prec.tail.col != col) {
-        prec.tail = new Node(row, col, val, prec.tail.tail);
+      } else if (prec.tail == null || prec.tail.row != row || prec.tail.col != col) {
+        prec.tail = new Node(row, col, val, prec.tail);
       } else {
-        assert prec.tail.row == row && prec.tail.col == col ;
+        assert prec.tail.row == row && prec.tail.col == col;
         prec.tail.val = val;
       }
       invalidate(row, col);
@@ -93,18 +86,12 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       prec.tail = prec.tail.tail;
       invalidate(row, col);
     }
-  }
 
-  private class RowLinked extends Linked {
-
-    // contains a pointer to the *last* Node for the row
-    Node[] rows = new Node[numRows];
-
-    @Override
     void invalidate(int row, int col) {
       rows[row] = null;
     }
 
+    // contains a pointer to the *last* Node for the row
     Node cached(int row) {
       for (int i = row; i > 0; i--) {
         Node cached = rows[row - 1];
@@ -116,7 +103,9 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       return null;
     }
 
-    @Override
+    // returns the node that either references this
+    // index, or would be the one to update should it
+    // be inserted: null if there are no entries.
     Node findPreceeding(int row, int col) {
       assert row >= 0 && col >= 0;
       Node last = row > 0 ? cached(row - 1) : null;
@@ -130,19 +119,20 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       }
       return last;
     }
+
   }
 
-  private RowLinked rows;
+  private Linked rows;
 
   protected LinkedSparseMatrix(int numRows, int numColumns) {
     super(numRows, numColumns);
-    rows = new RowLinked();
+    rows = new Linked();
   }
 
   protected LinkedSparseMatrix(Matrix A) {
     super(A);
+    rows = new Linked();
     set(A);
-    rows = new RowLinked();
   }
 
   public LinkedSparseMatrix(MatrixVectorReader r) throws IOException {
@@ -154,7 +144,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       MatrixSize size = r.readMatrixSize(info);
       numRows = size.numRows();
       numColumns = size.numColumns();
-      rows = new RowLinked();
+      rows = new Linked();
 
       int nz = size.numEntries();
       int[] row = new int[nz];
@@ -173,7 +163,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   @Override
   public Matrix zero() {
-    rows = new RowLinked();
+    rows = new Linked();
     return this;
   }
 

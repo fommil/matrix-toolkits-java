@@ -30,6 +30,13 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
       Assert.assertEquals(expect, e.get(), 0);
       Assert.assertEquals(expect, A.get(row, col), 0);
     }
+
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        double expect = Ad[i][j];
+        Assert.assertEquals(expect, A.get(i, j), 0);
+      }
+    }
   }
 
   @Override
