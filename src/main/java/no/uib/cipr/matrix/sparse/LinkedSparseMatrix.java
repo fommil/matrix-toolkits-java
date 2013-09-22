@@ -44,46 +44,40 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   private class Linked {
 
-    Node node;
+    Node head;
 
     Node[] rows = new Node[numRows];
 
+    private boolean isHead(int row, int col) {
+      return head != null && head.row == row && head.col == col;
+    }
+
+    private boolean isNext(Node node, int row, int col) {
+      return node.tail != null && node.tail.row == row && node.tail.col == col;
+    }
+
     public double get(int row, int col) {
-      if (node != null && node.row == row && node.col == col) return node.val;
-      Node prec = findPreceeding(row, col);
-      if (prec == null) return 0;
-      if (prec.tail == null) return 0;
-      if (prec.tail.row == row && prec.tail.col == col) return prec.tail.val;
+      Node node = findPreceeding(row, col);
+      if (node == null) return isHead(row, col) ? head.val : 0;
+      if (node.tail == null) return 0;
+      if (node.tail.row == row && node.tail.col == col) return node.tail.val;
       return 0;
     }
 
     public void set(int row, int col, double val) {
+      Node node = findPreceeding(row, col);
       if (val == 0) {
-        remove(row, col);
-        return;
-      }
-      Node prec = findPreceeding(row, col);
-      assert prec == null || prec.row < row || (prec.row == row && prec.col < col) : row + " " + col + " " + prec;
-      if (node != null && node.row == row && node.col == col)
-        node.val = val;
-      else if (prec == null) {
-        assert node == null || node.row > row || (node.row == row && node.col > col) : row + " " + col + " " + node;
-        node = new Node(row, col, val, node);
-      } else if (prec.tail == null || prec.tail.row != row || prec.tail.col != col) {
-        prec.tail = new Node(row, col, val, prec.tail);
-      } else {
-        assert prec.tail.row == row && prec.tail.col == col;
-        prec.tail.val = val;
-      }
-      invalidate(row, col);
-    }
-
-    public void remove(int row, int col) {
-      Node prec = findPreceeding(row, col);
-      if (prec == null) return;
-      if (prec.tail == null) return;
-      if (prec.tail.row != row || prec.tail.col != col) return;
-      prec.tail = prec.tail.tail;
+        if (node == null && !isHead(row, col) || !isNext(node, row, col))
+          return;
+        node.tail = node.tail.tail;
+      } else if (isHead(row, col))
+        head.val = val;
+      else if (node == null)
+        head = new Node(row, col, val, head);
+      else if (!isNext(node, row, col))
+        node.tail = new Node(row, col, val, node.tail);
+      else
+        node.tail.val = val;
       invalidate(row, col);
     }
 
@@ -109,7 +103,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
     Node findPreceeding(int row, int col) {
       assert row >= 0 && col >= 0;
       Node last = row > 0 ? cached(row - 1) : null;
-      Node cur = last != null ? last : node;
+      Node cur = last != null ? last : head;
       while (cur != null && cur.row <= row) {
         if (cur.row == row && cur.col >= col) return last;
         last = cur;
@@ -213,7 +207,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
   @Override
   public Iterator<MatrixEntry> iterator() {
     return new Iterator<MatrixEntry>() {
-      Node cur = rows.node;
+      Node cur = rows.head;
       ReusableMatrixEntry entry = new ReusableMatrixEntry();
 
       @Override
