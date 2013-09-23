@@ -22,6 +22,19 @@ import java.util.TreeMap;
 @Log
 public class ArpackSym {
 
+  public enum Ritz {
+    /** compute the NEV largest (algebraic) eigenvalues.*/
+    LA,
+    /** compute the NEV smallest (algebraic) eigenvalues.*/
+    SA,
+    /** compute the NEV largest (in magnitude) eigenvalues.*/
+    LM,
+    /** compute the NEV smallest (in magnitude) eigenvalues.*/
+    SM,
+    /** compute NEV eigenvalues, half from each end of the spectrum*/
+    BE
+  }
+
   private final ARPACK arpack = ARPACK.getInstance();
 
   private static final double TOL = 0.0001;
@@ -42,13 +55,16 @@ public class ArpackSym {
     this.matrix = matrix;
   }
 
+
+
   /**
    * Solve the eigensystem for the number of eigenvalues requested.
    *
    * @param eigenvalues
+   * @param ritz preference for solutions
    * @return a map from eigenvalues to corresponding eigenvectors.
    */
-  public Map<Double, DenseVector> solve(int eigenvalues) {
+  public Map<Double, DenseVector> solve(int eigenvalues, Ritz ritz) {
     if (eigenvalues <= 0)
       throw new IllegalArgumentException(eigenvalues + " <= 0");
     if (eigenvalues >= matrix.numColumns())
@@ -60,7 +76,7 @@ public class ArpackSym {
     int ncv = Math.min(2 * eigenvalues, n);
 
     String bmat = "I";
-    String which = "LM"; // largest magnitude
+    String which = ritz.name();
     doubleW tol = new doubleW(TOL);
     intW info = new intW(0);
     int[] iparam = new int[11];
@@ -115,12 +131,6 @@ public class ArpackSym {
       double eigenvalue = d[i];
       double[] eigenvector = java.util.Arrays.copyOfRange(z, i * n, i * n + n);
       DenseVector vector = new DenseVector(eigenvector);
-      if (eigenvalue < 0) {
-        // return only positive eigenvalues since direction is arbitrary
-        // (this means the user really gets the strongest values)
-        eigenvalue = 0 - eigenvalue;
-        vector.scale(-1);
-      }
       solution.put(eigenvalue, vector);
     }
 
