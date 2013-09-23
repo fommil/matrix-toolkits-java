@@ -114,6 +114,15 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       return last;
     }
 
+    Node row(int row) {
+      Node prec = findPreceeding(row, 0);
+      if (prec != null && prec.tail.row == row)
+        return prec.tail;
+      if (head != null && head.row == row)
+        return head;
+      return null;
+    }
+
   }
 
   private Linked rows;
@@ -241,6 +250,16 @@ public class LinkedSparseMatrix extends AbstractMatrix {
   }
 
   @Override
+  public Matrix copy() {
+    return new LinkedSparseMatrix(this);
+  }
+
+  @Override
+  public Matrix transpose() {
+    throw new UnsupportedOperationException("TODO");
+  }
+
+  @Override
   public Vector multAdd(double alpha, Vector x, Vector y) {
     return super.multAdd(alpha, x, y);
   }
@@ -252,7 +271,29 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   @Override
   public Matrix multAdd(double alpha, Matrix B, Matrix C) {
-    return super.multAdd(alpha, B, C);
+    checkMultAdd(B, C);
+    for (int i = 0; i < numRows; i++) {
+      Node row = rows.row(i);
+      // TODO: optimise based on RHS Matrix
+      if (row != null && alpha != 0)
+        for (int j = 0; j < B.numColumns(); j++) {
+          Node node = row;
+          double v = 0;
+          while (node != null && node.row == i) {
+            v += (B.get(node.col, j) * node.val);
+            node = node.tail;
+          }
+          if (v != 0) C.add(i, j, alpha * v);
+        }
+    }
+    return C;
+  }
+
+  private double[] getCol(Matrix B, int col) {
+    double[] array = new double[B.numRows()];
+    for (int i = 0; i < B.numRows(); i++)
+      array[i] = B.get(i, col);
+    return array;
   }
 
   @Override
