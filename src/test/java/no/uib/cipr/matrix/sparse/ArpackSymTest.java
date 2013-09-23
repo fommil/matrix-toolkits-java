@@ -34,7 +34,7 @@ public class ArpackSymTest extends TestCase {
         // as the eigenvectors should always be the Euclidean directions
         boolean value = false, vector = false;
         for (Map.Entry<Double, DenseVector> evdEntry : evd.entrySet()) {
-          if (e.getKey() - Math.abs(evdEntry.getKey()) < 0.0001)
+          if (e.getKey() - evdEntry.getKey() < 0.0001)
             value = true;
           if (e.getValue().dot(evdEntry.getValue()) < 0.9999)
             vector = true;
