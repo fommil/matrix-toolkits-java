@@ -40,15 +40,15 @@ public class ArpackSymTest extends TestCase {
             vector = true;
         }
         if (!value)
-          fail("no matching eigenvalue for " + e.getKey() +" : " + evd.keySet());
+          fail("no matching eigenvalue for " + e.getKey() + " : " + evd.keySet());
         if (!vector)
-          fail("no matching eigenvector for " + e.getKey() +" : " + evd.keySet());
+          fail("no matching eigenvector for " + e.getKey() + " : " + evd.keySet());
       }
     }
   }
 
   private Map<Double, DenseVector> evdSolve(UpperSymmDenseMatrix matrix) throws NotConvergedException {
-    SymmDenseEVD evd= new SymmDenseEVD(matrix.numColumns(), true);
+    SymmDenseEVD evd = new SymmDenseEVD(matrix.numColumns(), true);
     evd.factor(matrix);
     Map<Double, DenseVector> results = new HashMap<Double, DenseVector>();
 
@@ -62,14 +62,17 @@ public class ArpackSymTest extends TestCase {
     return results;
   }
 
-  public static void main(String [] args) throws Exception {
+  public static void main(String[] args) throws Exception {
     File file = new File("A.txt");
-    Matrix m = new DenseMatrix(new MatrixVectorReader(new FileReader(file)));
+    Matrix A = new LinkedSparseMatrix(new MatrixVectorReader(new FileReader(file)));
+    Matrix At = A.copy();
+    At.transpose();
+    Matrix AtA = At.mult(A, new LinkedSparseMatrix(At.numRows(), A.numColumns()));
 
-    ArpackSym solver = new ArpackSym(m);
-    Map<Double, DenseVector> results = solver.solve(m.numColumns() / 10, ArpackSym.Ritz.LA);
-    for (Map.Entry<Double, DenseVector> result: results.entrySet()) {
-      ArpackSymTest.log.info(result.getKey().toString());
+    ArpackSym solver = new ArpackSym(AtA);
+    Map<Double, DenseVector> results = solver.solve(A.numRows() / 10, ArpackSym.Ritz.LA);
+    for (Map.Entry<Double, DenseVector> result : results.entrySet()) {
+      log.info(result.getKey().toString());
     }
   }
 

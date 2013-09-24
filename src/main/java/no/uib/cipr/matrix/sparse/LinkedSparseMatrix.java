@@ -117,6 +117,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
         last = cur;
         cur = cur.tail;
       }
+      assert last == null || last.tail.row == row && last.tail.col == col;
       return last;
     }
 
@@ -132,7 +133,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
     Node row(int row) {
       Node prec = findPreceeding(row, 0);
-      if (prec != null && prec.tail.row == row)
+      if (prec != null && prec.tail != null && prec.tail.row == row)
         return prec.tail;
       if (head != null && head.row == row)
         return head;
@@ -272,7 +273,16 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   @Override
   public Matrix transpose() {
-    throw new UnsupportedOperationException("TODO");
+    Linked old = rows;
+    numRows = numColumns;
+    numColumns = old.rows.length;
+    rows = new Linked();
+    Node node = old.head;
+    while (node != null) {
+      set(node.col, node.row, node.val);
+      node = node.tail;
+    }
+    return this;
   }
 
   @Override
