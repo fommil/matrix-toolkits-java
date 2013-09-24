@@ -117,7 +117,6 @@ public class LinkedSparseMatrix extends AbstractMatrix {
         last = cur;
         cur = cur.tail;
       }
-      assert last == null || last.tail.row == row && last.tail.col == col;
       return last;
     }
 
