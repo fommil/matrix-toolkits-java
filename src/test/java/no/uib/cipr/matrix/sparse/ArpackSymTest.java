@@ -68,6 +68,8 @@ public class ArpackSymTest extends TestCase {
     Matrix At = A.copy();
     At.transpose();
     Matrix AtA = At.mult(A, new LinkedSparseMatrix(At.numRows(), A.numColumns()));
+    // improvements to LinkedSparseMatrix will avoid the need to explicitly construct At:
+    // Matrix AtA = A.transAmult(A, new LinkedSparseMatrix(A.numColumns(), A.numColumns()));
 
     ArpackSym solver = new ArpackSym(AtA);
     Map<Double, DenseVector> results = solver.solve(A.numRows() / 10, ArpackSym.Ritz.LA);
