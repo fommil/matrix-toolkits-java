@@ -2,10 +2,7 @@ package no.uib.cipr.matrix.sparse;
 
 import com.github.fommil.netlib.ARPACK;
 import lombok.extern.java.Log;
-import no.uib.cipr.matrix.DenseVector;
-import no.uib.cipr.matrix.Matrix;
-import no.uib.cipr.matrix.MatrixEntry;
-import no.uib.cipr.matrix.Vector;
+import no.uib.cipr.matrix.*;
 import org.netlib.util.doubleW;
 import org.netlib.util.intW;
 
@@ -23,15 +20,25 @@ import java.util.TreeMap;
 public class ArpackSym {
 
   public enum Ritz {
-    /** compute the NEV largest (algebraic) eigenvalues.*/
+    /**
+     * compute the NEV largest (algebraic) eigenvalues.
+     */
     LA,
-    /** compute the NEV smallest (algebraic) eigenvalues.*/
+    /**
+     * compute the NEV smallest (algebraic) eigenvalues.
+     */
     SA,
-    /** compute the NEV largest (in magnitude) eigenvalues.*/
+    /**
+     * compute the NEV largest (in magnitude) eigenvalues.
+     */
     LM,
-    /** compute the NEV smallest (in magnitude) eigenvalues.*/
+    /**
+     * compute the NEV smallest (in magnitude) eigenvalues.
+     */
     SM,
-    /** compute NEV eigenvalues, half from each end of the spectrum*/
+    /**
+     * compute NEV eigenvalues, half from each end of the spectrum
+     */
     BE
   }
 
@@ -48,7 +55,7 @@ public class ArpackSym {
     if (!matrix.isSquare())
       throw new IllegalArgumentException("matrix must be square");
     if (EXPENSIVE_CHECKS)
-      for (MatrixEntry entry: matrix) {
+      for (MatrixEntry entry : matrix) {
         if (entry.get() != matrix.get(entry.column(), entry.row()))
           throw new IllegalArgumentException("matrix must be symmetric");
       }
@@ -56,12 +63,11 @@ public class ArpackSym {
   }
 
 
-
   /**
    * Solve the eigensystem for the number of eigenvalues requested.
    *
    * @param eigenvalues
-   * @param ritz preference for solutions
+   * @param ritz        preference for solutions
    * @return a map from eigenvalues to corresponding eigenvectors.
    */
   public Map<Double, DenseVector> solve(int eigenvalues, Ritz ritz) {
@@ -124,10 +130,10 @@ public class ArpackSym {
       @Override
       public int compare(Double o1, Double o2) {
         // highest first
-        return Double.compare(o2,o1);
+        return Double.compare(o2, o1);
       }
     });
-    for (i = 0; i < computed ; i++) {
+    for (i = 0; i < computed; i++) {
       double eigenvalue = d[i];
       double[] eigenvector = java.util.Arrays.copyOfRange(z, i * n, i * n + n);
       DenseVector vector = new DenseVector(eigenvector);
@@ -138,12 +144,9 @@ public class ArpackSym {
   }
 
   private void av(double[] work, int input_offset, int output_offset) {
-    // RFE: https://github.com/fommil/matrix-toolkits-java/issues/35
-    Vector x = new DenseVector(java.util.Arrays.copyOfRange(work, input_offset, input_offset + matrix.numColumns()));
-    Vector y = new DenseVector(matrix.numColumns());
+    DenseVector w = new DenseVector(work, false);
+    Vector x = new DenseVectorSub(w, input_offset, matrix.numColumns());
+    Vector y = new DenseVectorSub(w, output_offset, matrix.numColumns());
     matrix.mult(x, y);
-    for (int i = 0; i < matrix.numColumns(); i++) {
-      work[i + output_offset] = y.get(i);
-    }
   }
 }

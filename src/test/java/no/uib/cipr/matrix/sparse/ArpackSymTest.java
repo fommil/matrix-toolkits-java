@@ -21,7 +21,6 @@ public class ArpackSymTest extends TestCase {
     for (int i = 100; i <= 1000; i = i + 100) {
       UpperSymmDenseMatrix matrix = new UpperSymmDenseMatrix(i);
       Utilities.upperPopulateGauss(matrix);
-
       Map<Double, DenseVector> evd = evdSolve(matrix);
 
       ArpackSym solver = new ArpackSym(matrix);
@@ -65,8 +64,7 @@ public class ArpackSymTest extends TestCase {
   public static void main(String[] args) throws Exception {
     File file = new File("A.txt");
     Matrix A = new LinkedSparseMatrix(new MatrixVectorReader(new FileReader(file)));
-    Matrix At = A.copy();
-    At.transpose();
+    Matrix At = A.transpose(new LinkedSparseMatrix(A.numColumns(), A.numRows()));
     Matrix AtA = At.mult(A, new LinkedSparseMatrix(At.numRows(), A.numColumns()));
     // improvements to LinkedSparseMatrix will avoid the need to explicitly construct At:
     // Matrix AtA = A.transAmult(A, new LinkedSparseMatrix(A.numColumns(), A.numColumns()));
