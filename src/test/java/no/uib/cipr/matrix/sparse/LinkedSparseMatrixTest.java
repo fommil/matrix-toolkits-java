@@ -43,9 +43,9 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
     }
   }
 
-  public void testTimedTransMult() {
+  public void ignoredTimedMult() {
     Stopwatch watch = Stopwatch.createUnstarted();
-    DenseMatrix dense = new DenseMatrix(2500, 2500);
+    DenseMatrix dense = new DenseMatrix(1000, 1000);
     int[][] nz = Utilities.getRowPattern(dense.numRows(), dense.numColumns(), 100);
     Utilities.rowPopulate(dense, nz);
     log.info("created matrices");
@@ -57,20 +57,15 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
       Matrix t = new DenseMatrix(m);
       t.transpose();
       Matrix o = new DenseMatrix(dense.numRows(), dense.numColumns());
-      //Matrix sparseOut = new LinkedSparseMatrix(dense.numRows(), dense.numColumns());
-//      for (Matrix o : Lists.newArrayList(denseOut, sparseOut)) {
-        //o.zero();
-        // warm up JVM
-        log.info("warming up " + m.getClass() + " " + o.getClass());
-        for (int i = 0; i < 10; i++)
-          m.mult(t, o);
-        log.info("starting " + m.getClass() + " " + o.getClass());
-        watch.start();
-        for (int i = 0; i < 100; i++)
-          m.mult(t, o);
-        watch.stop();
-        log.info(m.getClass() + " " + o.getClass() + " " + watch);
-//      }
+      log.info("warming up " + m.getClass() + " " + o.getClass());
+      for (int i = 0; i < 10; i++)
+        m.mult(t, o);
+      log.info("starting " + m.getClass() + " " + o.getClass());
+      watch.start();
+      for (int i = 0; i < 100; i++)
+        m.mult(t, o);
+      watch.stop();
+      log.info(m.getClass() + " " + o.getClass() + " " + watch);
     }
   }
 
@@ -80,9 +75,5 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
 
   @Override
   public void testIteratorSetGet() {
-  }
-
-  @Override
-  public void testCopy() {
   }
 }

@@ -48,70 +48,86 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
     Node[] rows = new Node[numRows];
 
+    // true if the head exists and has this row/col
     private boolean isHead(int row, int col) {
       return head != null && head.row == row && head.col == col;
     }
 
+    // true if node exists, it's tail exists, and has this row/col
     private boolean isNext(Node node, int row, int col) {
-      return node.tail != null && node.tail.row == row && node.tail.col == col;
+      return node != null && node.tail != null && node.tail.row == row && node.tail.col == col;
     }
 
     public double get(int row, int col) {
+      if (isHead(row, col))
+        return head.val;
       Node node = findPreceeding(row, col);
-      if (node == null) return isHead(row, col) ? head.val : 0;
-      if (node.tail == null) return 0;
-      if (node.tail.row == row && node.tail.col == col) return node.tail.val;
-      return 0;
+      if (isNext(node, row, col))
+        return node.tail.val;
+      else
+        return 0;
     }
 
     public void set(int row, int col, double val) {
-      Node node = findPreceeding(row, col);
       if (val == 0) {
-        if (node == null && !isHead(row, col) || !isNext(node, row, col))
-          return;
-        node.tail = node.tail.tail;
-      } else if (isHead(row, col))
+        delete(row, col);
+        return;
+      }
+      if (isHead(row, col))
         head.val = val;
-      else if (node == null)
-        head = new Node(row, col, val, head);
-      else if (!isNext(node, row, col))
-        node.tail = new Node(row, col, val, node.tail);
-      else
-        node.tail.val = val;
-      invalidate(row, col);
-    }
-
-    void invalidate(int row, int col) {
-      rows[row] = null;
-    }
-
-    // contains a pointer to the *last* Node for the row
-    Node cached(int row) {
-      for (int i = row; i > 0; i--) {
-        Node cached = rows[row - 1];
-        if (cached != null) {
-          assert cached.row < row;
-          return cached;
+      else {
+        Node node = findPreceeding(row, col);
+        if (node == null) {
+          head = new Node(row, col, val, head);
+          updateCache(head);
+        } else if (isNext(node, row, col))
+          node.tail.val = val;
+        else {
+          node.tail = new Node(row, col, val, node.tail);
+          updateCache(node.tail);
         }
       }
-      return null;
+    }
+
+    private void updateCache(Node node) {
+      if (rows[node.row] == null || node.col > rows[node.row].col)
+        rows[node.row] = node;
+    }
+
+    private void delete(int row, int col) {
+      Node node = findPreceeding(row, col);
+      if (isHead(row, col)) {
+        if (rows[row] == head) rows[row] = null;
+        head = head.tail;
+      } else if (isNext(node, row, col)) {
+        if (rows[row] == node.tail)
+          rows[row] = node.row == row ? node : null;
+        node.tail = node.tail.tail;
+      }
     }
 
     // returns the node that either references this
-    // index, or would be the one to update should it
-    // be inserted: null if there are no entries.
+    // index, or should reference it if inserted.
+    // null if there are no entries.
     Node findPreceeding(int row, int col) {
-      assert row >= 0 && col >= 0;
       Node last = row > 0 ? cached(row - 1) : null;
       Node cur = last != null ? last : head;
       while (cur != null && cur.row <= row) {
         if (cur.row == row && cur.col >= col) return last;
         last = cur;
         cur = cur.tail;
-        if (cur != null && cur.row > last.row)
-          rows[last.row] = last;
       }
       return last;
+    }
+
+    // helper for findPreceeding
+    private Node cached(int row) {
+      for (int i = row; i > 0; i--) {
+        Node cached = rows[row - 1];
+        if (cached != null)
+          return cached;
+      }
+      return null;
     }
 
     Node row(int row) {
@@ -122,7 +138,6 @@ public class LinkedSparseMatrix extends AbstractMatrix {
         return head;
       return null;
     }
-
   }
 
   private Linked rows;
@@ -211,6 +226,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
     public String toString() {
       return row + "," + col + "=" + val;
     }
+
   }
 
   @Override
