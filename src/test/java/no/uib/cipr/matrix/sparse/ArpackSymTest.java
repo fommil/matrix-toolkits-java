@@ -18,7 +18,7 @@ import java.util.Map;
 public class ArpackSymTest extends TestCase {
 
   public void testRandomEigensystem() throws NotConvergedException {
-    for (int i = 100; i <= 1000; i = i + 100) {
+    for (int i = 100; i <= 500; i = i + 100) {
       UpperSymmDenseMatrix matrix = new UpperSymmDenseMatrix(i);
       Utilities.upperPopulateGauss(matrix);
       Map<Double, DenseVector> evd = evdSolve(matrix);
