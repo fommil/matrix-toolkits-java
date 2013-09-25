@@ -26,9 +26,9 @@ public class ArpackSymTest extends TestCase {
       ArpackSym solver = new ArpackSym(matrix);
       int todo = i / 10;
 
-      Map<Double, DenseVector> results = solver.solve(todo, ArpackSym.Ritz.LA);
+      Map<Double, DenseVectorSub> results = solver.solve(todo, ArpackSym.Ritz.LA);
       Assert.assertEquals(todo, results.size());
-      for (Map.Entry<Double, DenseVector> e : results.entrySet()) {
+      for (Map.Entry<Double, DenseVectorSub> e : results.entrySet()) {
         // exact match of eigenvector / eigenvalue is not important for random matrices
         // as the eigenvectors should always be the Euclidean directions
         boolean value = false, vector = false;
@@ -70,8 +70,8 @@ public class ArpackSymTest extends TestCase {
     // Matrix AtA = A.transAmult(A, new LinkedSparseMatrix(A.numColumns(), A.numColumns()));
 
     ArpackSym solver = new ArpackSym(AtA);
-    Map<Double, DenseVector> results = solver.solve(A.numRows() / 10, ArpackSym.Ritz.LA);
-    for (Map.Entry<Double, DenseVector> result : results.entrySet()) {
+    Map<Double, DenseVectorSub> results = solver.solve(A.numRows() / 10, ArpackSym.Ritz.LA);
+    for (Map.Entry<Double, DenseVectorSub> result : results.entrySet()) {
       log.info(result.getKey().toString());
     }
   }

@@ -65,12 +65,16 @@ public class ArpackSym {
 
   /**
    * Solve the eigensystem for the number of eigenvalues requested.
+   * <p>
+   * NOTE: The references to the eigenvectors will keep alive a reference to
+   * a {@code nev * n} double array, so use the {@code copy()} method to free
+   * it up if only a subset is required.
    *
    * @param eigenvalues
    * @param ritz        preference for solutions
    * @return a map from eigenvalues to corresponding eigenvectors.
    */
-  public Map<Double, DenseVector> solve(int eigenvalues, Ritz ritz) {
+  public Map<Double, DenseVectorSub> solve(int eigenvalues, Ritz ritz) {
     if (eigenvalues <= 0)
       throw new IllegalArgumentException(eigenvalues + " <= 0");
     if (eigenvalues >= matrix.numColumns())
@@ -126,18 +130,18 @@ public class ArpackSym {
     int computed = iparam[4];
     ArpackSym.log.fine("computed " + computed + " eigenvalues");
 
-    Map<Double, DenseVector> solution = new TreeMap<Double, DenseVector>(new Comparator<Double>() {
+    Map<Double, DenseVectorSub> solution = new TreeMap<Double, DenseVectorSub>(new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
         // highest first
         return Double.compare(o2, o1);
       }
     });
+    DenseVector eigenvectors = new DenseVector(z, false);
     for (i = 0; i < computed; i++) {
       double eigenvalue = d[i];
-      double[] eigenvector = java.util.Arrays.copyOfRange(z, i * n, i * n + n);
-      DenseVector vector = new DenseVector(eigenvector);
-      solution.put(eigenvalue, vector);
+      DenseVectorSub eigenvector = new DenseVectorSub(eigenvectors, i * n, n);
+      solution.put(eigenvalue, eigenvector);
     }
 
     return solution;
