@@ -42,13 +42,14 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
       }
     }
 
-    LinkedSparseMatrix.Node node = ((LinkedSparseMatrix) A).links.headRow;
+    LinkedSparseMatrix.Node head = ((LinkedSparseMatrix) A).links.head;
+    LinkedSparseMatrix.Node node = head;
     while (node != null) {
 //      log.info(node.toString());
       Assert.assertEquals(Ad[node.row][node.col], node.val);
       node = node.rowTail;
     }
-    node = ((LinkedSparseMatrix) A).links.headCol;
+    node = head;
     while (node != null) {
 //      log.info(node.toString());
       Assert.assertEquals(Ad[node.row][node.col], node.val);
