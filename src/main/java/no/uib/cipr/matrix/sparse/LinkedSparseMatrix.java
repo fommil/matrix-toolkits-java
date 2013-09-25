@@ -23,10 +23,9 @@ import java.util.Iterator;
  * <p/>
  * However, transpose
  * multiplications are costly and memory requirements
- * ({@code 2 int, 1 ref, 1 double} per matrix element, plus {@code n ref}s
- * for the cache) are higher than structured sparse matrix storage.
- * <p/>
- * TODO: double linkage option to remove transpose constraint
+ * ({@code 1 instance (64 bits), 2 int (2 x 64 bits), 2 ref (2 x 64 bits), 1 double (128 bits) = 448 bits}
+ * per matrix element, plus {@code 2.n ref}s for the cache) are slightly higher
+ * than structured sparse matrix storage.
  *
  * @author Sam Halliday
  */
@@ -35,37 +34,55 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   // java.util.LinkedList is doubly linked and therefore too heavyweight.
   @AllArgsConstructor
-  @ToString(exclude = "tail")
-  private static class Node {
-    private final int row, col;
-    private double val;
-    private Node tail;
+  @ToString(exclude = {"rowTail", "colTail"})
+  static class Node {
+    final int row, col;
+    double val;
+    Node rowTail, colTail;
   }
 
-  private class Linked {
+  // there is a lot of duplicated code in this class between
+  // row and col linkages, but subtle differences make it
+  // extremely difficult to factor away.
+  class Linked {
 
-    Node head;
+    Node headRow, headCol;
 
-    Node[] rows = new Node[numRows];
+    Node[] rows = new Node[numRows], cols = new Node[numColumns];
 
     // true if the head exists and has this row/col
-    private boolean isHead(int row, int col) {
-      return head != null && head.row == row && head.col == col;
+    private boolean isHeadRow(int row, int col) {
+      return headRow != null && headRow.row == row && headRow.col == col;
+    }
+
+    private boolean isHeadCol(int row, int col) {
+      return headCol != null && headCol.col == col && headCol.row == row;
     }
 
     // true if node exists, it's tail exists, and has this row/col
-    private boolean isNext(Node node, int row, int col) {
-      return node != null && node.tail != null && node.tail.row == row && node.tail.col == col;
+    private boolean isNextByRow(Node node, int row, int col) {
+      return node != null && node.rowTail != null && node.rowTail.row == row && node.rowTail.col == col;
+    }
+
+    private boolean isNextByCol(Node node, int row, int col) {
+      return node != null && node.colTail != null && node.colTail.col == col && node.colTail.row == row;
     }
 
     public double get(int row, int col) {
-      if (isHead(row, col))
-        return head.val;
-      Node node = findPreceeding(row, col);
-      if (isNext(node, row, col))
-        return node.tail.val;
-      else
-        return 0;
+      if (isHeadRow(row, col))
+        return headRow.val;
+      if (isHeadCol(row, col))
+        return headCol.val;
+      if (col <= row) {
+        Node node = findPreceedingByRow(row, col);
+        if (isNextByRow(node, row, col))
+          return node.rowTail.val;
+      } else {
+        Node node = findPreceedingByCol(row, col);
+        if (isNextByCol(node, row, col))
+          return node.colTail.val;
+      }
+      return 0;
     }
 
     public void set(int row, int col, double val) {
@@ -73,55 +90,75 @@ public class LinkedSparseMatrix extends AbstractMatrix {
         delete(row, col);
         return;
       }
-      if (isHead(row, col))
-        head.val = val;
+      if (isHeadRow(row, col))
+        headRow.val = val;
       else {
-        Node node = findPreceeding(row, col);
+        Node node = findPreceedingByRow(row, col);
         if (node == null) {
-          head = new Node(row, col, val, head);
-          updateCache(head);
-        } else if (isNext(node, row, col))
-          node.tail.val = val;
+          headRow = new Node(row, col, val, headRow, headRow != null ? headRow.colTail : null);
+          updateRowCache(headRow);
+        } else if (isNextByRow(node, row, col))
+          node.rowTail.val = val;
         else {
-          node.tail = new Node(row, col, val, node.tail);
-          updateCache(node.tail);
+          node.rowTail = new Node(row, col, val, node.rowTail, node.colTail);
+          updateRowCache(node.rowTail);
+        }
+      }
+      if (isHeadCol(row, col))
+        headCol.val = val;
+      else {
+        Node node = findPreceedingByCol(row, col);
+        if (node == null) {
+          headCol = new Node(row, col, val, headCol != null ? headCol.rowTail : null, headCol);
+          updateColCache(headCol);
+        } else if (isNextByCol(node, row, col))
+          node.colTail.val = val;
+        else {
+          node.colTail = new Node(row, col, val, node.rowTail, node.colTail);
+          updateColCache(node.colTail);
         }
       }
     }
 
-    private void updateCache(Node node) {
-      if (rows[node.row] == null || node.col > rows[node.row].col)
-        rows[node.row] = node;
+    private void updateRowCache(Node inserted) {
+      if (rows[inserted.row] == null || inserted.col > rows[inserted.row].col)
+        rows[inserted.row] = inserted;
+    }
+
+    private void updateColCache(Node inserted) {
+      if (cols[inserted.col] == null || inserted.row > cols[inserted.col].row)
+        cols[inserted.col] = inserted;
     }
 
     private void delete(int row, int col) {
-      Node node = findPreceeding(row, col);
-      if (isHead(row, col)) {
-        if (rows[row] == head) rows[row] = null;
-        head = head.tail;
-      } else if (isNext(node, row, col)) {
-        if (rows[row] == node.tail)
+      Node node = findPreceedingByRow(row, col);
+      if (isHeadRow(row, col)) {
+        if (rows[row] == headRow) rows[row] = null;
+        headRow = headRow.rowTail;
+      } else if (isNextByRow(node, row, col)) {
+        if (rows[row] == node.rowTail)
           rows[row] = node.row == row ? node : null;
-        node.tail = node.tail.tail;
+        node.rowTail = node.rowTail.rowTail;
       }
     }
 
     // returns the node that either references this
     // index, or should reference it if inserted.
     // null if there are no entries.
-    Node findPreceeding(int row, int col) {
-      Node last = row > 0 ? cached(row - 1) : null;
-      Node cur = last != null ? last : head;
+    Node findPreceedingByRow(int row, int col) {
+      // FIXME: check the -1 here
+      Node last = row > 0 ? cachedByRow(row - 1) : null;
+      Node cur = last != null ? last : headRow;
       while (cur != null && cur.row <= row) {
         if (cur.row == row && cur.col >= col) return last;
         last = cur;
-        cur = cur.tail;
+        cur = cur.rowTail;
       }
       return last;
     }
 
     // helper for findPreceeding
-    private Node cached(int row) {
+    private Node cachedByRow(int row) {
       for (int i = row; i > 0; i--) {
         Node cached = rows[row - 1];
         if (cached != null)
@@ -130,26 +167,57 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       return null;
     }
 
-    Node row(int row) {
-      Node prec = findPreceeding(row, 0);
-      if (prec != null && prec.tail != null && prec.tail.row == row)
-        return prec.tail;
-      if (head != null && head.row == row)
-        return head;
+    Node findPreceedingByCol(int row, int col) {
+      // FIXME: check the -1 here
+      Node last = col > 0 ? cachedByCol(col - 1) : null;
+      Node cur = last != null ? last : headCol;
+      while (cur != null && cur.col <= col) {
+        if (cur.col == col && cur.row >= row) return last;
+        last = cur;
+        cur = cur.colTail;
+      }
+      return last;
+    }
+
+    private Node cachedByCol(int col) {
+      for (int i = col; i > 0; i--) {
+        Node cached = cols[col - 1];
+        if (cached != null)
+          return cached;
+      }
+      return null;
+    }
+
+
+    Node startOfRow(int row) {
+      Node prec = findPreceedingByRow(row, 0);
+      if (prec != null && prec.rowTail != null && prec.rowTail.row == row)
+        return prec.rowTail;
+      if (headRow != null && headRow.row == row)
+        return headRow;
+      return null;
+    }
+
+    Node startOfCol(int col) {
+      Node prec = findPreceedingByCol(0, col);
+      if (prec != null && prec.colTail != null && prec.colTail.col == col)
+        return prec.colTail;
+      if (headCol != null && headCol.col == col)
+        return headCol;
       return null;
     }
   }
 
-  private Linked rows;
+  Linked links;
 
   protected LinkedSparseMatrix(int numRows, int numColumns) {
     super(numRows, numColumns);
-    rows = new Linked();
+    links = new Linked();
   }
 
   protected LinkedSparseMatrix(Matrix A) {
     super(A);
-    rows = new Linked();
+    links = new Linked();
     set(A);
   }
 
@@ -162,7 +230,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
       MatrixSize size = r.readMatrixSize(info);
       numRows = size.numRows();
       numColumns = size.numColumns();
-      rows = new Linked();
+      links = new Linked();
 
       int nz = size.numEntries();
       int[] row = new int[nz];
@@ -181,19 +249,19 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   @Override
   public Matrix zero() {
-    rows = new Linked();
+    links = new Linked();
     return this;
   }
 
   @Override
   public double get(int row, int column) {
-    return rows.get(row, column);
+    return links.get(row, column);
   }
 
   @Override
   public void set(int row, int column, double value) {
     check(row, column);
-    rows.set(row, column, value);
+    links.set(row, column, value);
   }
 
   // avoids object creation
@@ -232,7 +300,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
   @Override
   public Iterator<MatrixEntry> iterator() {
     return new Iterator<MatrixEntry>() {
-      Node cur = rows.head;
+      Node cur = links.headRow;
       ReusableMatrixEntry entry = new ReusableMatrixEntry();
 
       @Override
@@ -245,7 +313,7 @@ public class LinkedSparseMatrix extends AbstractMatrix {
         entry.row = cur.row;
         entry.col = cur.col;
         entry.val = cur.val;
-        cur = cur.tail;
+        cur = cur.rowTail;
         return entry;
       }
 
@@ -272,14 +340,14 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   @Override
   public Matrix transpose() {
-    Linked old = rows;
+    Linked old = links;
     numRows = numColumns;
     numColumns = old.rows.length;
-    rows = new Linked();
-    Node node = old.head;
+    links = new Linked();
+    Node node = old.headRow;
     while (node != null) {
       set(node.col, node.row, node.val);
-      node = node.tail;
+      node = node.rowTail;
     }
     return this;
   }
@@ -294,19 +362,22 @@ public class LinkedSparseMatrix extends AbstractMatrix {
     return super.transMultAdd(alpha, x, y);
   }
 
+  // TODO: optimise matrix mults based on RHS Matrix
+
   @Override
   public Matrix multAdd(double alpha, Matrix B, Matrix C) {
     checkMultAdd(B, C);
+    if (alpha == 0)
+      return C;
     for (int i = 0; i < numRows; i++) {
-      Node row = rows.row(i);
-      // TODO: optimise based on RHS Matrix
-      if (row != null && alpha != 0)
+      Node row = links.startOfRow(i);
+      if (row != null)
         for (int j = 0; j < B.numColumns(); j++) {
           Node node = row;
           double v = 0;
           while (node != null && node.row == i) {
             v += (B.get(node.col, j) * node.val);
-            node = node.tail;
+            node = node.rowTail;
           }
           if (v != 0) C.add(i, j, alpha * v);
         }
@@ -314,16 +385,25 @@ public class LinkedSparseMatrix extends AbstractMatrix {
     return C;
   }
 
-  private double[] getCol(Matrix B, int col) {
-    double[] array = new double[B.numRows()];
-    for (int i = 0; i < B.numRows(); i++)
-      array[i] = B.get(i, col);
-    return array;
-  }
-
   @Override
   public Matrix transAmultAdd(double alpha, Matrix B, Matrix C) {
-    return super.transAmultAdd(alpha, B, C);
+    checkTransAmultAdd(B, C);
+    if (alpha == 0)
+      return C;
+    for (int i = 0; i < numColumns; i++) {
+      Node row = links.startOfCol(i);
+      if (row != null)
+        for (int j = 0; j < B.numColumns(); j++) {
+          Node node = row;
+          double v = 0;
+          while (node != null && node.col == i) {
+            v += (B.get(node.row, j) * node.val);
+            node = node.colTail;
+          }
+          if (v != 0) C.add(i, j, alpha * v);
+        }
+    }
+    return C;
   }
 
   @Override

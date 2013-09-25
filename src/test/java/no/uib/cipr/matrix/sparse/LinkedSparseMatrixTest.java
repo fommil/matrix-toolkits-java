@@ -41,6 +41,19 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
         Assert.assertEquals(expect, A.get(i, j), 0);
       }
     }
+
+    LinkedSparseMatrix.Node node = ((LinkedSparseMatrix) A).links.headRow;
+    while (node != null) {
+//      log.info(node.toString());
+      Assert.assertEquals(Ad[node.row][node.col], node.val);
+      node = node.rowTail;
+    }
+    node = ((LinkedSparseMatrix) A).links.headCol;
+    while (node != null) {
+//      log.info(node.toString());
+      Assert.assertEquals(Ad[node.row][node.col], node.val);
+      node = node.colTail;
+    }
   }
 
   public void ignoredTimedMult() {
@@ -64,6 +77,31 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
       watch.start();
       for (int i = 0; i < 100; i++)
         m.mult(t, o);
+      watch.stop();
+      log.info(m.getClass() + " " + o.getClass() + " " + watch);
+    }
+  }
+
+  public void ignoredTimedTransMult() {
+    Stopwatch watch = Stopwatch.createUnstarted();
+    DenseMatrix dense = new DenseMatrix(1000, 1000);
+    int[][] nz = Utilities.getRowPattern(dense.numRows(), dense.numColumns(), 100);
+    Utilities.rowPopulate(dense, nz);
+    log.info("created matrices");
+    Matrix sparse = new LinkedSparseMatrix(dense.numRows(), dense.numColumns());
+    sparse.set(dense);
+
+    for (Matrix m : Lists.newArrayList(dense, sparse)) {
+      log.info("starting " + m.getClass());
+      Matrix t = new DenseMatrix(m);
+      Matrix o = new DenseMatrix(dense.numRows(), dense.numColumns());
+      log.info("warming up " + m.getClass() + " " + o.getClass());
+      for (int i = 0; i < 10; i++)
+        m.transAmult(t, o);
+      log.info("starting " + m.getClass() + " " + o.getClass());
+      watch.start();
+      for (int i = 0; i < 100; i++)
+        m.transAmult(t, o);
       watch.stop();
       log.info(m.getClass() + " " + o.getClass() + " " + watch);
     }

@@ -64,10 +64,7 @@ public class ArpackSymTest extends TestCase {
   public static void main(String[] args) throws Exception {
     File file = new File("A.txt");
     Matrix A = new LinkedSparseMatrix(new MatrixVectorReader(new FileReader(file)));
-    Matrix At = A.transpose(new LinkedSparseMatrix(A.numColumns(), A.numRows()));
-    Matrix AtA = At.mult(A, new LinkedSparseMatrix(At.numRows(), A.numColumns()));
-    // improvements to LinkedSparseMatrix will avoid the need to explicitly construct At:
-    // Matrix AtA = A.transAmult(A, new LinkedSparseMatrix(A.numColumns(), A.numColumns()));
+    Matrix AtA = A.transAmult(A, new LinkedSparseMatrix(A.numColumns(), A.numColumns()));
 
     ArpackSym solver = new ArpackSym(AtA);
     Map<Double, DenseVectorSub> results = solver.solve(A.numRows() / 10, ArpackSym.Ritz.LA);
