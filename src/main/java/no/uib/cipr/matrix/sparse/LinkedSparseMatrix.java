@@ -19,10 +19,10 @@ import java.util.Iterator;
  * implementation of an {@code n x m} Matrix with {@code z} elements that
  * has a typical {@code O(z / m)} insertion / lookup cost
  * and an iterator that traverses columns then rows:
- * a good fit for unstructured sparse matrices.
+ * a good fit for unstructured sparse matrices. A secondary
+ * link maintains fast transpose iteration.
  * <p/>
- * However, transpose
- * multiplications are costly and memory requirements
+ * However, memory requirements
  * ({@code 1 instance (64 bits), 2 int (2 x 64 bits), 2 ref (2 x 64 bits), 1 double (128 bits) = 448 bits}
  * per matrix element, plus {@code 2.n ref}s for the cache) are slightly higher
  * than structured sparse matrix storage.
