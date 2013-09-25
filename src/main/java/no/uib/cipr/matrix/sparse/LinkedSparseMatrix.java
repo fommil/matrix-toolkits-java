@@ -354,12 +354,26 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   @Override
   public Vector multAdd(double alpha, Vector x, Vector y) {
-    return super.multAdd(alpha, x, y);
+    checkMultAdd(x, y);
+    if (alpha == 0) return y;
+    Node node = links.headRow;
+    while (node != null) {
+      y.add(node.row, alpha * node.val * x.get(node.col));
+      node = node.rowTail;
+    }
+    return y;
   }
 
   @Override
   public Vector transMultAdd(double alpha, Vector x, Vector y) {
-    return super.transMultAdd(alpha, x, y);
+    checkTransMultAdd(x, y);
+    if (alpha == 0) return y;
+    Node node = links.headCol;
+    while (node != null) {
+      y.add(node.col, alpha * node.val * x.get(node.row));
+      node = node.colTail;
+    }
+    return y;
   }
 
   // TODO: optimise matrix mults based on RHS Matrix
@@ -377,6 +391,27 @@ public class LinkedSparseMatrix extends AbstractMatrix {
           double v = 0;
           while (node != null && node.row == i) {
             v += (B.get(node.col, j) * node.val);
+            node = node.rowTail;
+          }
+          if (v != 0) C.add(i, j, alpha * v);
+        }
+    }
+    return C;
+  }
+
+  @Override
+  public Matrix transBmultAdd(double alpha, Matrix B, Matrix C) {
+    checkTransBmultAdd(B, C);
+    if (alpha == 0)
+      return C;
+    for (int i = 0; i < numRows; i++) {
+      Node row = links.startOfRow(i);
+      if (row != null)
+        for (int j = 0; j < B.numRows(); j++) {
+          Node node = row;
+          double v = 0;
+          while (node != null && node.row == i) {
+            v += (B.get(j, node.col) * node.val);
             node = node.rowTail;
           }
           if (v != 0) C.add(i, j, alpha * v);
@@ -407,12 +442,23 @@ public class LinkedSparseMatrix extends AbstractMatrix {
   }
 
   @Override
-  public Matrix transBmultAdd(double alpha, Matrix B, Matrix C) {
-    return super.transBmultAdd(alpha, B, C);
-  }
-
-  @Override
   public Matrix transABmultAdd(double alpha, Matrix B, Matrix C) {
-    return super.transABmultAdd(alpha, B, C);
+    checkTransABmultAdd(B, C);
+    if (alpha == 0)
+      return C;
+    for (int i = 0; i < numColumns; i++) {
+      Node row = links.startOfCol(i);
+      if (row != null)
+        for (int j = 0; j < B.numRows(); j++) {
+          Node node = row;
+          double v = 0;
+          while (node != null && node.col == i) {
+            v += (B.get(j, node.row) * node.val);
+            node = node.colTail;
+          }
+          if (v != 0) C.add(i, j, alpha * v);
+        }
+    }
+    return C;
   }
 }
