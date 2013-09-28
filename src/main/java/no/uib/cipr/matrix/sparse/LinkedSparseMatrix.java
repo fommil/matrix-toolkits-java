@@ -23,9 +23,11 @@ import java.util.Iterator;
  * link maintains fast transpose iteration.
  * <p/>
  * However, memory requirements
- * ({@code 1 instance (64 bits), 2 int (2 x 64 bits), 2 ref (2 x 64 bits), 1 double (128 bits) = 448 bits}
- * per matrix element, plus {@code 2.n ref}s for the cache) are slightly higher
- * than structured sparse matrix storage.
+ * ({@code 1 instance (8 bytes), 2 int (16 bytes), 2 ref (16 bytes), 1 double (8 bytes) = 48 bytes}
+ * per matrix element, plus {@code 8 x numcol + 8 x numrow bytes}s for the cache) are slightly higher
+ * than structured sparse matrix storage. Note that on 32 bit JVMs, or on 64 bit JVMs
+ * with <a href="https://wikis.oracle.com/display/HotSpotInternals/CompressedOops">CompressedOops</a>
+ * enabled, references and ints only cost 4 bytes each, bringing the cost to 28 bytes per element.
  *
  * @author Sam Halliday
  */
