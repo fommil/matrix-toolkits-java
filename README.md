@@ -42,15 +42,15 @@ Sparse Storage
 
 A variety of sparse matrix / vector storage classes are available:
 
-* [`CompColMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/CompColMatrix.java)
-* [`CompDiagMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/CompDiagMatrix.java)
-* [`CompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/CompRowMatrix.java)
-* [`FlexCompColMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/FlexCompColMatrix.java)
-* [`FlexCompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/FlexCompRowMatrix.java)
-* [`UnitLowerCompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/UnitLowerCompRowMatrix.java)
-* [`UpperCompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/UpperCompRowMatrix.java)
-* [`SparseVector`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/SparseVector.java)
-* [`LinkedSparseMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/LinkedSparseMatrix.java)
+* [`CompColMatrix`](src/main/java/no/uib/cipr/matrix/sparse/CompColMatrix.java)
+* [`CompDiagMatrix`](src/main/java/no/uib/cipr/matrix/sparse/CompDiagMatrix.java)
+* [`CompRowMatrix`](src/main/java/no/uib/cipr/matrix/sparse/CompRowMatrix.java)
+* [`FlexCompColMatrix`](src/main/java/no/uib/cipr/matrix/sparse/FlexCompColMatrix.java)
+* [`FlexCompRowMatrix`](src/main/java/no/uib/cipr/matrix/sparse/FlexCompRowMatrix.java)
+* [`UnitLowerCompRowMatrix`](src/main/java/no/uib/cipr/matrix/sparse/UnitLowerCompRowMatrix.java)
+* [`UpperCompRowMatrix`](src/main/java/no/uib/cipr/matrix/sparse/UpperCompRowMatrix.java)
+* [`SparseVector`](src/main/java/no/uib/cipr/matrix/sparse/SparseVector.java)
+* [`LinkedSparseMatrix`](src/main/java/no/uib/cipr/matrix/sparse/LinkedSparseMatrix.java)
 
 The `LinkedSparseMatrix` storage type is a novel storage type developed under this project. It maintains two tail links, one for the next matrix element by row order and another by column order. Lookups are kept into each row and column, making multiplication and transpose multiplication very fast.
 
@@ -72,9 +72,9 @@ The following is the time to perform a multiplication with a dense matrix and ou
 Sparse Solvers
 ==============
 
-MTJ provides [ARPACK](http://www.caam.rice.edu/software/ARPACK/) for very large symmetric matrices in [ArpackSym](blob/master/src/main/java/no/uib/cipr/matrix/sparse/ArpackSym.java) (see the example usage in [ArpackSymTest](blob/master/src/test/java/no/uib/cipr/matrix/sparse/ArpackSymTest.java)). ARPACK solves an arbitrary number of eigenvalues / eigenvectors.
+MTJ provides [ARPACK](http://www.caam.rice.edu/software/ARPACK/) for very large symmetric matrices in [ArpackSym](src/main/java/no/uib/cipr/matrix/sparse/ArpackSym.java) (see the example usage in [ArpackSymTest](src/test/java/no/uib/cipr/matrix/sparse/ArpackSymTest.java)). ARPACK solves an arbitrary number of eigenvalues / eigenvectors.
 
-In addition, several other solvers are available in the [`no.uib.cipr.matrix.sparse`](blob/master/src/test/java/no/uib/cipr/matrix/sparse) package. Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) or consider implementing your own and letting us know about it (e.g. by using the [ARPACK](http://www.caam.rice.edu/software/ARPACK/) backend which comes with netlib-java).
+In addition, several other solvers are available in the [`no.uib.cipr.matrix.sparse`](src/test/java/no/uib/cipr/matrix/sparse) package. Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) or consider implementing your own and letting us know about it (e.g. by using the [ARPACK](http://www.caam.rice.edu/software/ARPACK/) backend which comes with netlib-java).
 
 
 Donations
