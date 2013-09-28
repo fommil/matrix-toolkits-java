@@ -37,10 +37,44 @@ Snapshots are distributed on Sonatype's Snapshot Repository:
 </dependency>
 ```
 
+Sparse Storage
+==============
+
+A variety of sparse matrix / vector storage classes are available:
+
+* [`CompColMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/CompColMatrix.java)
+* [`CompDiagMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/CompDiagMatrix.java)
+* [`CompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/CompRowMatrix.java)
+* [`FlexCompColMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/FlexCompColMatrix.java)
+* [`FlexCompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/FlexCompRowMatrix.java)
+* [`UnitLowerCompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/UnitLowerCompRowMatrix.java)
+* [`UpperCompRowMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/UpperCompRowMatrix.java)
+* [`SparseVector`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/SparseVector.java)
+* [`LinkedSparseMatrix`](blob/master/src/main/java/no/uib/cipr/matrix/sparse/LinkedSparseMatrix.java)
+
+The `LinkedSparseMatrix` storage type is a novel storage type developed under this project. It maintains two tail links, one for the next matrix element by row order and another by column order. Lookups are kept into each row and column, making multiplication and transpose multiplication very fast.
+
+The following charts compare the `LinkedSparseMatrix` against `DenseMatrix` for increasing matrix size (`n x n`) and number of non-zero elements, `m`. Lighter lines indicate larger `m`: varied from `10,000` to `100,000`. Solid lines are for dense matrix, dashed lines are the sparse matrix.
+
+The following is time to initialise the matrix:
+
+![init](http://i752.photobucket.com/albums/xx162/fommil/init_zpsec4b43b3.png)
+
+The following is the memory consumption:
+
+![mem](http://i752.photobucket.com/albums/xx162/fommil/mem_zpsc121c014.png)
+
+The following is the time to perform a multiplication with a dense matrix and output into a dense matrix:
+
+![mult](http://i752.photobucket.com/albums/xx162/fommil/mult_zps486a1af2.png)
+
+
 Sparse Solvers
 ==============
 
-MTJ supports sparse matrix storage but does not provide solvers for sparse matrices. Have a look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) or consider implementing your own and letting us know about it (e.g. by using the [ARPACK](http://www.caam.rice.edu/software/ARPACK/) backend which comes with netlib-java).
+MTJ provides [ARPACK](http://www.caam.rice.edu/software/ARPACK/) for very large symmetric matrices in [ArpackSym](blob/master/src/main/java/no/uib/cipr/matrix/sparse/ArpackSym.java) (see the example usage in [ArpackSymTest](blob/master/src/test/java/no/uib/cipr/matrix/sparse/ArpackSymTest.java)). ARPACK solves an arbitrary number of eigenvalues / eigenvectors.
+
+In addition, several other solvers are available in the [`no.uib.cipr.matrix.sparse`](blob/master/src/test/java/no/uib/cipr/matrix/sparse) package. Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) or consider implementing your own and letting us know about it (e.g. by using the [ARPACK](http://www.caam.rice.edu/software/ARPACK/) backend which comes with netlib-java).
 
 
 Donations
