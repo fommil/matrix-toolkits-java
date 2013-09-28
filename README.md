@@ -1,41 +1,13 @@
 matrix-toolkits-java
 ====================
 
-Java linear algebra library powered by BLAS and LAPACK
+**MTJ** is a high-performance library for developing linear algebra applications.
 
-*MTJ* is designed to be used as a library for developing numerical applications, both for small and large scale computations. The library is based on [BLAS](http://www.netlib.org/blas) and [LAPACK](http://www.netlib.org/lapack) for its dense and structured sparse computations, and on the [Templates](http://www.netlib.org/templates) project for unstructured sparse operations.
+MTJ is based on [BLAS](http://www.netlib.org/blas) and [LAPACK](http://www.netlib.org/lapack) for its dense and structured sparse computations, and on the [Templates](http://www.netlib.org/templates) project for unstructured sparse operations.
 
-MTJ uses the [netlib-java](https://github.com/fommil/netlib-java/) project as a backend,
-which can be set up to use machine-optimised BLAS libraries for improved performance of
-dense matrix operations.
+MTJ uses the [`netlib-java`](https://github.com/fommil/netlib-java/) project as a backend,
+which will automatically use machine-optimised natives, if they are available. Please read the [`netlib-java` documentation](https://github.com/fommil/netlib-java/) for the extra steps needed to ensure that you are getting the best performance for your system.
 
-History
-=======
-
-This project was originally written by Bjørn-Ove Heimsund, who has taken a step back due to other commitments. The group here is primarily concerned with keeping the library maintained, and fixing bugs as they are discovered. There is no road plan for future releases.
-
-Installation
-============
-
-Releases are distributed on Maven central:
-
-```xml
-<dependency>
-    <groupId>com.googlecode.matrix-toolkits-java</groupId>
-    <artifactId>mtj</artifactId>
-    <version>0.9.14</version>
-</dependency>
-```
-
-Snapshots are distributed on Sonatype's Snapshot Repository:
-
-```xml
-<dependency>
-  <groupId>com.googlecode.matrix-toolkits-java</groupId>
-  <artifactId>mtj</artifactId>
-  <version>1.0-SNAPSHOT</version>
-</dependency>
-```
 
 Sparse Storage
 ==============
@@ -74,15 +46,9 @@ Sparse Solvers
 
 MTJ provides [ARPACK](http://www.caam.rice.edu/software/ARPACK/) for very large symmetric matrices in [ArpackSym](src/main/java/no/uib/cipr/matrix/sparse/ArpackSym.java) (see the example usage in [ArpackSymTest](src/test/java/no/uib/cipr/matrix/sparse/ArpackSymTest.java)). ARPACK solves an arbitrary number of eigenvalues / eigenvectors.
 
-In addition, several other solvers are available in the [`no.uib.cipr.matrix.sparse`](src/test/java/no/uib/cipr/matrix/sparse) package. Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) or consider implementing your own and letting us know about it (e.g. by using the [ARPACK](http://www.caam.rice.edu/software/ARPACK/) backend which comes with netlib-java).
+In addition, implementations of the netlib Templates are available in the [`no.uib.cipr.matrix.sparse`](src/test/java/no/uib/cipr/matrix/sparse) package.
 
-
-Donations
-=========
-
-Please consider supporting the maintenance of this open source project with a donation:
-
-[![Donate via Paypal](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=B2HW5ATB8C3QW&lc=GB&item_name=mtj&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) for another solver.
 
 
 Licence
@@ -103,6 +69,41 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program. If not, see http://www.gnu.org/licenses/
+
+History
+=======
+
+This project was originally written by Bjørn-Ove Heimsund, who has taken a step back due to other commitments. The group here is primarily concerned with keeping the library maintained, and fixing bugs as they are discovered. There is no road plan for future releases.
+
+Installation
+============
+
+Releases are distributed on Maven central:
+
+```xml
+<dependency>
+    <groupId>com.googlecode.matrix-toolkits-java</groupId>
+    <artifactId>mtj</artifactId>
+    <version>0.9.14</version>
+</dependency>
+```
+
+Snapshots are distributed on Sonatype's Snapshot Repository:
+
+```xml
+<dependency>
+  <groupId>com.googlecode.matrix-toolkits-java</groupId>
+  <artifactId>mtj</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+Donations
+=========
+
+Please consider supporting the maintenance of this open source project by starring it, above, and with a donation:
+
+[![Donate via Paypal](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=B2HW5ATB8C3QW&lc=GB&item_name=mtj&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 
 Contributing
