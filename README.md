@@ -8,6 +8,11 @@ MTJ is based on [BLAS](http://www.netlib.org/blas) and [LAPACK](http://www.netli
 MTJ uses the [`netlib-java`](https://github.com/fommil/netlib-java/) project as a backend,
 which will automatically use machine-optimised natives, if they are available. Please read the [`netlib-java` documentation](https://github.com/fommil/netlib-java/) for the extra steps needed to ensure that you are getting the best performance for your system.
 
+Performance to Other Libraries
+==============================
+
+*I am currently running the [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33). Results will be posted here when they are ready... they take a week!!*
+
 
 Sparse Storage
 ==============
