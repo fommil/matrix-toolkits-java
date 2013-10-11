@@ -89,7 +89,7 @@ Releases are distributed on Maven central:
 <dependency>
     <groupId>com.googlecode.matrix-toolkits-java</groupId>
     <artifactId>mtj</artifactId>
-    <version>0.9.14</version>
+    <version>1.0</version>
 </dependency>
 ```
 
@@ -99,7 +99,7 @@ Snapshots are distributed on Sonatype's Snapshot Repository:
 <dependency>
   <groupId>com.googlecode.matrix-toolkits-java</groupId>
   <artifactId>mtj</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
 
