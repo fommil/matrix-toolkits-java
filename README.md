@@ -89,7 +89,7 @@ Releases are distributed on Maven central:
 <dependency>
     <groupId>com.googlecode.matrix-toolkits-java</groupId>
     <artifactId>mtj</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
