@@ -11,8 +11,11 @@ which will automatically use machine-optimised natives, if they are available. P
 Performance to Other Libraries
 ==============================
 
-*I am currently running the [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33). Results will be posted here when they are ready... they take a week!!*
+The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33) clearly show MTJ as the most performant Java library for linear algebra:
 
+![Relative Performance]http://java-matrix-benchmark.googlecode.com/svn/wiki/RuntimeCorei7v2600_2013_10.attach/native/summary.png()
+
+[A more complete breakdown is available](http://code.google.com/p/java-matrix-benchmark/wiki/RuntimeCorei7v2600_2013_10): MTJ with system optimised natives wins almost every benchmark.
 
 Sparse Storage
 ==============
