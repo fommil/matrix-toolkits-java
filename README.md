@@ -13,7 +13,7 @@ Performance to Other Libraries
 
 The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33) clearly show MTJ as the most performant Java library for linear algebra:
 
-![Relative Performance]http://java-matrix-benchmark.googlecode.com/svn/wiki/RuntimeCorei7v2600_2013_10.attach/native/summary.png()
+![Relative Performance](http://java-matrix-benchmark.googlecode.com/svn/wiki/RuntimeCorei7v2600_2013_10.attach/native/summary.png)
 
 [A more complete breakdown is available](http://code.google.com/p/java-matrix-benchmark/wiki/RuntimeCorei7v2600_2013_10): MTJ with system optimised natives wins almost every benchmark.
 
