@@ -44,7 +44,7 @@ for (j in 1:length(ms)) {
 		avgs[i,2] = mean(set[set$n == ns[i],]$denseMult)
 		avgs[i,3] = mean(set[set$n == ns[i],]$sparseMult)
 	}
-	col = heat.colors(length(ms))[j]
+	col = rainbow(length(ms))[j]
 	lines(avgs[,1], avgs[,2], lty = 1, col = col)
 	leg[2 * j - 1, 1] = paste("dense", m)
 	leg[2 * j - 1, 2] = col
@@ -72,7 +72,7 @@ for (j in 1:length(ms)) {
 		avgs[i,2] = mean(set[set$n == ns[i],]$denseInit)
 		avgs[i,3] = mean(set[set$n == ns[i],]$sparseInit)
 	}
-	col = heat.colors(length(ms))[j]
+	col = rainbow(length(ms))[j]
 	lines(avgs[,1], avgs[,2], lty = 1, col = col)
 	leg[2 * j - 1, 1] = paste("dense", m)
 	leg[2 * j - 1, 2] = col
@@ -98,7 +98,7 @@ for (j in 1:length(ms)) {
 		avgs[i,2] = mean(set[set$n == ns[i],]$denseMem)
 		avgs[i,3] = mean(set[set$n == ns[i],]$sparseMem)
 	}
-	col = heat.colors(length(ms))[j]
+	col = rainbow(length(ms))[j]
 	lines(avgs[,1], avgs[,2], lty = 1, col = col)
 	leg[2 * j - 1, 1] = paste("dense", m)
 	leg[2 * j - 1, 2] = col

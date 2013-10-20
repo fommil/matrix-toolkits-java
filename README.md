@@ -34,19 +34,19 @@ A variety of sparse matrix / vector storage classes are available:
 
 The `LinkedSparseMatrix` storage type is a novel storage type developed under this project. It maintains two tail links, one for the next matrix element by row order and another by column order. Lookups are kept into each row and column, making multiplication and transpose multiplication very fast.
 
-The following charts compare the `LinkedSparseMatrix` against `DenseMatrix` for increasing matrix size (`n x n`) and number of non-zero elements, `m`. Lighter lines indicate larger `m`: varied from `10,000` to `100,000`. Solid lines are for dense matrix, dashed lines are the sparse matrix.
+The following charts compare the `LinkedSparseMatrix` against `DenseMatrix` for increasing matrix size (`n x n`) and number of non-zero elements, `m`. Rainbow lines indicate  `m` varied from `10,000` to `100,000`. Solid lines are for dense matrix, dashed lines are the sparse matrix.
 
 The following is time to initialise the matrix:
 
-![init](http://i752.photobucket.com/albums/xx162/fommil/init_zpsec4b43b3.png)
+![init](http://i752.photobucket.com/albums/xx162/fommil/init_zpsca3b0937.png)
 
 The following is the memory consumption:
 
-![mem](http://i752.photobucket.com/albums/xx162/fommil/mem_zpsc121c014.png)
+![mem](http://i752.photobucket.com/albums/xx162/fommil/mem_zps3ad2fa94.png)
 
 The following is the time to perform a multiplication with a dense matrix and output into a dense matrix:
 
-![mult](http://i752.photobucket.com/albums/xx162/fommil/mult_zps486a1af2.png)
+![mult](http://i752.photobucket.com/albums/xx162/fommil/mult_zpscf2e6ba8.png)
 
 
 Sparse Solvers
