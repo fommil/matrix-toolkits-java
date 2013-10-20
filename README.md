@@ -11,7 +11,7 @@ which will automatically use machine-optimised natives, if they are available. P
 Performance to Other Libraries
 ==============================
 
-The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33) clearly shows MTJ to be the most performant Java library for large matrices:
+The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33) clearly shows MTJ to be the most performant Java library for large matrices. We recommend [common-math](http://commons.apache.org/proper/commons-math/) for small matrix requirements as it also provides a large variety of other mathematics features:
 
 ![Relative Performance](http://i752.photobucket.com/albums/xx162/fommil/benchmark_zps5dd80c0d.png)
 
