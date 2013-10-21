@@ -19,7 +19,7 @@ The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issue
 
 [A more complete breakdown is available](http://code.google.com/p/java-matrix-benchmark/wiki/RuntimeCorei7v2600_2013_10): MTJ with system optimised natives wins almost every benchmark.
 
-We recommend [common-math](http://commons.apache.org/proper/commons-math/) for small matrix requirements as it also provides a large variety of other mathematics features, or [UJMP](http://sourceforge.net/projects/ujmp/) if performance on small matrices is more important than features.
+We recommend [common-math](http://commons.apache.org/proper/commons-math/) for small matrix requirements as it also provides a large variety of other mathematics features, or [EJML](http://code.google.com/p/efficient-java-matrix-library/) if performance on small matrices is more important than features.
 
 Sparse Storage
 ==============
