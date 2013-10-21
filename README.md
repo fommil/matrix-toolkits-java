@@ -11,11 +11,15 @@ which will automatically use machine-optimised natives, if they are available. P
 Performance to Other Libraries
 ==============================
 
-The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33) clearly shows MTJ to be the most performant Java library for large matrices. We recommend [common-math](http://commons.apache.org/proper/commons-math/) for small matrix requirements as it also provides a large variety of other mathematics features:
+The [java-matrix-benchmark](https://github.com/fommil/matrix-toolkits-java/issues/33) clearly shows MTJ to be the most performant Java library for large matrices:
 
-![Relative Performance](http://i752.photobucket.com/albums/xx162/fommil/benchmark_zps5dd80c0d.png)
+![Relative Performance](http://i752.photobucket.com/albums/xx162/fommil/benchmark_zpscbbfe64c.png)
+
+(The `MTJ-N` benchmark for large matrices is about 10 times better than everything else)
 
 [A more complete breakdown is available](http://code.google.com/p/java-matrix-benchmark/wiki/RuntimeCorei7v2600_2013_10): MTJ with system optimised natives wins almost every benchmark.
+
+We recommend [common-math](http://commons.apache.org/proper/commons-math/) for small matrix requirements as it also provides a large variety of other mathematics features, or [UJMP](http://sourceforge.net/projects/ujmp/) if performance on small matrices is more important than features.
 
 Sparse Storage
 ==============
