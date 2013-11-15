@@ -259,7 +259,6 @@ public class MatrixVectorReader extends BufferedReader {
     public MatrixSize readMatrixSize(MatrixInfo info) throws IOException {
         // Always read the matrix size
         int numRows = getInt(), numColumns = getInt();
-        int size = getInt();
 
         // For coordinate matrices we also read the number of entries
         if (info.isDense())
