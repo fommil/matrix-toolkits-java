@@ -98,6 +98,17 @@ Releases are distributed on Maven central:
 </dependency>
 ```
 
+**NOTE:** There is a bug in the `netlib-java` that is required by MTJ 1.0.1. To workaround it, also depend on
+
+```xml
+<dependency>
+  <groupId>com.github.fommil.netlib</groupId>
+  <artifactId>all</artifactId>
+  <version>1.1.2</version>
+  <type>pom</type>
+</dependency>
+```
+
 Unofficial single-jar builds may be available from [`java-matrix-benchmark`](https://code.google.com/p/java-matrix-benchmark/source/browse/#svn%2Ftrunk%2Flib%2Fmtj) for laggards who don't have [5 minutes to learn Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
 
 
