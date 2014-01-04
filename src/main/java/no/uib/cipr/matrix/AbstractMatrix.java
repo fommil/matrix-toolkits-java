@@ -800,9 +800,15 @@ public abstract class AbstractMatrix implements Matrix {
         out.format("%10d %10d %19d\n", numRows, numColumns, Matrices
                 .cardinality(this));
 
-        for (MatrixEntry e : this)
+        int i = 0;
+        for (MatrixEntry e : this) {
             if (e.get() != 0)
                 out.format("%10d %10d % .12e\n", e.row() + 1, e.column() + 1, e.get());
+            if (++i == 100) {
+                out.format("...\n");
+                break;
+            }
+        }
 
         return out.toString();
     }
