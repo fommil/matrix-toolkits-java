@@ -239,9 +239,15 @@ public abstract class AbstractVector implements Vector, Serializable {
 
         out.format("%10d %19d\n", size, Matrices.cardinality(this));
 
-        for (VectorEntry e : this)
+        int i = 0;
+        for (VectorEntry e : this) {
             if (e.get() != 0)
                 out.format("%10d % .12e\n", e.index() + 1, e.get());
+            if (++i == 100) {
+                out.format("...\n");
+                break;
+            }
+        }
 
         return out.toString();
     }
