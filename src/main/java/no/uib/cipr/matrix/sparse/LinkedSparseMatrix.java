@@ -203,12 +203,12 @@ public class LinkedSparseMatrix extends AbstractMatrix {
 
   Linked links;
 
-  protected LinkedSparseMatrix(int numRows, int numColumns) {
+  public LinkedSparseMatrix(int numRows, int numColumns) {
     super(numRows, numColumns);
     links = new Linked();
   }
 
-  protected LinkedSparseMatrix(Matrix A) {
+  public LinkedSparseMatrix(Matrix A) {
     super(A);
     links = new Linked();
     set(A);
