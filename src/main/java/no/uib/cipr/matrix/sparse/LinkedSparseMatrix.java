@@ -100,14 +100,6 @@ public class LinkedSparseMatrix extends AbstractMatrix {
           updateCache(prevRow.rowTail);
         }
       }
-      // DEBUGGING
-      if (isHead(row, col))
-        assert head.val == val;
-      else {
-        Node node = findPreceedingByCol(row, col);
-        assert node != null;
-        assert node.colTail.val == val;
-      }
     }
 
     private Node findNextByCol(int row, int col) {
