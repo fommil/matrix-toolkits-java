@@ -118,7 +118,7 @@ Snapshots are distributed on Sonatype's Snapshot Repository:
 <dependency>
   <groupId>com.googlecode.matrix-toolkits-java</groupId>
   <artifactId>mtj</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
 </dependency>
 ```
 
