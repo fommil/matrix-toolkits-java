@@ -64,8 +64,8 @@ Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/
 Legal
 =====
 
-Copyright (C) 2003-2006 Bjørn-Ove Heimsund
-Copyright (C) 2006-2014 Samuel Halliday
+* Copyright (C) 2003-2006 Bjørn-Ove Heimsund
+* Copyright (C) 2006-2014 Samuel Halliday
 
 
 History
