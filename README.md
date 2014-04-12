@@ -1,4 +1,4 @@
-matrix-toolkits-java
+matrix-toolkits-java ![build status](https://travis-ci.org/fommil/matrix-toolkits-java.svg)
 ====================
 
 **MTJ** is a high-performance library for developing linear algebra applications.
@@ -61,29 +61,17 @@ In addition, implementations of the netlib Templates are available in the [`no.u
 Users may wish to look at [Sparse Eigensolvers for Java](http://code.google.com/p/sparse-eigensolvers-java/) for another solver.
 
 
-Licence
-=======
+Legal
+=====
 
 Copyright (C) 2003-2006 Bjørn-Ove Heimsund
-Copyright (C) 2006-2013 Samuel Halliday
+Copyright (C) 2006-2014 Samuel Halliday
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program. If not, see http://www.gnu.org/licenses/
 
 History
 =======
 
-This project was originally written by Bjørn-Ove Heimsund, who has taken a step back due to other commitments. The group here is primarily concerned with keeping the library maintained, and fixing bugs as they are discovered. There is no road plan for future releases.
+This project was originally written by Bjørn-Ove Heimsund, who has taken a step back due to other commitments.
 
 Installation
 ============
