@@ -1,4 +1,4 @@
-matrix-toolkits-java ![build status](https://travis-ci.org/fommil/matrix-toolkits-java.svg)
+matrix-toolkits-java [![Build Status](https://travis-ci.org/fommil/matrix-toolkits-java.svg?branch=master)](https://travis-ci.org/fommil/matrix-toolkits-java)
 ====================
 
 **MTJ** is a high-performance library for developing linear algebra applications.
