@@ -40,6 +40,7 @@ public class MatrixVectorIoTest extends TestCase {
 	  mat.set(1, 2, 4);
 	  mat.set(2, 1, 5);
 	  File testFile = new File("TestMatrixFile");
+      testFile.deleteOnExit();
 	  BufferedWriter out = new BufferedWriter(new FileWriter(testFile));
 	  MatrixVectorWriter writer = new MatrixVectorWriter(out);
 	  MatrixInfo mi = new MatrixInfo(true, MatrixInfo.MatrixField.Real, MatrixInfo.MatrixSymmetry.General);
