@@ -266,6 +266,22 @@ public class DenseMatrix extends AbstractDenseMatrix {
         }
     }
 
+    /**
+     * @param numRows
+     * @param numColumns
+     * @param values
+     * @param deep if true the array will be cloned, if false the array is used directly.
+     */
+    public DenseMatrix(int numRows, int numColumns, double[] values, boolean deep) {
+        super(numRows, numColumns);
+        if (numRows * numColumns != values.length)
+            throw new IllegalArgumentException("dimensions do not match");
+        if (deep)
+            this.data = values.clone();
+        else
+            this.data = values;
+    }
+
     @Override
     public DenseMatrix copy() {
         return new DenseMatrix(this);
