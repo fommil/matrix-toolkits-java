@@ -31,26 +31,26 @@ public final class Matrices {
         // No need to instantiate
     }
 
-	/**
-	 * <code>max(1, M)</code> provided as a convenience for 'leading dimension' calculations.
-	 * 
-	 * @param n
-	 */
-	static int ld(int n) {
-		return Math.max(1, n);
-	}
+    /**
+     * <code>max(1, M)</code> provided as a convenience for 'leading dimension' calculations.
+     *
+     * @param n
+     */
+    static int ld(int n) {
+        return Math.max(1, n);
+    }
 
-	/**
-	 * <code>max(1, max(M, N))</code> provided as a convenience for 'leading dimension'
-	 * calculations.
-	 * 
-	 * @param m
-	 * @param n
-	 */
-	static int ld(int m, int n) {
-		return Math.max(1, Math.max(m, n));
-	}
-    
+    /**
+     * <code>max(1, max(M, N))</code> provided as a convenience for 'leading dimension'
+     * calculations.
+     *
+     * @param m
+     * @param n
+     */
+    static int ld(int m, int n) {
+        return Math.max(1, Math.max(m, n));
+    }
+
     /**
      * Returns the number of non-zero entries in the given vector
      */
@@ -96,9 +96,8 @@ public final class Matrices {
 
     /**
      * Returns the identity matrix of the given size
-     * 
-     * @param size
-     *            Number of rows/columns of the matrix
+     *
+     * @param size Number of rows/columns of the matrix
      * @return Matrix of the given size, with ones on the main diagonal
      */
     public static DenseMatrix identity(int size) {
@@ -111,9 +110,8 @@ public final class Matrices {
     /**
      * Creates a random vector. Numbers are drawn from a uniform distribution
      * between 0 and 1
-     * 
-     * @param size
-     *            Size of the vector
+     *
+     * @param size Size of the vector
      */
     public static Vector random(int size) {
         return random(new DenseVector(size));
@@ -122,9 +120,8 @@ public final class Matrices {
     /**
      * Populates a vector with random numbers drawn from a uniform distribution
      * between 0 and 1
-     * 
-     * @param x
-     *            Vector to populate
+     *
+     * @param x Vector to populate
      */
     public static Vector random(Vector x) {
         for (int i = 0; i < x.size(); ++i)
@@ -135,11 +132,9 @@ public final class Matrices {
     /**
      * Creates a random matrix. Numbers are drawn from a uniform distribution
      * between 0 and 1
-     * 
-     * @param numRows
-     *            Number of rows
-     * @param numColumns
-     *            Number of columns
+     *
+     * @param numRows    Number of rows
+     * @param numColumns Number of columns
      */
     public static Matrix random(int numRows, int numColumns) {
         return random(new DenseMatrix(numRows, numColumns));
@@ -148,9 +143,8 @@ public final class Matrices {
     /**
      * Populates a matrix with random numbers drawn from a uniform distribution
      * between 0 and 1
-     * 
-     * @param A
-     *            Matrix to populate
+     *
+     * @param A Matrix to populate
      */
     public static Matrix random(Matrix A) {
         for (int j = 0; j < A.numColumns(); ++j)
@@ -163,12 +157,11 @@ public final class Matrices {
      * Returns a synchronized vector which wraps the given vector. Only the
      * <code>set(int, double)</code> and <code>add(int, double)</code>
      * methods and their blocked versions are synchronized.
-     * <p>
+     * <p/>
      * <b>Note: </b> Do not use the wrapped vector for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
-     * @param x
-     *            Vector to be wrapped
+     *
+     * @param x Vector to be wrapped
      * @return A thin wrapper around <code>x</code>
      */
     public static Vector synchronizedVector(Vector x) {
@@ -180,12 +173,11 @@ public final class Matrices {
      * <code>set(int, int, double)</code> and
      * <code>add(int, int, double)</code> methods and their blocked versions
      * are synchronized.
-     * <p>
+     * <p/>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
-     * @param A
-     *            Matrix to be wrapped
+     *
+     * @param A Matrix to be wrapped
      * @return A thin wrapper around <code>A</code>
      */
     public static Matrix synchronizedMatrix(Matrix A) {
@@ -197,19 +189,18 @@ public final class Matrices {
      * <code>set(int, int, double)</code> and
      * <code>add(int, int, double)</code> methods and their blocked versions
      * are synchronized.
-     * <p>
+     * <p/>
      * The locking provided is finer than the locking of the whole matrix, as
      * different threads can access different rows simultaneous, while only one
      * thread can access a given row at a time. Use this for row-major matrices,
      * <i>not </i> for column-major matrices.
-     * <p>
+     * <p/>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
-     * @param A
-     *            Matrix to be wrapped
+     *
+     * @param A Matrix to be wrapped
      * @return A thin wrapper around <code>A</code>. Individual rows are
-     *         locked
+     * locked
      */
     public static Matrix synchronizedMatrixByRows(Matrix A) {
         return new SynchronizedRowMatrix(A);
@@ -220,19 +211,18 @@ public final class Matrices {
      * <code>set(int, int, double)</code> and
      * <code>add(int, int, double)</code> methods and their blocked versions
      * are synchronized.
-     * <p>
+     * <p/>
      * The locking provided is finer than the locking of the whole matrix, as
      * different threads can access different columns simultaneous, while only
      * one thread can access a given column at a time. Use this for column-major
      * matrices, <i>not </i> for row-major matrices.
-     * <p>
+     * <p/>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
-     * @param A
-     *            Matrix to be wrapped
+     *
+     * @param A Matrix to be wrapped
      * @return A thin wrapper around <code>A</code>. Individual columns are
-     *         locked
+     * locked
      */
     public static Matrix synchronizedMatrixByColumns(Matrix A) {
         return new SynchronizedColumnMatrix(A);
@@ -243,15 +233,12 @@ public final class Matrices {
      * matrix-assembly cases, not for general use. To extract a more
      * higher-performing and general matrix, create a copy of the submatrix. The
      * result is a {@link no.uib.cipr.matrix.DenseMatrix DenseMatrix}.
-     * 
-     * @param A
-     *            Matrix to create view on
-     * @param row
-     *            Rows to access. Must be within the bounds of <code>A</code>
-     * @param column
-     *            Columns to access. Must be within the bounds of <code>A</code>
+     *
+     * @param A      Matrix to create view on
+     * @param row    Rows to access. Must be within the bounds of <code>A</code>
+     * @param column Columns to access. Must be within the bounds of <code>A</code>
      * @return Submatrix of <code>A</code>. Changing it will change the
-     *         backing matrix
+     * backing matrix
      */
     public static Matrix getSubMatrix(Matrix A, int[] row, int[] column) {
         return new RefMatrix(A, row, column);
@@ -262,13 +249,11 @@ public final class Matrices {
      * vector-assembly cases, not for general use. To extract a more
      * higher-performing and general vector, create a copy of the subvector. The
      * result is a {@link no.uib.cipr.matrix.DenseVector DenseVector}.
-     * 
-     * @param x
-     *            Vector to create view on
-     * @param index
-     *            Indices to access. Must be within the bounds of <code>x</code>
+     *
+     * @param x     Vector to create view on
+     * @param index Indices to access. Must be within the bounds of <code>x</code>
      * @return Submatrix of <code>x</code>. Changing it will change the
-     *         backing matrix
+     * backing matrix
      */
     public static Vector getSubVector(Vector x, int[] index) {
         return new RefVector(x, index);
@@ -428,7 +413,7 @@ public final class Matrices {
      * AbstractMatrix class, algebraic operations will be slow. It is not
      * possible to implement Matrix and delegate calls to the imbedded matrix,
      * since casting to the imbedded matrix is not possible
-     * <p>
+     * <p/>
      * Locks individual rows instead of the whole matrix
      */
     private static class SynchronizedRowMatrix extends AbstractMatrix {
@@ -475,7 +460,7 @@ public final class Matrices {
      * Ensures correctness in the matrix assembly. Implements matrix instead of
      * subclassing the abstract matrix in order to correctly delegate every
      * method to possbly overridden method in the encapsulated matrix.
-     * <p>
+     * <p/>
      * Locks individual columns instead of the whole matrix
      */
     private static class SynchronizedColumnMatrix extends AbstractMatrix {
@@ -520,11 +505,9 @@ public final class Matrices {
 
     /**
      * Creates a continuous linear index.
-     * 
-     * @param from
-     *            Start, inclusive
-     * @param to
-     *            Stop, exclusive
+     *
+     * @param from Start, inclusive
+     * @param to   Stop, exclusive
      */
     public static int[] index(int from, int to) {
         int length = to - from;
@@ -540,14 +523,11 @@ public final class Matrices {
 
     /**
      * Creates a strided linear index.
-     * 
-     * @param from
-     *            Start, inclusive
-     * @param stride
-     *            <code>stride=1</code> for continuous. Negative strides are
-     *            allowed
-     * @param to
-     *            Stop, exclusive
+     *
+     * @param from   Start, inclusive
+     * @param stride <code>stride=1</code> for continuous. Negative strides are
+     *               allowed
+     * @param to     Stop, exclusive
      */
     public static int[] index(int from, int stride, int to) {
         if (stride == 1)
@@ -679,12 +659,40 @@ public final class Matrices {
                 A.set(columnI, columnI, diagonal);
     }
 
-  public static DenseVector getColumn(Matrix m, int j) {
-    DenseVector v = new DenseVector(m.numRows());
-    for (int i = 0; i < v.size(); i++) {
-      v.set(i, m.get(i, j));
+    public static DenseVector getColumn(Matrix m, int j) {
+        DenseVector v = new DenseVector(m.numRows());
+        for (int i = 0; i < v.size(); i++) {
+            v.set(i, m.get(i, j));
+        }
+        return v;
     }
-    return v;
-  }
+
+    public static DenseVector getRow(Matrix m, int j) {
+        DenseVector v = new DenseVector(m.numColumns());
+        for (int i = 0; i < v.size(); i++) {
+            v.set(i, m.get(j, i));
+        }
+        return v;
+    }
+
+    public static DenseMatrix getColumns(DenseMatrix matrix, int[] cols) {
+
+        int[] rowIndices = new int[matrix.numRows()];
+        for (int i = 0; i < rowIndices.length; i++) {
+            rowIndices[i] = i;
+        }
+
+        return (DenseMatrix) (Matrices.getSubMatrix(matrix, rowIndices,cols));
+    }
+
+    public static DenseMatrix getRows(DenseMatrix matrix, int[] rows) {
+
+        int[] columnIndices = new int[matrix.numColumns()];
+        for (int i = 0; i < columnIndices.length; i++) {
+            columnIndices[i] = i;
+        }
+
+        return (DenseMatrix) (Matrices.getSubMatrix(matrix, rows, columnIndices));
+    }
 
 }
