@@ -97,4 +97,24 @@ public class SparseVectorTest extends VectorTestAbstract {
             assertTrue(tfVector[index]== value);
         }
 	}
+    
+    /**
+     * Unit test checking that the sparse vector does not end up ever using 
+     * more than "size" elements.
+     */
+	public void testOverAllocation() {
+        for (int d = 0; d < 10; d++) {
+            SparseVector v = new SparseVector(d, 0);
+            assertEquals(0, v.index.length);
+            assertEquals(0, v.data.length);
+
+            // Fill with non-zero elements.
+            for (int i = 0; i < d; i++) {
+                v.set(i, 1.0 + i);
+            }
+
+            assertEquals(d, v.index.length);
+            assertEquals(d, v.data.length);
+        }
+	}
 }

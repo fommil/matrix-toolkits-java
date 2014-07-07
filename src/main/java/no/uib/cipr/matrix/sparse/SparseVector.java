@@ -202,6 +202,9 @@ public class SparseVector extends AbstractVector implements ISparseVector {
 
             // If zero-length, use new length of 1, else double the bandwidth
             int newLength = data.length != 0 ? data.length << 1 : 1;
+            
+            // Enforce the maximum size.
+            newLength = Math.min(newLength, this.size);
 
             // Copy existing data into new arrays
             newIndex = new int[newLength];
