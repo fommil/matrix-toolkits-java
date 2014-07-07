@@ -33,7 +33,7 @@ public final class Matrices {
 
 	/**
 	 * <code>max(1, M)</code> provided as a convenience for 'leading dimension' calculations.
-	 * 
+	 *
 	 * @param n
 	 */
 	static int ld(int n) {
@@ -43,14 +43,14 @@ public final class Matrices {
 	/**
 	 * <code>max(1, max(M, N))</code> provided as a convenience for 'leading dimension'
 	 * calculations.
-	 * 
+	 *
 	 * @param m
 	 * @param n
 	 */
 	static int ld(int m, int n) {
 		return Math.max(1, Math.max(m, n));
 	}
-    
+
     /**
      * Returns the number of non-zero entries in the given vector
      */
@@ -96,7 +96,7 @@ public final class Matrices {
 
     /**
      * Returns the identity matrix of the given size
-     * 
+     *
      * @param size
      *            Number of rows/columns of the matrix
      * @return Matrix of the given size, with ones on the main diagonal
@@ -111,7 +111,7 @@ public final class Matrices {
     /**
      * Creates a random vector. Numbers are drawn from a uniform distribution
      * between 0 and 1
-     * 
+     *
      * @param size
      *            Size of the vector
      */
@@ -122,7 +122,7 @@ public final class Matrices {
     /**
      * Populates a vector with random numbers drawn from a uniform distribution
      * between 0 and 1
-     * 
+     *
      * @param x
      *            Vector to populate
      */
@@ -135,7 +135,7 @@ public final class Matrices {
     /**
      * Creates a random matrix. Numbers are drawn from a uniform distribution
      * between 0 and 1
-     * 
+     *
      * @param numRows
      *            Number of rows
      * @param numColumns
@@ -148,7 +148,7 @@ public final class Matrices {
     /**
      * Populates a matrix with random numbers drawn from a uniform distribution
      * between 0 and 1
-     * 
+     *
      * @param A
      *            Matrix to populate
      */
@@ -166,7 +166,7 @@ public final class Matrices {
      * <p>
      * <b>Note: </b> Do not use the wrapped vector for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
+     *
      * @param x
      *            Vector to be wrapped
      * @return A thin wrapper around <code>x</code>
@@ -183,7 +183,7 @@ public final class Matrices {
      * <p>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
+     *
      * @param A
      *            Matrix to be wrapped
      * @return A thin wrapper around <code>A</code>
@@ -205,7 +205,7 @@ public final class Matrices {
      * <p>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
+     *
      * @param A
      *            Matrix to be wrapped
      * @return A thin wrapper around <code>A</code>. Individual rows are
@@ -228,7 +228,7 @@ public final class Matrices {
      * <p>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
-     * 
+     *
      * @param A
      *            Matrix to be wrapped
      * @return A thin wrapper around <code>A</code>. Individual columns are
@@ -243,7 +243,7 @@ public final class Matrices {
      * matrix-assembly cases, not for general use. To extract a more
      * higher-performing and general matrix, create a copy of the submatrix. The
      * result is a {@link no.uib.cipr.matrix.DenseMatrix DenseMatrix}.
-     * 
+     *
      * @param A
      *            Matrix to create view on
      * @param row
@@ -262,7 +262,7 @@ public final class Matrices {
      * vector-assembly cases, not for general use. To extract a more
      * higher-performing and general vector, create a copy of the subvector. The
      * result is a {@link no.uib.cipr.matrix.DenseVector DenseVector}.
-     * 
+     *
      * @param x
      *            Vector to create view on
      * @param index
@@ -520,7 +520,7 @@ public final class Matrices {
 
     /**
      * Creates a continuous linear index.
-     * 
+     *
      * @param from
      *            Start, inclusive
      * @param to
@@ -540,7 +540,7 @@ public final class Matrices {
 
     /**
      * Creates a strided linear index.
-     * 
+     *
      * @param from
      *            Start, inclusive
      * @param stride
@@ -679,12 +679,43 @@ public final class Matrices {
                 A.set(columnI, columnI, diagonal);
     }
 
-  public static DenseVector getColumn(Matrix m, int j) {
-    DenseVector v = new DenseVector(m.numRows());
-    for (int i = 0; i < v.size(); i++) {
-      v.set(i, m.get(i, j));
+    public static DenseVector getColumn(Matrix m, int j) {
+        DenseVector v = new DenseVector(m.numRows());
+            for (int i = 0; i < v.size(); i++) {
+                v.set(i, m.get(i, j));
+            }
+        return v;
     }
-    return v;
-  }
+
+
+    public static DenseVector getRow(Matrix m, int j) {
+        DenseVector v = new DenseVector(m.numColumns());
+        for (int i = 0; i < v.size(); i++) {
+            v.set(i, m.get(j, i));
+        }
+        return v;
+    }
+
+    public static DenseMatrix getColumns(DenseMatrix matrix, int[] cols) {
+
+        int[] rowIndices = new int[matrix.numRows()];
+        for (int i = 0; i < rowIndices.length; i++) {
+            rowIndices[i] = i;
+        }
+
+        return (DenseMatrix) (Matrices.getSubMatrix(matrix, rowIndices,cols));
+    }
+
+    public static DenseMatrix getRows(DenseMatrix matrix, int[] rows) {
+
+        int[] columnIndices = new int[matrix.numColumns()];
+        for (int i = 0; i < columnIndices.length; i++) {
+            columnIndices[i] = i;
+        }
+
+        return (DenseMatrix) (Matrices.getSubMatrix(matrix, rows, columnIndices));
+    }
+
+
 
 }
