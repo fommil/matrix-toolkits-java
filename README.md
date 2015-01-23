@@ -1,4 +1,7 @@
-matrix-toolkits-java [![Build Status](https://travis-ci.org/fommil/matrix-toolkits-java.svg?branch=master)](https://travis-ci.org/fommil/matrix-toolkits-java)
+[![Build Status](https://travis-ci.org/fommil/matrix-toolkits-java.svg?branch=master)](https://travis-ci.org/fommil/matrix-toolkits-java)
+[![Coverage Status](https://coveralls.io/repos/fommil/matrix-toolkits-java/badge.svg?branch=master)](https://coveralls.io/r/fommil/matrix-toolkits-java?branch=master)
+
+matrix-toolkits-java 
 ====================
 
 **MTJ** is a high-performance library for developing linear algebra applications.
@@ -7,6 +10,9 @@ MTJ is based on [BLAS](http://www.netlib.org/blas) and [LAPACK](http://www.netli
 
 MTJ uses the [`netlib-java`](https://github.com/fommil/netlib-java/) project as a backend,
 which will automatically use machine-optimised natives, if they are available. Please read the [`netlib-java` documentation](https://github.com/fommil/netlib-java/) for the extra steps needed to ensure that you are getting the best performance for your system.
+
+For more details on high performance linear algebra on the JVM, please watch [my talk at Scala eXchange 2014](https://skillsmatter.com/skillscasts/5849-high-performance-linear-algebra-in-scala) ([follow along with high-res slides](http://fommil.github.io/scalax14/#/)).
+
 
 Performance to Other Libraries
 ==============================
@@ -82,41 +88,21 @@ Releases are distributed on Maven central:
 <dependency>
     <groupId>com.googlecode.matrix-toolkits-java</groupId>
     <artifactId>mtj</artifactId>
-    <version>1.0.1</version>
-</dependency>
-```
-
-**NOTE:** There is a bug in the `netlib-java` that is required by MTJ 1.0.1. To workaround it, also depend on
-
-```xml
-<dependency>
-  <groupId>com.github.fommil.netlib</groupId>
-  <artifactId>all</artifactId>
-  <version>1.1.2</version>
-  <type>pom</type>
+    <version>1.0.2</version>
 </dependency>
 ```
 
 Unofficial single-jar builds may be available from [`java-matrix-benchmark`](https://code.google.com/p/java-matrix-benchmark/source/browse/#svn%2Ftrunk%2Flib%2Fmtj) for laggards who don't have [5 minutes to learn Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
 
-
-Snapshots are distributed on Sonatype's Snapshot Repository:
+Snapshots may be distributed on Sonatype's Snapshot Repository (if you submit a pull request, a build will appear here when it is merged):
 
 ```xml
 <dependency>
   <groupId>com.googlecode.matrix-toolkits-java</groupId>
   <artifactId>mtj</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
 </dependency>
 ```
-
-Donations
-=========
-
-Please consider supporting the maintenance of this open source project by starring it, above, and with a donation:
-
-[![Donate via Paypal](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=B2HW5ATB8C3QW&lc=GB&item_name=mtj&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
-
 
 Contributing
 ============

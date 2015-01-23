@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.googlecode.matrix-toolkits-java</groupId>
-    <artifactId>mtj</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    <prerequisites>
-        <maven>3.0.3</maven>
-    </prerequisites>
+
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
+
+    <groupId>com.googlecode.matrix-toolkits-java</groupId>
+    <artifactId>mtj</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
     <name>Matrix Toolkits for Java</name>
     <description>A comprehensive collection of matrix data structures, linear solvers, least squares methods,
         eigenvalue, and singular value decompositions.
@@ -27,11 +24,7 @@
             <url>http://www.gnu.org/licenses/lgpl.html</url>
         </license>
     </licenses>
-    <scm>
-        <url>https://github.com/fommil/matrix-toolkits-java</url>
-        <connection>scm:git:git@github.com:fommil/matrix-toolkits-java.git</connection>
-        <developerConnection>scm:git:git@github.com:fommil/matrix-toolkits-java.git</developerConnection>
-    </scm>
+
     <developers>
         <developer>
             <name>Bjørn-Ove Heimsund</name>
@@ -42,10 +35,25 @@
             <email>sam.halliday@gmail.com</email>
         </developer>
     </developers>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
+    <scm>
+        <url>https://github.com/fommil/matrix-toolkits-java</url>
+        <connection>scm:git:git@github.com:fommil/matrix-toolkits-java.git</connection>
+        <developerConnection>scm:git:git@github.com:fommil/matrix-toolkits-java.git</developerConnection>
+    </scm>
     <issueManagement>
         <system>github</system>
         <url>https://github.com/fommil/matrix-toolkits-java/issues</url>
     </issueManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>
@@ -68,6 +76,7 @@
             </snapshots>
         </repository>
     </repositories>
+
     <!-- mvn versions:display-dependency-updates -->
     <dependencies>
         <dependency>
@@ -79,7 +88,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.12.6</version>
+            <version>1.14.8</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -91,13 +100,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>16.0.1</version>
+            <version>18.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -107,14 +116,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <!-- mvn versions:display-plugin-updates -->
+    <!-- mvn tidy:pom -->
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version>
+                    <version>1.6</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -128,24 +139,54 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
+                    <version>3.2</version>
                     <configuration>
                         <source>1.6</source>
                         <target>1.6</target>
+                        <compilerArgs>
+                          <arg>-Xlint:all</arg>
+                          <!-- <arg>-Werror</arg> -->
+                        </compilerArgs>
                     </configuration>
                 </plugin>
                 <plugin>
                     <!-- For the benefit of java-matrix-benchmark -->
                     <!-- mvn compile assembly:single -->
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.5.3</version>
                     <configuration>
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
                     </configuration>
                 </plugin>
+                <plugin>
+                  <groupId>org.eluder.coveralls</groupId>
+                  <artifactId>coveralls-maven-plugin</artifactId>
+                  <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>cobertura-maven-plugin</artifactId>
+                  <version>2.6</version>
+                  <configuration>
+                    <format>xml</format>
+                    <maxmem>256m</maxmem>
+                    <check>
+                      <totalBranchRate>53</totalBranchRate>
+                    </check>
+                  </configuration>
+                </plugin>
+                <plugin>
+                  <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+                  <artifactId>maven-java-formatter-plugin</artifactId>
+                  <version>0.4</version>
+                  <configuration>
+                    <configFile>.formatting.xml</configFile>
+                  </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
 </project>
