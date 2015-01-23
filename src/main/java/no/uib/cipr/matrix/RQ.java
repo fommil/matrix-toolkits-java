@@ -49,8 +49,8 @@ public class RQ extends OrthogonalComputer {
         {
             work = new double[1];
             intW info = new intW(0);
-            LAPACK.getInstance().dgerqf(m, n, new double[0], Matrices.ld(m), new double[0],
-                    work, -1, info);
+            LAPACK.getInstance().dgerqf(m, n, new double[0], Matrices.ld(m),
+                    new double[0], work, -1, info);
 
             if (info.val != 0)
                 lwork = m;
@@ -64,7 +64,7 @@ public class RQ extends OrthogonalComputer {
         {
             workGen = new double[1];
             intW info = new intW(0);
-            LAPACK.getInstance().dorgrq(m, n, m, new double[0],Matrices.ld(m),
+            LAPACK.getInstance().dorgrq(m, n, m, new double[0], Matrices.ld(m),
                     new double[0], workGen, -1, info);
 
             if (info.val != 0)
@@ -103,8 +103,8 @@ public class RQ extends OrthogonalComputer {
          * Calculate factorisation, and extract the triangular factor
          */
         intW info = new intW(0);
-        LAPACK.getInstance().dgerqf(m, n, A.getData(), Matrices.ld(m), tau, work,
-                work.length, info);
+        LAPACK.getInstance().dgerqf(m, n, A.getData(), Matrices.ld(m), tau,
+                work, work.length, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
@@ -118,8 +118,8 @@ public class RQ extends OrthogonalComputer {
          * Generate the orthogonal matrix
          */
         info.val = 0;
-        LAPACK.getInstance().dorgrq(m, n, k, A.getData(), Matrices.ld(m), tau, workGen,
-                workGen.length, info);
+        LAPACK.getInstance().dorgrq(m, n, k, A.getData(), Matrices.ld(m), tau,
+                workGen, workGen.length, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();

@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Upper symmetrical banded matrix. The same storage as
  * {@link no.uib.cipr.matrix.BandMatrix BandMatrix}, but without subdiagonals.
@@ -65,8 +64,8 @@ public class UpperSymmBandMatrix extends AbstractSymmBandMatrix {
      * @param kd
      *            Number of bands off the main diagonal (off diagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     public UpperSymmBandMatrix(Matrix A, int kd, boolean deep) {
         super(A, 0, kd, deep, UpLo.Upper);

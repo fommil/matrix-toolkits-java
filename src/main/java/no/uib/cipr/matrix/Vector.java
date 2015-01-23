@@ -29,8 +29,8 @@ import java.io.Serializable;
  * 
  * <h4>Basic operations</h4>
  * <p>
- * Use <code>size</code> to get the vector size. <code>get(int)</code> gets
- * an element, and there are corresponding <code>set(int,double)</code> and
+ * Use <code>size</code> to get the vector size. <code>get(int)</code> gets an
+ * element, and there are corresponding <code>set(int,double)</code> and
  * <code>add(int,double)</code> methods as well. Note that vector indices are
  * zero-based (typical for Java and C). This means that they range from 0 to
  * <code>size-1</code>. It is legal to have <code>size</code> equal zero.
@@ -44,12 +44,11 @@ import java.io.Serializable;
  * </p>
  * <h4>Iterators</h4>
  * <p>
- * The vector interface extends <code>Iterable</code>, and the iterator
- * returns a <code>VectorEntry</code> which contains current index and entry
- * value. Note that the iterator may skip non-zero entries. Using an iterator,
- * many simple and efficient algorithms can be created. The iterator also
- * permits changing values in the vector, however only non-zero entries can be
- * changed.
+ * The vector interface extends <code>Iterable</code>, and the iterator returns
+ * a <code>VectorEntry</code> which contains current index and entry value. Note
+ * that the iterator may skip non-zero entries. Using an iterator, many simple
+ * and efficient algorithms can be created. The iterator also permits changing
+ * values in the vector, however only non-zero entries can be changed.
  * </p>
  * <h4>Basic linear algebra</h4>
  * <p>

@@ -85,8 +85,8 @@ abstract class AbstractTriangBandMatrix extends AbstractBandMatrix {
         y.set(alpha, x);
 
         // y = A*y
-        BLAS.getInstance().dtbmv(uplo.netlib(), Transpose.NoTranspose.netlib(), diag.netlib(),
-        	numRows, kd, data, kd + 1, yd, 1);
+        BLAS.getInstance().dtbmv(uplo.netlib(), Transpose.NoTranspose.netlib(),
+                diag.netlib(), numRows, kd, data, kd + 1, yd, 1);
 
         return y;
     }
@@ -104,8 +104,8 @@ abstract class AbstractTriangBandMatrix extends AbstractBandMatrix {
         y.set(alpha, x);
 
         // y = A*y
-        BLAS.getInstance().dtbmv(uplo.netlib(), Transpose.Transpose.netlib(), diag.netlib(),
-        	numRows, kd, data, kd + 1, yd, 1);
+        BLAS.getInstance().dtbmv(uplo.netlib(), Transpose.Transpose.netlib(),
+                diag.netlib(), numRows, kd, data, kd + 1, yd, 1);
 
         return y;
     }
@@ -145,9 +145,9 @@ abstract class AbstractTriangBandMatrix extends AbstractBandMatrix {
         X.set(B);
 
         intW info = new intW(0);
-        LAPACK.getInstance().dtbtrs(uplo.netlib(), trans.netlib(), diag.netlib(),
-        	numRows, kd, X.numColumns(), data, Matrices.ld(kd + 1), Xd, Matrices.ld(n),
-        	info);
+        LAPACK.getInstance().dtbtrs(uplo.netlib(), trans.netlib(),
+                diag.netlib(), numRows, kd, X.numColumns(), data,
+                Matrices.ld(kd + 1), Xd, Matrices.ld(n), info);
 
         if (info.val > 0)
             throw new MatrixSingularException();

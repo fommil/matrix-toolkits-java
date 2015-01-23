@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * Utilities for the testers
- *
+ * 
  * NOTE: many of these random matrices are not guaranteed to have solutions
  */
 public final class Utilities {
@@ -231,12 +231,12 @@ public final class Utilities {
      * @return The matrix data in dense format
      */
     public static double[][] populate(Matrix A) {
-      Random random = new Random();
+        Random random = new Random();
         int n = A.numRows(), m = A.numColumns();
         double[][] values = new double[n][m];
         for (int i = 0; i < n; ++i)
             for (int j = 0; j < m; ++j) {
-              double value = random.nextGaussian();
+                double value = random.nextGaussian();
                 values[i][j] = value;
                 A.set(i, j, value);
             }
@@ -331,12 +331,12 @@ public final class Utilities {
         return values;
     }
 
-  public static void upperPopulateGauss(Matrix A) {
-    Random random = new Random();
-    for (int i = 0; i < A.numRows(); i++)
-      for (int j = 0; j <= i; j++)
-        A.set(i, j, random.nextGaussian());
-  }
+    public static void upperPopulateGauss(Matrix A) {
+        Random random = new Random();
+        for (int i = 0; i < A.numRows(); i++)
+            for (int j = 0; j <= i; j++)
+                A.set(i, j, random.nextGaussian());
+    }
 
     /**
      * Populates the strictly lower triangular part of the matrix

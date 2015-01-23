@@ -142,8 +142,8 @@ public class VectorInfo {
     }
 
     /**
-     * Returns <code>true</code> if the vector does not store any numbers,
-     * else <code>false</code>
+     * Returns <code>true</code> if the vector does not store any numbers, else
+     * <code>false</code>
      */
     public boolean isPattern() {
         return field == VectorField.Pattern;

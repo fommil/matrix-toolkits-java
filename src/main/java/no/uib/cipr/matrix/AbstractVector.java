@@ -38,16 +38,14 @@ import java.util.Iterator;
  * iterator has been provided. There are some kernel operations which the
  * simpler operations forward to, and they are:
  * <ul>
- * <li> <code>add(double,Vector)</code> and <code>set(double,Vector)</code>.
- * </li>
+ * <li> <code>add(double,Vector)</code> and <code>set(double,Vector)</code>.</li>
  * <li> <code>scale(double)</code>.</li>
- * <li><code>dot(Vector)</code> and all the norms. </li>
+ * <li><code>dot(Vector)</code> and all the norms.</li>
  * </ul>
  * <p>
  * Finally, a default iterator is provided by this class, which works by calling
  * the <code>get</code> function. A tailored replacement should be used by
- * subclasses.
- * </ul>
+ * subclasses. </ul>
  */
 public abstract class AbstractVector implements Vector, Serializable {
 

@@ -83,8 +83,8 @@ public class SPDTridiagMatrix extends SymmTridiagMatrix {
         X.set(B);
 
         intW info = new intW(0);
-        LAPACK.getInstance().dptsv(numRows, X.numColumns(),
-                diag.clone(), offDiag.clone(), Xd, Matrices.ld(numRows), info);
+        LAPACK.getInstance().dptsv(numRows, X.numColumns(), diag.clone(),
+                offDiag.clone(), Xd, Matrices.ld(numRows), info);
 
         if (info.val > 0)
             throw new MatrixNotSPDException();

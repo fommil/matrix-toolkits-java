@@ -20,11 +20,10 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Lower symmetrical banded matrix. The same storage as
- * {@link no.uib.cipr.matrix.BandMatrix BandMatrix}, but without
- * superdiagonals. Upper part of the matrix is implictly known by symmetry
+ * {@link no.uib.cipr.matrix.BandMatrix BandMatrix}, but without superdiagonals.
+ * Upper part of the matrix is implictly known by symmetry
  */
 public class LowerSymmBandMatrix extends AbstractSymmBandMatrix {
 
@@ -65,8 +64,8 @@ public class LowerSymmBandMatrix extends AbstractSymmBandMatrix {
      * @param kd
      *            Number of bands off the main diagonal (off diagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     public LowerSymmBandMatrix(Matrix A, int kd, boolean deep) {
         super(A, kd, 0, deep, UpLo.Lower);

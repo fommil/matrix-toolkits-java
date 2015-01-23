@@ -26,7 +26,6 @@ import org.netlib.util.intW;
 
 import java.util.Iterator;
 
-
 /**
  * Partial implementation of a triangular, packed matrix
  */
@@ -80,8 +79,8 @@ abstract class AbstractTriangPackMatrix extends AbstractPackMatrix {
         y.set(alpha, x);
 
         // y = A*z
-        BLAS.getInstance().dtpmv(uplo.netlib(), Transpose.NoTranspose.netlib(), diag.netlib(),
-        	numRows, data, yd, 1);
+        BLAS.getInstance().dtpmv(uplo.netlib(), Transpose.NoTranspose.netlib(),
+                diag.netlib(), numRows, data, yd, 1);
 
         return y;
     }
@@ -99,8 +98,8 @@ abstract class AbstractTriangPackMatrix extends AbstractPackMatrix {
         y.set(alpha, x);
 
         // y = A*z
-        BLAS.getInstance().dtpmv(uplo.netlib(), Transpose.Transpose.netlib(), diag.netlib(),
-        	numRows, data, yd, 1);
+        BLAS.getInstance().dtpmv(uplo.netlib(), Transpose.Transpose.netlib(),
+                diag.netlib(), numRows, data, yd, 1);
 
         return y;
     }
@@ -140,8 +139,9 @@ abstract class AbstractTriangPackMatrix extends AbstractPackMatrix {
         X.set(B);
 
         intW info = new intW(0);
-        LAPACK.getInstance().dtptrs(uplo.netlib(), trans.netlib(), diag.netlib(), numRows,
-                X.numColumns(), data, Xd, Matrices.ld(numRows), info);
+        LAPACK.getInstance().dtptrs(uplo.netlib(), trans.netlib(),
+                diag.netlib(), numRows, X.numColumns(), data, Xd,
+                Matrices.ld(numRows), info);
 
         if (info.val > 0)
             throw new MatrixSingularException();

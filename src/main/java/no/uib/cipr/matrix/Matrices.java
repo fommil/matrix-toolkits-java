@@ -31,26 +31,27 @@ public final class Matrices {
         // No need to instantiate
     }
 
-	/**
-	 * <code>max(1, M)</code> provided as a convenience for 'leading dimension' calculations.
-	 * 
-	 * @param n
-	 */
-	static int ld(int n) {
-		return Math.max(1, n);
-	}
+    /**
+     * <code>max(1, M)</code> provided as a convenience for 'leading dimension'
+     * calculations.
+     * 
+     * @param n
+     */
+    static int ld(int n) {
+        return Math.max(1, n);
+    }
 
-	/**
-	 * <code>max(1, max(M, N))</code> provided as a convenience for 'leading dimension'
-	 * calculations.
-	 * 
-	 * @param m
-	 * @param n
-	 */
-	static int ld(int m, int n) {
-		return Math.max(1, Math.max(m, n));
-	}
-    
+    /**
+     * <code>max(1, max(M, N))</code> provided as a convenience for 'leading
+     * dimension' calculations.
+     * 
+     * @param m
+     * @param n
+     */
+    static int ld(int m, int n) {
+        return Math.max(1, Math.max(m, n));
+    }
+
     /**
      * Returns the number of non-zero entries in the given vector
      */
@@ -161,8 +162,8 @@ public final class Matrices {
 
     /**
      * Returns a synchronized vector which wraps the given vector. Only the
-     * <code>set(int, double)</code> and <code>add(int, double)</code>
-     * methods and their blocked versions are synchronized.
+     * <code>set(int, double)</code> and <code>add(int, double)</code> methods
+     * and their blocked versions are synchronized.
      * <p>
      * <b>Note: </b> Do not use the wrapped vector for any operations besides
      * matrix assembly, as these operations may be very slow.
@@ -177,9 +178,8 @@ public final class Matrices {
 
     /**
      * Returns a synchronized matrix which wraps the given matrix. Only the
-     * <code>set(int, int, double)</code> and
-     * <code>add(int, int, double)</code> methods and their blocked versions
-     * are synchronized.
+     * <code>set(int, int, double)</code> and <code>add(int, int, double)</code>
+     * methods and their blocked versions are synchronized.
      * <p>
      * <b>Note: </b> Do not use the wrapped matrix for any operations besides
      * matrix assembly, as these operations may be very slow.
@@ -194,9 +194,8 @@ public final class Matrices {
 
     /**
      * Returns a synchronized matrix which wraps the given matrix. Only the
-     * <code>set(int, int, double)</code> and
-     * <code>add(int, int, double)</code> methods and their blocked versions
-     * are synchronized.
+     * <code>set(int, int, double)</code> and <code>add(int, int, double)</code>
+     * methods and their blocked versions are synchronized.
      * <p>
      * The locking provided is finer than the locking of the whole matrix, as
      * different threads can access different rows simultaneous, while only one
@@ -208,8 +207,7 @@ public final class Matrices {
      * 
      * @param A
      *            Matrix to be wrapped
-     * @return A thin wrapper around <code>A</code>. Individual rows are
-     *         locked
+     * @return A thin wrapper around <code>A</code>. Individual rows are locked
      */
     public static Matrix synchronizedMatrixByRows(Matrix A) {
         return new SynchronizedRowMatrix(A);
@@ -217,9 +215,8 @@ public final class Matrices {
 
     /**
      * Returns a synchronized matrix which wraps the given matrix. Only the
-     * <code>set(int, int, double)</code> and
-     * <code>add(int, int, double)</code> methods and their blocked versions
-     * are synchronized.
+     * <code>set(int, int, double)</code> and <code>add(int, int, double)</code>
+     * methods and their blocked versions are synchronized.
      * <p>
      * The locking provided is finer than the locking of the whole matrix, as
      * different threads can access different columns simultaneous, while only
@@ -250,8 +247,8 @@ public final class Matrices {
      *            Rows to access. Must be within the bounds of <code>A</code>
      * @param column
      *            Columns to access. Must be within the bounds of <code>A</code>
-     * @return Submatrix of <code>A</code>. Changing it will change the
-     *         backing matrix
+     * @return Submatrix of <code>A</code>. Changing it will change the backing
+     *         matrix
      */
     public static Matrix getSubMatrix(Matrix A, int[] row, int[] column) {
         return new RefMatrix(A, row, column);
@@ -267,8 +264,8 @@ public final class Matrices {
      *            Vector to create view on
      * @param index
      *            Indices to access. Must be within the bounds of <code>x</code>
-     * @return Submatrix of <code>x</code>. Changing it will change the
-     *         backing matrix
+     * @return Submatrix of <code>x</code>. Changing it will change the backing
+     *         matrix
      */
     public static Vector getSubVector(Vector x, int[] index) {
         return new RefVector(x, index);
@@ -625,8 +622,8 @@ public final class Matrices {
 
     /**
      * Sets the selected rows of <code>A</code> equal zero, and puts
-     * <code>diagonal</code> on the diagonal of those rows. Useful for
-     * enforcing boundary conditions
+     * <code>diagonal</code> on the diagonal of those rows. Useful for enforcing
+     * boundary conditions
      */
     public static void zeroRows(Matrix A, double diagonal, int... row) {
         // Sort the rows
@@ -679,12 +676,12 @@ public final class Matrices {
                 A.set(columnI, columnI, diagonal);
     }
 
-  public static DenseVector getColumn(Matrix m, int j) {
-    DenseVector v = new DenseVector(m.numRows());
-    for (int i = 0; i < v.size(); i++) {
-      v.set(i, m.get(i, j));
+    public static DenseVector getColumn(Matrix m, int j) {
+        DenseVector v = new DenseVector(m.numRows());
+        for (int i = 0; i < v.size(); i++) {
+            v.set(i, m.get(i, j));
+        }
+        return v;
     }
-    return v;
-  }
 
 }

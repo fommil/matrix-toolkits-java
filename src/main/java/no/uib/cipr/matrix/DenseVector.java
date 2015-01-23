@@ -36,9 +36,9 @@ import no.uib.cipr.matrix.io.VectorInfo.VectorField;
 public class DenseVector extends AbstractVector implements Serializable {
 
     /** just the private data */
-	private static final long serialVersionUID = 5358813524094629362L;
-	
-	/**
+    private static final long serialVersionUID = 5358813524094629362L;
+
+    /**
      * Vector data
      */
     private final double[] data;
@@ -122,8 +122,8 @@ public class DenseVector extends AbstractVector implements Serializable {
      * @param x
      *            Copies contents from this vector
      * @param deep
-     *            True for a deep copy. For a shallow copy, <code>x</code>
-     *            must be a <code>DenseVector</code>
+     *            True for a deep copy. For a shallow copy, <code>x</code> must
+     *            be a <code>DenseVector</code>
      */
     public DenseVector(Vector x, boolean deep) {
         super(x);

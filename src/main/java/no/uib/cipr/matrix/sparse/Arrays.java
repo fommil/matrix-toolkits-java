@@ -22,7 +22,9 @@ package no.uib.cipr.matrix.sparse;
 
 /**
  * Array utilities. Complements <code>java.util.Arrays</code>
- * @deprecated java.utils.Arrays and Google Guava provide this functionality nowadays.
+ * 
+ * @deprecated java.utils.Arrays and Google Guava provide this functionality
+ *             nowadays.
  */
 @Deprecated
 class Arrays {

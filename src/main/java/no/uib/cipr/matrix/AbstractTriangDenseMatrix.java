@@ -26,7 +26,6 @@ import com.github.fommil.netlib.BLAS;
 import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
 
-
 /**
  * Partial implementation of a triangular, dense matrix
  */
@@ -77,8 +76,8 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
      * @param A
      *            Matrix to copy from
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     AbstractTriangDenseMatrix(Matrix A, boolean deep, UpLo uplo, Diag diag) {
@@ -107,8 +106,8 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
      *            Size of matrix to refer.
      *            <code>k&lt;min(numRows,numColumns)</code>
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     AbstractTriangDenseMatrix(Matrix A, int k, boolean deep, UpLo uplo,
@@ -137,8 +136,8 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
         y.set(alpha, x);
 
         // y = A*z
-        BLAS.getInstance().dtrmv(uplo.netlib(), Transpose.NoTranspose.netlib(), diag.netlib(),
-        	numRows, data, Math.max(1, ld), yd, 1);
+        BLAS.getInstance().dtrmv(uplo.netlib(), Transpose.NoTranspose.netlib(),
+                diag.netlib(), numRows, data, Math.max(1, ld), yd, 1);
 
         return y;
     }
@@ -156,8 +155,8 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
         y.set(alpha, x);
 
         // y = A'*y
-        BLAS.getInstance().dtrmv(uplo.netlib(), Transpose.Transpose.netlib(), diag.netlib(),
-        	numRows, data, Math.max(1, ld), yd, 1);
+        BLAS.getInstance().dtrmv(uplo.netlib(), Transpose.Transpose.netlib(),
+                diag.netlib(), numRows, data, Math.max(1, ld), yd, 1);
 
         return y;
     }
@@ -174,9 +173,10 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
         C.set(B);
 
         // C = alpha*A*C
-        BLAS.getInstance().dtrmm(Side.Left.netlib(), uplo.netlib(), Transpose.NoTranspose.netlib(),
-        	diag.netlib(), C.numRows(), C.numColumns(), alpha, data, Math.max(1, ld), Cd,
-        	Math.max(1, C.numRows()));
+        BLAS.getInstance().dtrmm(Side.Left.netlib(), uplo.netlib(),
+                Transpose.NoTranspose.netlib(), diag.netlib(), C.numRows(),
+                C.numColumns(), alpha, data, Math.max(1, ld), Cd,
+                Math.max(1, C.numRows()));
 
         return C;
     }
@@ -193,9 +193,10 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
         C.set(B);
 
         // C = alpha*A'*C
-        BLAS.getInstance().dtrmm(Side.Left.netlib(), uplo.netlib(), Transpose.Transpose.netlib(),
-        	diag.netlib(), C.numRows(), C.numColumns(), alpha, data, Math.max(1, ld), Cd,
-        	Math.max(1, C.numRows()));
+        BLAS.getInstance().dtrmm(Side.Left.netlib(), uplo.netlib(),
+                Transpose.Transpose.netlib(), diag.netlib(), C.numRows(),
+                C.numColumns(), alpha, data, Math.max(1, ld), Cd,
+                Math.max(1, C.numRows()));
 
         return C;
     }
@@ -243,8 +244,9 @@ abstract class AbstractTriangDenseMatrix extends AbstractDenseMatrix {
         X.set(B);
 
         intW info = new intW(0);
-        LAPACK.getInstance().dtrtrs(uplo.netlib(), trans.netlib(), diag.netlib(), numRows,
-                X.numColumns(), data, Math.max(1, ld), Xd, Matrices.ld(numRows), info);
+        LAPACK.getInstance().dtrtrs(uplo.netlib(), trans.netlib(),
+                diag.netlib(), numRows, X.numColumns(), data, Math.max(1, ld),
+                Xd, Matrices.ld(numRows), info);
 
         if (info.val > 0)
             throw new MatrixSingularException();

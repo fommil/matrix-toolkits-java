@@ -64,8 +64,8 @@ public class UpperSPDBandMatrix extends UpperSymmBandMatrix {
      * @param kd
      *            Number of bands off the main diagonal (off diagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     public UpperSPDBandMatrix(Matrix A, int kd, boolean deep) {
         super(A, kd, deep);

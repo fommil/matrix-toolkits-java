@@ -46,63 +46,63 @@ public class SparseVectorTest extends VectorTestAbstract {
         xd = Utilities.populate(x, m);
     }
 
-	public void testSparseVectorIndices() {
-		/*
-		 * MTJ subtlety in getIndex() for SparseVector. before calling
-		 * getIndex(), you must call compact()... implementations may choose to
-		 * do nothing in this call, but the Intel extended LAPACK
-		 * implementations (and MTJ's SparseVector) require it. An alternative
-		 * to vector.getIndex() is VectorMethods.getIndex(Vector) which will
-		 * wrap this for you. It can take an arbitrary Vector and if it can be
-		 * cast to a SparseVector will compact it and use its getIndex() method
-		 * instead. (just so you're aware of this). Sam.
-		 */
+    public void testSparseVectorIndices() {
+        /*
+         * MTJ subtlety in getIndex() for SparseVector. before calling
+         * getIndex(), you must call compact()... implementations may choose to
+         * do nothing in this call, but the Intel extended LAPACK
+         * implementations (and MTJ's SparseVector) require it. An alternative
+         * to vector.getIndex() is VectorMethods.getIndex(Vector) which will
+         * wrap this for you. It can take an arbitrary Vector and if it can be
+         * cast to a SparseVector will compact it and use its getIndex() method
+         * instead. (just so you're aware of this). Sam.
+         */
 
-		// check that "infinite dimensions" doesn't use infinite memory
-		SparseVector vector = new SparseVector(Integer.MAX_VALUE);
-		int[] index = vector.getIndex();
-		assert index != null;
-		assert index.length == 0;
+        // check that "infinite dimensions" doesn't use infinite memory
+        SparseVector vector = new SparseVector(Integer.MAX_VALUE);
+        int[] index = vector.getIndex();
+        assert index != null;
+        assert index.length == 0;
 
-		// check that creating with double[] with zeros works
-		double[] entries = new double[5];
-		entries[0] = 0.0;
-		entries[1] = 0.0;
-		entries[2] = 1.0;
-		entries[3] = 0.0;
-		entries[4] = 2.0;
-		Vector dense = new DenseVector(entries, false);
-		vector = new SparseVector(dense);
+        // check that creating with double[] with zeros works
+        double[] entries = new double[5];
+        entries[0] = 0.0;
+        entries[1] = 0.0;
+        entries[2] = 1.0;
+        entries[3] = 0.0;
+        entries[4] = 2.0;
+        Vector dense = new DenseVector(entries, false);
+        vector = new SparseVector(dense);
 
-		// NOTE: must compact before calling getIndex()!!!
-		// vector.compact();
-		index = vector.getIndex();
-		assert index != null;
-		assert index.length == 5 : "expected length of 5, but got "
-				+ index.length + ", with elements " + Arrays.toString(index);
-	}
+        // NOTE: must compact before calling getIndex()!!!
+        // vector.compact();
+        index = vector.getIndex();
+        assert index != null;
+        assert index.length == 5 : "expected length of 5, but got "
+                + index.length + ", with elements " + Arrays.toString(index);
+    }
 
-	public void testBug27() {
-		double[] tfVector = {0.0,0.5,0.0,0.4,0.0};
-		DenseVector dense= new DenseVector(tfVector, false);
-		SparseVector vectorTF =  new SparseVector(dense);
-		vectorTF.compact();
+    public void testBug27() {
+        double[] tfVector = {0.0, 0.5, 0.0, 0.4, 0.0};
+        DenseVector dense = new DenseVector(tfVector, false);
+        SparseVector vectorTF = new SparseVector(dense);
+        vectorTF.compact();
 
-		assertTrue(vectorTF.getUsed() == 2);  // vectorTF.getUsed() returns 5
+        assertTrue(vectorTF.getUsed() == 2); // vectorTF.getUsed() returns 5
 
-		for (Iterator<VectorEntry> it = vectorTF.iterator();it.hasNext();) {
-            VectorEntry ve= it.next();
+        for (Iterator<VectorEntry> it = vectorTF.iterator(); it.hasNext();) {
+            VectorEntry ve = it.next();
             int index = ve.index();
             double value = ve.get();
-            assertTrue(tfVector[index]== value);
+            assertTrue(tfVector[index] == value);
         }
-	}
-    
+    }
+
     /**
-     * Unit test checking that the sparse vector does not end up ever using 
-     * more than "size" elements.
+     * Unit test checking that the sparse vector does not end up ever using more
+     * than "size" elements.
      */
-	public void testOverAllocation() {
+    public void testOverAllocation() {
         for (int d = 0; d < 10; d++) {
             SparseVector v = new SparseVector(d, 0);
             assertEquals(0, v.index.length);
@@ -116,5 +116,5 @@ public class SparseVectorTest extends VectorTestAbstract {
             assertEquals(d, v.index.length);
             assertEquals(d, v.data.length);
         }
-	}
+    }
 }

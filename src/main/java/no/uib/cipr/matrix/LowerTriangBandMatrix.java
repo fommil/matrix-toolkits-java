@@ -20,11 +20,9 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Lower triangular banded matrix. The same storage as
- * {@link no.uib.cipr.matrix.BandMatrix BandMatrix}, but without
- * superdiagonals.
+ * {@link no.uib.cipr.matrix.BandMatrix BandMatrix}, but without superdiagonals.
  */
 public class LowerTriangBandMatrix extends AbstractTriangBandMatrix {
 
@@ -65,8 +63,8 @@ public class LowerTriangBandMatrix extends AbstractTriangBandMatrix {
      * @param kd
      *            Number of bands below the main diagonal (subdiagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     public LowerTriangBandMatrix(Matrix A, int kd, boolean deep) {
         super(A, kd, 0, deep, UpLo.Lower, Diag.NonUnit);
@@ -95,8 +93,8 @@ public class LowerTriangBandMatrix extends AbstractTriangBandMatrix {
      * @param kd
      *            Number of bands below the main diagonal (subdiagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     LowerTriangBandMatrix(Matrix A, int kd, boolean deep, Diag diag) {
         super(A, kd, 0, deep, UpLo.Lower, diag);

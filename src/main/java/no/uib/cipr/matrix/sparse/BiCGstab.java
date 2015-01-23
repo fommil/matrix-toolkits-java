@@ -29,8 +29,8 @@ import no.uib.cipr.matrix.Vector;
 
 /**
  * BiCG stablized solver. BiCGstab solves the unsymmetric linear system
- * <code>Ax = b</code> using the Preconditioned BiConjugate Gradient
- * Stabilized method
+ * <code>Ax = b</code> using the Preconditioned BiConjugate Gradient Stabilized
+ * method
  * 
  * @author Templates
  */
@@ -101,7 +101,7 @@ public class BiCGstab extends AbstractIterativeSolver {
 
             x.add(alpha, phat);
             if (iter.converged(s, x))
-              return x;
+                return x;
 
             M.apply(s, shat);
             A.mult(shat, t);

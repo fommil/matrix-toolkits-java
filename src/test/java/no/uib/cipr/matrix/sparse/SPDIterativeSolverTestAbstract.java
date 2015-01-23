@@ -27,7 +27,9 @@ import no.uib.cipr.matrix.Utilities;
 /**
  * Test of iterative solvers for SPD matrices
  */
-public abstract class SPDIterativeSolverTestAbstract extends IterativeSolverTestAbstract {
+public abstract class SPDIterativeSolverTestAbstract
+        extends
+            IterativeSolverTestAbstract {
 
     public SPDIterativeSolverTestAbstract(String arg0) {
         super(arg0);

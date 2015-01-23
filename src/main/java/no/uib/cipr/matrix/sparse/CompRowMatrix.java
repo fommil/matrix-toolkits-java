@@ -44,10 +44,10 @@ import com.github.fommil.netlib.BLAS;
  */
 public class CompRowMatrix extends AbstractMatrix {
 
-	/**
+    /**
      * Matrix data
      */
-	double[] data;
+    double[] data;
 
     /**
      * Column indices. These are kept sorted within each row.
@@ -277,59 +277,59 @@ public class CompRowMatrix extends AbstractMatrix {
     }
 
     @Override
-	public Matrix mult(Matrix B, Matrix C) {
-    	checkMultAdd(B, C);
-    	C.zero();
-    	
-    	// optimised a little bit to avoid zeros in rows, but not to
-    	// exploit sparsity of matrix B
-    	for (int i = 0; i < numRows; ++i) {
+    public Matrix mult(Matrix B, Matrix C) {
+        checkMultAdd(B, C);
+        C.zero();
+
+        // optimised a little bit to avoid zeros in rows, but not to
+        // exploit sparsity of matrix B
+        for (int i = 0; i < numRows; ++i) {
             for (int j = 0; j < C.numColumns(); ++j) {
                 double dot = 0;
                 for (int k = rowPointer[i]; k < rowPointer[i + 1]; ++k) {
                     dot += data[k] * B.get(columnIndex[k], j);
                 }
                 if (dot != 0) {
-                	C.set(i, j, dot);
+                    C.set(i, j, dot);
                 }
             }
-    	}
-    	return C;
-	}
+        }
+        return C;
+    }
 
-	@Override
+    @Override
     public Vector mult(Vector x, Vector y) {
         // check dimensions
         checkMultAdd(x, y);
         // can't assume this, unfortunately
         y.zero();
-        
+
         if (x instanceof DenseVector) {
-        	// DenseVector optimisations
-        	double[] xd = ((DenseVector) x).getData();
-        	for (int i = 0; i < numRows; ++i) {
-        		double dot = 0;
-        		for (int j = rowPointer[i]; j < rowPointer[i + 1]; j++) {
-        			dot += data[j] * xd[columnIndex[j]];
-        		}
-        		if (dot != 0) {
-        			y.set(i, dot);
-        		}
-        	}
-        	return y;
+            // DenseVector optimisations
+            double[] xd = ((DenseVector) x).getData();
+            for (int i = 0; i < numRows; ++i) {
+                double dot = 0;
+                for (int j = rowPointer[i]; j < rowPointer[i + 1]; j++) {
+                    dot += data[j] * xd[columnIndex[j]];
+                }
+                if (dot != 0) {
+                    y.set(i, dot);
+                }
+            }
+            return y;
         }
-    	// use sparsity of matrix (not vector), as get(,) is slow
+        // use sparsity of matrix (not vector), as get(,) is slow
         // TODO: additional optimisations for mult(ISparseVector, Vector)
         // note that this would require Sparse BLAS, e.g. BLAS_DUSDOT(,,,,)
         // @see http://www.netlib.org/blas/blast-forum/chapter3.pdf
-    	for (int i = 0; i < numRows; ++i) {
-    		double dot = 0;
-    		for (int j = rowPointer[i]; j < rowPointer[i + 1]; j++) {
-    			dot += data[j] * x.get(columnIndex[j]);
-    		}
-    		y.set(i, dot);
-    	}
-    	return y;
+        for (int i = 0; i < numRows; ++i) {
+            double dot = 0;
+            for (int j = rowPointer[i]; j < rowPointer[i + 1]; j++) {
+                dot += data[j] * x.get(columnIndex[j]);
+            }
+            y.set(i, dot);
+        }
+        return y;
     }
 
     @Override

@@ -27,8 +27,8 @@ import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
 
 /**
- * Tridiagonal matrix. Stored in three arrays, one of length <code>n</code>
- * for the diagonal, two of length <code>n-1</code> for the superdiagonal and
+ * Tridiagonal matrix. Stored in three arrays, one of length <code>n</code> for
+ * the diagonal, two of length <code>n-1</code> for the superdiagonal and
  * subdiagonal entries.
  */
 public class TridiagMatrix extends AbstractMatrix {
@@ -194,8 +194,9 @@ public class TridiagMatrix extends AbstractMatrix {
         X.set(B);
 
         intW info = new intW(0);
-        LAPACK.getInstance().dgtsv(numRows, X.numColumns(),
-                subDiag.clone(), diag.clone(), superDiag.clone(), Xd, Matrices.ld(numRows), info);
+        LAPACK.getInstance()
+                .dgtsv(numRows, X.numColumns(), subDiag.clone(), diag.clone(),
+                        superDiag.clone(), Xd, Matrices.ld(numRows), info);
 
         if (info.val > 0)
             throw new MatrixSingularException();

@@ -20,12 +20,11 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Unit lower triangular dense matrix. Almost the same as the
- * {@link no.uib.cipr.matrix.LowerTriangDenseMatrix LowerTriangDenseMatrix},
- * but additionally assumes the main diagonal to be all ones. However it does
- * not access it, so it may be actually be different.
+ * {@link no.uib.cipr.matrix.LowerTriangDenseMatrix LowerTriangDenseMatrix}, but
+ * additionally assumes the main diagonal to be all ones. However it does not
+ * access it, so it may be actually be different.
  */
 public class UnitLowerTriangDenseMatrix extends LowerTriangDenseMatrix {
 
@@ -58,8 +57,8 @@ public class UnitLowerTriangDenseMatrix extends LowerTriangDenseMatrix {
      *            Matrix to copy from. Only the strictly lower triangular part
      *            is copied
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     public UnitLowerTriangDenseMatrix(Matrix A, boolean deep) {

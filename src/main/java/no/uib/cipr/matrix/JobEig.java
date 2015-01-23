@@ -21,19 +21,20 @@ package no.uib.cipr.matrix;
 
 /** The job the eigenvectors solvers are to do */
 enum JobEig {
-	/** Compute eigenvalues and eigenvectors */
-	All,
+    /** Compute eigenvalues and eigenvectors */
+    All,
 
-	/** Only compute the eigenvalues */
-	Eigenvalues;
-	
-	/**
-	 * @return the netlib character version of this designation, for use with F2J.
-	 */
-	public String netlib() {
-		if (this == All)
-			return "V";
-		return "N";
-	}
+    /** Only compute the eigenvalues */
+    Eigenvalues;
+
+    /**
+     * @return the netlib character version of this designation, for use with
+     *         F2J.
+     */
+    public String netlib() {
+        if (this == All)
+            return "V";
+        return "N";
+    }
 
 }

@@ -187,8 +187,8 @@ public class MatrixInfo {
     }
 
     /**
-     * Returns <code>true</code> if the matrix does not store any numbers,
-     * else <code>false</code>
+     * Returns <code>true</code> if the matrix does not store any numbers, else
+     * <code>false</code>
      */
     public boolean isPattern() {
         return field == MatrixField.Pattern;

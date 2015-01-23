@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Lower triangular packed matrix. In contrast with
  * {@link no.uib.cipr.matrix.LowerTriangDenseMatrix LowerTriangDenseMatrix},

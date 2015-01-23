@@ -37,28 +37,26 @@ import java.util.Iterator;
  * For the rest of the methods, simple default implementations using a matrix
  * iterator has been provided. There are some kernel operations which the
  * simpler operations forward to, for instance, <code>mult(Matrix,Matrix)</code>
- * forwards to <code>multAdd(double,Matrix,Matrix)</code>. Subclasses can
- * thus focus on overriding the kernel operations, which are:
+ * forwards to <code>multAdd(double,Matrix,Matrix)</code>. Subclasses can thus
+ * focus on overriding the kernel operations, which are:
  * <ul>
  * <li> <code>multAdd(double,Vector,Vector)</code> and
- * <code>transMultAdd(double,Vector,Vector)</code>. </li>
+ * <code>transMultAdd(double,Vector,Vector)</code>.</li>
  * <li> <code>rank1(double,Vector,Vector)</code> and
  * <code>rank1(double,Vector,Vector)</code>.</li>
  * <li> <code>multAdd(double,Matrix,Matrix)</code>,
  * <code>transAmultAdd(double,Matrix,Matrix)</code>,
  * <code>transBmultAdd(double,Matrix,Matrix)</code>, and
- * <code>transABmultAdd(double,Matrix,Matrix)</code>. </li>
- * <li> <code>scale(double)</code>. </li>
- * <li> <code>set(double,Matrix)</code> and <code>add(double,Matrix)</code>.
- * </li>
- * <li> <code>transpose</code> and <code>transpose(Matrix)</code>. </li>
- * <li> All the norms.</li>
+ * <code>transABmultAdd(double,Matrix,Matrix)</code>.</li>
+ * <li> <code>scale(double)</code>.</li>
+ * <li> <code>set(double,Matrix)</code> and <code>add(double,Matrix)</code>.</li>
+ * <li> <code>transpose</code> and <code>transpose(Matrix)</code>.</li>
+ * <li>All the norms.</li>
  * </ul>
  * <p>
  * Finally, a default iterator is provided by this class, which works by calling
  * the <code>get</code> function. A tailored replacement should be used by
- * subclasses.
- * </ul>
+ * subclasses. </ul>
  */
 public abstract class AbstractMatrix implements Matrix {
 
@@ -483,7 +481,7 @@ public abstract class AbstractMatrix implements Matrix {
                     + B.numRows() + " != " + C.numColumns() + ")");
     }
 
-    public Matrix solve(Matrix B, Matrix X) {    	
+    public Matrix solve(Matrix B, Matrix X) {
         throw new UnsupportedOperationException();
     }
 
@@ -643,7 +641,8 @@ public abstract class AbstractMatrix implements Matrix {
 
         zero();
         for (MatrixEntry e : B)
-          if (e.get() != 0) set(e.row(), e.column(), alpha * e.get());
+            if (e.get() != 0)
+                set(e.row(), e.column(), alpha * e.get());
 
         return this;
     }
@@ -797,13 +796,14 @@ public abstract class AbstractMatrix implements Matrix {
         // Output into coordinate format. Indices start from 1 instead of 0
         Formatter out = new Formatter();
 
-        out.format("%10d %10d %19d\n", numRows, numColumns, Matrices
-                .cardinality(this));
+        out.format("%10d %10d %19d\n", numRows, numColumns,
+                Matrices.cardinality(this));
 
         int i = 0;
         for (MatrixEntry e : this) {
             if (e.get() != 0)
-                out.format("%10d %10d % .12e\n", e.row() + 1, e.column() + 1, e.get());
+                out.format("%10d %10d % .12e\n", e.row() + 1, e.column() + 1,
+                        e.get());
             if (++i == 100) {
                 out.format("...\n");
                 break;

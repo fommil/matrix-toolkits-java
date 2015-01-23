@@ -158,7 +158,7 @@ public class SparseVector extends AbstractVector implements ISparseVector {
         check(index);
 
         // TODO: should we check against zero when setting zeros?
-        
+
         int i = getIndex(index);
         data[i] = value;
     }
@@ -202,7 +202,7 @@ public class SparseVector extends AbstractVector implements ISparseVector {
 
             // If zero-length, use new length of 1, else double the bandwidth
             int newLength = data.length != 0 ? data.length << 1 : 1;
-            
+
             // Enforce the maximum size.
             newLength = Math.min(newLength, this.size);
 
@@ -237,7 +237,7 @@ public class SparseVector extends AbstractVector implements ISparseVector {
     @Override
     public SparseVector zero() {
         java.util.Arrays.fill(data, 0);
-		used = 0;
+        used = 0;
         return this;
     }
 
@@ -321,16 +321,16 @@ public class SparseVector extends AbstractVector implements ISparseVector {
      * Returns the indices
      */
     public int[] getIndex() {
-    	if (used == index.length)
-    		return index;
-    	
-    	// could run compact, or return subarray
-    	// compact();
-    	int [] indices = new int[used];
-    	for (int i = 0 ; i < used; i++) {
-    		indices[i] = index[i];
-    	}
-    	return indices;
+        if (used == index.length)
+            return index;
+
+        // could run compact, or return subarray
+        // compact();
+        int[] indices = new int[used];
+        for (int i = 0; i < used; i++) {
+            indices[i] = index[i];
+        }
+        return indices;
     }
 
     /**
@@ -344,7 +344,7 @@ public class SparseVector extends AbstractVector implements ISparseVector {
      * Compacts the vector
      */
     public void compact() {
-		int nz = Matrices.cardinality(this); // catches zero entries
+        int nz = Matrices.cardinality(this); // catches zero entries
 
         if (nz < data.length) {
             int[] newIndex = new int[nz];

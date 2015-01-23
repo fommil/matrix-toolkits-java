@@ -221,10 +221,10 @@ public class DenseCholesky {
         doubleW rcond = new doubleW(0);
         if (upper)
             LAPACK.getInstance().dpocon(UpLo.Upper.netlib(), n, Cu.getData(),
-            	Matrices.ld(n), anorm, rcond, work, iwork, info);
+                    Matrices.ld(n), anorm, rcond, work, iwork, info);
         else
             LAPACK.getInstance().dpocon(UpLo.Lower.netlib(), n, Cl.getData(),
-            	Matrices.ld(n), anorm, rcond, work, iwork, info);
+                    Matrices.ld(n), anorm, rcond, work, iwork, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();

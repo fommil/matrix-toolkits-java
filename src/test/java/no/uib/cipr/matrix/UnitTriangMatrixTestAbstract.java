@@ -26,7 +26,9 @@ import no.uib.cipr.matrix.MatrixEntry;
 /**
  * Test of unit, triangular matrices
  */
-public abstract class UnitTriangMatrixTestAbstract extends TriangMatrixTestAbstract {
+public abstract class UnitTriangMatrixTestAbstract
+        extends
+            TriangMatrixTestAbstract {
 
     public UnitTriangMatrixTestAbstract(String arg0) {
         super(arg0);

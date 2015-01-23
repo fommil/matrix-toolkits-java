@@ -67,7 +67,8 @@ abstract class AbstractSymmPackMatrix extends AbstractPackMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dspmv(uplo.netlib(), numRows, alpha, data, xd, 1, 1, yd, 1);
+        BLAS.getInstance().dspmv(uplo.netlib(), numRows, alpha, data, xd, 1, 1,
+                yd, 1);
 
         return y;
     }
@@ -103,7 +104,8 @@ abstract class AbstractSymmPackMatrix extends AbstractPackMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dspr2(uplo.netlib(), numRows, alpha, xd, 1, yd, 1, data);
+        BLAS.getInstance().dspr2(uplo.netlib(), numRows, alpha, xd, 1, yd, 1,
+                data);
 
         return this;
     }

@@ -26,8 +26,9 @@ import java.util.List;
 /**
  * An iterator over an array of iterable objects
  */
-class SuperIterator<T extends Iterable<E>, E> implements
-        Iterator<SuperIterator.SuperIteratorEntry> {
+class SuperIterator<T extends Iterable<E>, E>
+        implements
+            Iterator<SuperIterator.SuperIteratorEntry> {
 
     private List<T> iterable;
 

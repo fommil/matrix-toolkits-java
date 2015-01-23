@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Lower triangular dense matrix. It has the same storage layout as the
  * {@link no.uib.cipr.matrix.DenseMatrix DenseMatrix}, but only refers to
@@ -67,8 +66,8 @@ public class LowerTriangDenseMatrix extends AbstractTriangDenseMatrix {
      * @param A
      *            Matrix to copy from. Only the lower triangular part is copied
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     public LowerTriangDenseMatrix(Matrix A, boolean deep) {
@@ -81,8 +80,8 @@ public class LowerTriangDenseMatrix extends AbstractTriangDenseMatrix {
      * @param A
      *            Matrix to copy from. Only the lower triangular part is copied
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     LowerTriangDenseMatrix(Matrix A, boolean deep, Diag diag) {
@@ -111,8 +110,8 @@ public class LowerTriangDenseMatrix extends AbstractTriangDenseMatrix {
      *            Size of matrix to refer.
      *            <code>k&lt;min(numRows,numColumns)</code>
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     public LowerTriangDenseMatrix(Matrix A, int k, boolean deep) {
@@ -128,8 +127,8 @@ public class LowerTriangDenseMatrix extends AbstractTriangDenseMatrix {
      *            Size of matrix to refer.
      *            <code>k&lt;min(numRows,numColumns)</code>
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     LowerTriangDenseMatrix(Matrix A, int k, boolean deep, Diag diag) {
@@ -169,11 +168,11 @@ public class LowerTriangDenseMatrix extends AbstractTriangDenseMatrix {
                 set(e.row(), e.column(), e.get());
     }
 
-  @Override
-  public Matrix set(Matrix A) {
-    zero();
-    copy(A);
-    return this;
-  }
+    @Override
+    public Matrix set(Matrix A) {
+        zero();
+        copy(A);
+        return this;
+    }
 
 }

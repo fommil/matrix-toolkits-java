@@ -26,7 +26,6 @@ import com.github.fommil.netlib.BLAS;
 import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
 
-
 /**
  * Banded matrix. The banded matrix is a useful sparse structure for many kinds
  * of direct computations, however it should only be used if the band is
@@ -150,8 +149,8 @@ public class BandMatrix extends AbstractBandMatrix {
      * @param ku
      *            Number of bands below the main diagonal (subdiagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     public BandMatrix(Matrix A, int kl, int ku, boolean deep) {
         super(A, kl, ku, deep);
@@ -178,8 +177,8 @@ public class BandMatrix extends AbstractBandMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dgbmv(Transpose.NoTranspose.netlib(), numRows, numColumns, kl,
-                ku, alpha, data, kl + ku + 1, xd, 1, 1, yd, 1);
+        BLAS.getInstance().dgbmv(Transpose.NoTranspose.netlib(), numRows,
+                numColumns, kl, ku, alpha, data, kl + ku + 1, xd, 1, 1, yd, 1);
 
         return y;
     }
@@ -194,8 +193,8 @@ public class BandMatrix extends AbstractBandMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dgbmv(Transpose.Transpose.netlib(), numRows, numColumns, kl, ku,
-                alpha, data, kl + ku + 1, xd, 1, 1, yd, 1);
+        BLAS.getInstance().dgbmv(Transpose.Transpose.netlib(), numRows,
+                numColumns, kl, ku, alpha, data, kl + ku + 1, xd, 1, 1, yd, 1);
 
         return y;
     }
@@ -218,7 +217,8 @@ public class BandMatrix extends AbstractBandMatrix {
 
         intW info = new intW(0);
         LAPACK.getInstance().dgbsv(numRows, kl, ku, X.numColumns(),
-                Af.getData(), Matrices.ld(2 * kl + ku + 1), ipiv, Xd, Matrices.ld(numRows), info);
+                Af.getData(), Matrices.ld(2 * kl + ku + 1), ipiv, Xd,
+                Matrices.ld(numRows), info);
 
         if (info.val > 0)
             throw new MatrixSingularException();

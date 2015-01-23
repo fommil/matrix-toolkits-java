@@ -198,8 +198,8 @@ public class AMG implements Preconditioner {
      * parameters. In the presmoothing, <code>omegaF=1</code> and
      * <code>omegaR=1.85</code>, while in the postsmoothing,
      * <code>omegaF=1.85</code> and <code>omegaR=1</code>. Sets
-     * <code>nu1=nu2=gamma=1</code>, has a smallest matrix size of 40, and
-     * sets <code>omega=2/3</code>.
+     * <code>nu1=nu2=gamma=1</code>, has a smallest matrix size of 40, and sets
+     * <code>omega=2/3</code>.
      */
     public AMG() {
         this(1, 1.85, 1.85, 1, 1, 1, 1, 40, 2. / 3);
@@ -877,8 +877,8 @@ public class AMG implements Preconditioner {
 
         /**
          * Creates the entries of the Galerkin operator
-         * <code>Ac = I<sup>T</sup> A I</code>. This is a very
-         * time-consuming operation
+         * <code>Ac = I<sup>T</sup> A I</code>. This is a very time-consuming
+         * operation
          */
         private CompRowMatrix createGalerkinSlow(CompColMatrix I,
                 CompRowMatrix A) {

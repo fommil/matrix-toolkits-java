@@ -73,8 +73,9 @@ public class SingularvalueTest extends TestCase {
         DenseMatrix Vt = svd.getVt();
 
         // Compute U*S*Vt
-        Matrix s = U.mult(S.mult(Vt, new DenseMatrix(S.numRows(), Vt
-                .numColumns())), new DenseMatrix(A.numRows(), A.numColumns()));
+        Matrix s = U.mult(
+                S.mult(Vt, new DenseMatrix(S.numRows(), Vt.numColumns())),
+                new DenseMatrix(A.numRows(), A.numColumns()));
 
         // Check that A=U*S*Vt
         for (int i = 0; i < A.numRows(); ++i)

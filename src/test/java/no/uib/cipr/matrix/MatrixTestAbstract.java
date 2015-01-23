@@ -135,8 +135,8 @@ public abstract class MatrixTestAbstract extends TestCase {
     public void testMatrixRank2Dense() {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
-            Matrix B = Matrices.random(A.numRows(), n), C = Matrices.random(A
-                    .numRows(), n);
+            Matrix B = Matrices.random(A.numRows(), n), C = Matrices.random(
+                    A.numRows(), n);
             double[][] Bd = Matrices.getArray(B), Cd = Matrices.getArray(C);
             double alpha = Math.random();
 
@@ -153,8 +153,8 @@ public abstract class MatrixTestAbstract extends TestCase {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
             Matrix B = Matrices.synchronizedMatrix(Matrices.random(A.numRows(),
-                    n)), C = Matrices.synchronizedMatrix(Matrices.random(A
-                    .numRows(), n));
+                    n)), C = Matrices.synchronizedMatrix(Matrices.random(
+                    A.numRows(), n));
             double[][] Bd = Matrices.getArray(B), Cd = Matrices.getArray(C);
             double alpha = Math.random();
 
@@ -187,8 +187,8 @@ public abstract class MatrixTestAbstract extends TestCase {
     public void testMatrixTransRank2() {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
-            Matrix B = Matrices.synchronizedMatrix(Matrices.random(n, A
-                    .numColumns())), C = Matrices.synchronizedMatrix(Matrices
+            Matrix B = Matrices.synchronizedMatrix(Matrices.random(n,
+                    A.numColumns())), C = Matrices.synchronizedMatrix(Matrices
                     .random(n, A.numColumns()));
             double[][] Bd = Matrices.getArray(B), Cd = Matrices.getArray(C);
             double alpha = Math.random();
@@ -513,8 +513,8 @@ public abstract class MatrixTestAbstract extends TestCase {
     public void testVectorRank2Dense() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank2(alpha, xdR, ydR), A.rank2(alpha, xDenseR,
-                    yDenseR));
+            assertEquals(rank2(alpha, xdR, ydR),
+                    A.rank2(alpha, xDenseR, yDenseR));
         }
     }
 
@@ -528,8 +528,8 @@ public abstract class MatrixTestAbstract extends TestCase {
     public void testVectorRank1Dense() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank1(alpha, xdR, ydR), A.rank1(alpha, xDenseR,
-                    yDenseR));
+            assertEquals(rank1(alpha, xdR, ydR),
+                    A.rank1(alpha, xDenseR, yDenseR));
         }
     }
 
@@ -555,8 +555,8 @@ public abstract class MatrixTestAbstract extends TestCase {
 
     public void testVectorTransMultAddDense() {
         double alpha = Math.random();
-        assertEquals(transMultAdd(alpha, xdR, ydC), A.transMultAdd(alpha,
-                xDenseR, yDenseC));
+        assertEquals(transMultAdd(alpha, xdR, ydC),
+                A.transMultAdd(alpha, xDenseR, yDenseC));
         assertEquals(Ad, A);
         assertEquals(xdR, xDenseR);
         assertEquals(ydC, yDenseC);
@@ -564,8 +564,8 @@ public abstract class MatrixTestAbstract extends TestCase {
 
     public void testVectorTransMultAdd() {
         double alpha = Math.random();
-        assertEquals(transMultAdd(alpha, xdR, ydC), A.transMultAdd(alpha, xR,
-                yC));
+        assertEquals(transMultAdd(alpha, xdR, ydC),
+                A.transMultAdd(alpha, xR, yC));
         assertEquals(Ad, A);
         assertEquals(xdR, xR);
         assertEquals(ydC, yC);
@@ -614,8 +614,8 @@ public abstract class MatrixTestAbstract extends TestCase {
 
     public void testVectorMultAddDense() {
         double alpha = Math.random();
-        assertEquals(multAdd(Ad, alpha, xdC, ydR), A.multAdd(alpha, xDenseC,
-                yDenseR));
+        assertEquals(multAdd(Ad, alpha, xdC, ydR),
+                A.multAdd(alpha, xDenseC, yDenseR));
         assertEquals(Ad, A);
         assertEquals(xdC, xDenseC);
         assertEquals(ydR, yDenseR);
@@ -1195,30 +1195,31 @@ public abstract class MatrixTestAbstract extends TestCase {
             assertEquals(xd[i], yd[i], tol);
     }
 
-  public static void assertEquals(Matrix expected, Matrix test) {
-    assertEquals(expected.numRows(), test.numRows());
-    assertEquals(expected.numColumns(), test.numColumns());
-    for (int i = 0; i < test.numRows(); i++) {
-      for (int j = 0; j < test.numColumns(); j++) {
-        assertEquals(expected.get(i, j), test.get(i, j), 0.0001);
-      }
+    public static void assertEquals(Matrix expected, Matrix test) {
+        assertEquals(expected.numRows(), test.numRows());
+        assertEquals(expected.numColumns(), test.numColumns());
+        for (int i = 0; i < test.numRows(); i++) {
+            for (int j = 0; j < test.numColumns(); j++) {
+                assertEquals(expected.get(i, j), test.get(i, j), 0.0001);
+            }
+        }
     }
-  }
 
-  public static void assertEquals(Vector expected, Vector test) {
-    assertEquals(expected.size(), test.size());
-    for (int i = 0; i < test.size(); i++) {
-      assertEquals(expected.get(i), test.get(i), 0.0001);
+    public static void assertEquals(Vector expected, Vector test) {
+        assertEquals(expected.size(), test.size());
+        for (int i = 0; i < test.size(); i++) {
+            assertEquals(expected.get(i), test.get(i), 0.0001);
+        }
     }
-  }
 
-  public static void assertEqualsOrOpposite(Vector expected, Vector test) {
-    assertEquals(expected.size(), test.size());
-    for (int i = 0; i < test.size(); i++) {
-      double a = expected.get(i);
-      double b = test.get(i);
-      assertTrue("abs(" + a + ") != abs(" + b + ")", Math.abs(a) - Math.abs(b) < 0.0001);
+    public static void assertEqualsOrOpposite(Vector expected, Vector test) {
+        assertEquals(expected.size(), test.size());
+        for (int i = 0; i < test.size(); i++) {
+            double a = expected.get(i);
+            double b = test.get(i);
+            assertTrue("abs(" + a + ") != abs(" + b + ")",
+                    Math.abs(a) - Math.abs(b) < 0.0001);
+        }
     }
-  }
 
 }

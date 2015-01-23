@@ -110,8 +110,8 @@ public class MatrixVectorWriter extends PrintWriter {
      * Prints the matrix size. Assumes coordinate format
      */
     public void printMatrixSize(MatrixSize size) {
-        format(Locale.ENGLISH, "%10d %10d %19d\n", size.numRows(), size.numColumns(), size
-                .numEntries());
+        format(Locale.ENGLISH, "%10d %10d %19d\n", size.numRows(),
+                size.numColumns(), size.numEntries());
     }
 
     /**
@@ -257,8 +257,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d % .12e\n", row[i] + offset, column[i] + offset,
-                    data[i]);
+            format(Locale.ENGLISH, "%10d %10d % .12e\n", row[i] + offset,
+                    column[i] + offset, data[i]);
     }
 
     /**
@@ -273,8 +273,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d % .12e\n", row[i] + offset, column[i] + offset,
-                    data[i]);
+            format(Locale.ENGLISH, "%10d %10d % .12e\n", row[i] + offset,
+                    column[i] + offset, data[i]);
     }
 
     /**
@@ -290,8 +290,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d % .12e % .12e\n", index[i] + offset, dataR[i],
-                    dataI[i]);
+            format(Locale.ENGLISH, "%10d % .12e % .12e\n", index[i] + offset,
+                    dataR[i], dataI[i]);
     }
 
     /**
@@ -307,8 +307,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d % .12e % .12e\n", index[i] + offset, dataR[i],
-                    dataI[i]);
+            format(Locale.ENGLISH, "%10d % .12e % .12e\n", index[i] + offset,
+                    dataR[i], dataI[i]);
     }
 
     /**
@@ -325,8 +325,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d % .12e % .12e\n", row[i] + offset, column[i]
-                    + offset, dataR[i], dataI[i]);
+            format(Locale.ENGLISH, "%10d %10d % .12e % .12e\n",
+                    row[i] + offset, column[i] + offset, dataR[i], dataI[i]);
     }
 
     /**
@@ -343,8 +343,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d % .12e % .12e\n", row[i] + offset, column[i]
-                    + offset, dataR[i], dataI[i]);
+            format(Locale.ENGLISH, "%10d %10d % .12e % .12e\n",
+                    row[i] + offset, column[i] + offset, dataR[i], dataI[i]);
     }
 
     /**
@@ -358,8 +358,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d %19d\n", row[i] + offset, column[i] + offset,
-                    data[i]);
+            format(Locale.ENGLISH, "%10d %10d %19d\n", row[i] + offset,
+                    column[i] + offset, data[i]);
     }
 
     /**
@@ -373,8 +373,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d %19d\n", row[i] + offset, column[i] + offset,
-                    data[i]);
+            format(Locale.ENGLISH, "%10d %10d %19d\n", row[i] + offset,
+                    column[i] + offset, data[i]);
     }
 
     /**
@@ -388,7 +388,8 @@ public class MatrixVectorWriter extends PrintWriter {
             throw new IllegalArgumentException(
                     "All arrays must be of the same size");
         for (int i = 0; i < size; ++i)
-            format(Locale.ENGLISH, "%10d %10d\n", row[i] + offset, column[i] + offset);
+            format(Locale.ENGLISH, "%10d %10d\n", row[i] + offset, column[i]
+                    + offset);
     }
 
     /**

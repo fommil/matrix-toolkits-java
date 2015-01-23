@@ -63,60 +63,45 @@ public class DenseMatrixTest extends MatrixTestAbstract {
             super.testVectorSolve();
     }
 
-	public void testIssue13(){
-		Vector bv = Matrices.random(100);
-		Matrix am = Matrices.random(100, 50);
-		Vector xv = new DenseVector(am.numColumns());
-		for (int x = 0; x < am.numColumns(); x++) {
-			xv.set(x, 1);
-		}
-		xv = Matrices.random(xv.size());
-		xv = am.solve(bv, xv);
-	}
+    public void testIssue13() {
+        Vector bv = Matrices.random(100);
+        Matrix am = Matrices.random(100, 50);
+        Vector xv = new DenseVector(am.numColumns());
+        for (int x = 0; x < am.numColumns(); x++) {
+            xv.set(x, 1);
+        }
+        xv = Matrices.random(xv.size());
+        xv = am.solve(bv, xv);
+    }
 
-	public void testIssue32(){
+    public void testIssue32() {
 
         // The issue here is that we should not allow matrices with more than
         // Integer.MAX_VALUE entries.
         boolean exceptionThrown = false;
-        try
-        {
+        try {
             Matrix m = new DenseMatrix(Integer.MAX_VALUE, 2);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             exceptionThrown = true;
-        }
-        finally
-        {
+        } finally {
             assertTrue(exceptionThrown);
         }
 
         exceptionThrown = false;
-        try
-        {
+        try {
             Matrix m = new DenseMatrix(Integer.MAX_VALUE, 3);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             exceptionThrown = true;
-        }
-        finally
-        {
+        } finally {
             assertTrue(exceptionThrown);
         }
 
         exceptionThrown = false;
-        try
-        {
+        try {
             Matrix m = new DenseMatrix(Integer.MAX_VALUE - 10, 3);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             exceptionThrown = true;
-        }
-        finally
-        {
+        } finally {
             assertTrue(exceptionThrown);
         }
     }

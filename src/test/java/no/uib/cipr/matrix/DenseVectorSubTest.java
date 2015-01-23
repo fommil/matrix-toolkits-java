@@ -7,17 +7,17 @@ import java.util.Random;
  */
 public class DenseVectorSubTest extends VectorTestAbstract {
 
-  public DenseVectorSubTest(String arg0) {
-    super(arg0);
-  }
+    public DenseVectorSubTest(String arg0) {
+        super(arg0);
+    }
 
-  @Override
-  protected void createPrimary() throws Exception {
-    int n = Utilities.getInt(1, max);
-    DenseVector wrapped = new DenseVector(n * 10);
-    int offset = new Random().nextInt(n * 9);
-    x = new DenseVectorSub(wrapped, offset, n);
-    xd = Utilities.populate(x);
-  }
+    @Override
+    protected void createPrimary() throws Exception {
+        int n = Utilities.getInt(1, max);
+        DenseVector wrapped = new DenseVector(n * 10);
+        int offset = new Random().nextInt(n * 9);
+        x = new DenseVectorSub(wrapped, offset, n);
+        xd = Utilities.populate(x);
+    }
 
 }

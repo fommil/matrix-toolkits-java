@@ -221,8 +221,8 @@ public class SymmTridiagMatrix extends AbstractMatrix {
 
         X.set(B);
         intW info = new intW(0);
-        LAPACK.getInstance().dgtsv(numRows, X.numColumns(),
-                offDiag.clone(), diag.clone(), offDiag.clone(), Xd, Matrices.ld(numRows), info);
+        LAPACK.getInstance().dgtsv(numRows, X.numColumns(), offDiag.clone(),
+                diag.clone(), offDiag.clone(), Xd, Matrices.ld(numRows), info);
 
         if (info.val > 0)
             throw new MatrixSingularException();

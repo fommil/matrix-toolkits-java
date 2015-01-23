@@ -96,9 +96,10 @@ public class EVD {
         // Find the needed workspace
         double[] worksize = new double[1];
         intW info = new intW(0);
-        LAPACK.getInstance().dgeev(jobLeft.netlib(), jobRight.netlib(), n, new double[0],
-                Matrices.ld(n), new double[0], new double[0], new double[0], Matrices.ld(n),
-                new double[0], Matrices.ld(n), worksize, -1, info);
+        LAPACK.getInstance().dgeev(jobLeft.netlib(), jobRight.netlib(), n,
+                new double[0], Matrices.ld(n), new double[0], new double[0],
+                new double[0], Matrices.ld(n), new double[0], Matrices.ld(n),
+                worksize, -1, info);
 
         // Allocate workspace
         int lwork = 0;
@@ -142,10 +143,12 @@ public class EVD {
             throw new IllegalArgumentException("A.numRows() != n");
 
         intW info = new intW(0);
-        LAPACK.getInstance().dgeev(jobLeft.netlib(), jobRight.netlib(), n, A.getData(),
-                Matrices.ld(n), Wr, Wi, jobLeft == JobEig.All ? Vl.getData() : new double[0],
-                Matrices.ld(n), jobRight == JobEig.All ? Vr.getData() : new double[0], Matrices.ld(n),
-                work, work.length, info);
+        LAPACK.getInstance().dgeev(jobLeft.netlib(), jobRight.netlib(), n,
+                A.getData(), Matrices.ld(n), Wr, Wi,
+                jobLeft == JobEig.All ? Vl.getData() : new double[0],
+                Matrices.ld(n),
+                jobRight == JobEig.All ? Vr.getData() : new double[0],
+                Matrices.ld(n), work, work.length, info);
 
         if (info.val > 0)
             throw new NotConvergedException(

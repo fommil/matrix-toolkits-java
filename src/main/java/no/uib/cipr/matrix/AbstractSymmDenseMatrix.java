@@ -70,9 +70,10 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
         double[] Bd = ((DenseMatrix) B).getData(), Cd = ((DenseMatrix) C)
                 .getData();
 
-        BLAS.getInstance().dsymm(Side.Left.netlib(), uplo.netlib(), C.numRows(), C.numColumns(),
-                alpha, data, Math.max(1, C.numRows()), Bd,
-                Math.max(1, C.numRows()), 1, Cd, Math.max(1, C.numRows()));
+        BLAS.getInstance().dsymm(Side.Left.netlib(), uplo.netlib(),
+                C.numRows(), C.numColumns(), alpha, data,
+                Math.max(1, C.numRows()), Bd, Math.max(1, C.numRows()), 1, Cd,
+                Math.max(1, C.numRows()));
 
         return C;
     }
@@ -109,8 +110,8 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dsyr2(uplo.netlib(), numRows, alpha, xd, 1, yd, 1, data,
-                Math.max(1, numRows));
+        BLAS.getInstance().dsyr2(uplo.netlib(), numRows, alpha, xd, 1, yd, 1,
+                data, Math.max(1, numRows));
 
         return this;
     }
@@ -125,8 +126,8 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dsymv(uplo.netlib(), numRows, alpha, data, Math.max(1, numRows),
-                xd, 1, 1, yd, 1);
+        BLAS.getInstance().dsymv(uplo.netlib(), numRows, alpha, data,
+                Math.max(1, numRows), xd, 1, 1, yd, 1);
 
         return y;
     }
@@ -145,9 +146,9 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
 
         double[] Cd = ((DenseMatrix) C).getData();
 
-        BLAS.getInstance().dsyrk(uplo.netlib(), Transpose.NoTranspose.netlib(), numRows,
-                C.numColumns(), alpha, Cd, Math.max(1, numRows), 1, data,
-                Math.max(1, numRows));
+        BLAS.getInstance().dsyrk(uplo.netlib(), Transpose.NoTranspose.netlib(),
+                numRows, C.numColumns(), alpha, Cd, Math.max(1, numRows), 1,
+                data, Math.max(1, numRows));
 
         return this;
     }
@@ -161,8 +162,9 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
 
         double[] Cd = ((DenseMatrix) C).getData();
 
-        BLAS.getInstance().dsyrk(uplo.netlib(), Transpose.Transpose.netlib(), numRows, numRows,
-                alpha, Cd, Math.max(1, numRows), 1, data, Math.max(1, numRows));
+        BLAS.getInstance().dsyrk(uplo.netlib(), Transpose.Transpose.netlib(),
+                numRows, numRows, alpha, Cd, Math.max(1, numRows), 1, data,
+                Math.max(1, numRows));
 
         return this;
     }
@@ -177,9 +179,10 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
         double[] Bd = ((DenseMatrix) B).getData(), Cd = ((DenseMatrix) C)
                 .getData();
 
-        BLAS.getInstance().dsyr2k(uplo.netlib(), Transpose.NoTranspose.netlib(), numRows,
-                B.numColumns(), alpha, Bd, Math.max(1, numRows), Cd,
-                Math.max(1, numRows), 1, data, Math.max(1, numRows));
+        BLAS.getInstance().dsyr2k(uplo.netlib(),
+                Transpose.NoTranspose.netlib(), numRows, B.numColumns(), alpha,
+                Bd, Math.max(1, numRows), Cd, Math.max(1, numRows), 1, data,
+                Math.max(1, numRows));
 
         return this;
     }
@@ -194,8 +197,8 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
         double[] Bd = ((DenseMatrix) B).getData(), Cd = ((DenseMatrix) C)
                 .getData();
 
-        BLAS.getInstance().dsyr2k(uplo.netlib(), Transpose.Transpose.netlib(), numRows, B.numRows(),
-                alpha, Bd, Math.max(1, B.numRows()), Cd,
+        BLAS.getInstance().dsyr2k(uplo.netlib(), Transpose.Transpose.netlib(),
+                numRows, B.numRows(), alpha, Bd, Math.max(1, B.numRows()), Cd,
                 Math.max(1, B.numRows()), 1, data, Math.max(1, numRows));
 
         return this;
@@ -233,8 +236,9 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
 
         // Solve
         info.val = 0;
-        LAPACK.getInstance().dsysv(uplo.netlib(), numRows, X.numColumns(), newData,
-                Matrices.ld(numRows), ipiv, Xd, Matrices.ld(numRows), work, lwork, info);
+        LAPACK.getInstance().dsysv(uplo.netlib(), numRows, X.numColumns(),
+                newData, Matrices.ld(numRows), ipiv, Xd, Matrices.ld(numRows),
+                work, lwork, info);
 
         if (info.val > 0)
             throw new MatrixSingularException();
@@ -273,7 +277,8 @@ abstract class AbstractSymmDenseMatrix extends AbstractDenseMatrix {
 
         intW info = new intW(0);
         LAPACK.getInstance().dposv(uplo.netlib(), numRows, X.numColumns(),
-                data.clone(), Matrices.ld(numRows), Xd, Matrices.ld(numRows), info);
+                data.clone(), Matrices.ld(numRows), Xd, Matrices.ld(numRows),
+                info);
 
         if (info.val > 0)
             throw new MatrixNotSPDException();

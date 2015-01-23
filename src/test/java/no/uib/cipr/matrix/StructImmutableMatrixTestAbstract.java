@@ -23,7 +23,9 @@ package no.uib.cipr.matrix;
 /**
  * Test of a matrix whose structure cannot change, but its numerical values can
  */
-public abstract class StructImmutableMatrixTestAbstract extends MatrixTestAbstract {
+public abstract class StructImmutableMatrixTestAbstract
+        extends
+            MatrixTestAbstract {
 
     public StructImmutableMatrixTestAbstract(String arg0) {
         super(arg0);

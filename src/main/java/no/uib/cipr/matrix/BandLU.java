@@ -125,7 +125,8 @@ public class BandLU {
         singular = false;
 
         intW info = new intW(0);
-        LAPACK.getInstance().dgbtrf(n, n, kl, ku, A.getData(), 2 * kl + ku + 1, ipiv, info);
+        LAPACK.getInstance().dgbtrf(n, n, kl, ku, A.getData(), 2 * kl + ku + 1,
+                ipiv, info);
 
         if (info.val > 0)
             singular = true;
@@ -200,7 +201,8 @@ public class BandLU {
         intW info = new intW(0);
         doubleW rcond = new doubleW(0);
         LAPACK.getInstance().dgbcon(norm.netlib(), n, kl, ku, LU.getData(),
-        	 Matrices.ld(2 * kl + ku + 1), ipiv, anorm, rcond, work, lwork, info);
+                Matrices.ld(2 * kl + ku + 1), ipiv, anorm, rcond, work, lwork,
+                info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
@@ -231,7 +233,8 @@ public class BandLU {
 
         intW info = new intW(0);
         LAPACK.getInstance().dgbtrs(trans.netlib(), n, kl, ku, B.numColumns(),
-                LU.getData(), 2 * kl + ku + 1, ipiv, B.getData(), Matrices.ld(n), info);
+                LU.getData(), 2 * kl + ku + 1, ipiv, B.getData(),
+                Matrices.ld(n), info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();

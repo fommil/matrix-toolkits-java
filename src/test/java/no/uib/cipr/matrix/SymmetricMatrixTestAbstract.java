@@ -71,8 +71,8 @@ public abstract class SymmetricMatrixTestAbstract extends MatrixTestAbstract {
     public void testVectorRank1Dense() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank1(alpha, xdR, xdR), A.rank1(alpha, xDenseR,
-                    xDenseR));
+            assertEquals(rank1(alpha, xdR, xdR),
+                    A.rank1(alpha, xDenseR, xDenseR));
         }
     }
 

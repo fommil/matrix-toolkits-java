@@ -26,7 +26,6 @@ import com.github.fommil.netlib.BLAS;
 import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
 
-
 /**
  * Partial implementation of a symmetrical, banded matrix
  */
@@ -77,7 +76,8 @@ abstract class AbstractSymmBandMatrix extends AbstractBandMatrix {
         double[] xd = ((DenseVector) x).getData(), yd = ((DenseVector) y)
                 .getData();
 
-        BLAS.getInstance().dsbmv(uplo.netlib(), numRows, kd, alpha, data, kd + 1, xd, 1, 1, yd, 1);
+        BLAS.getInstance().dsbmv(uplo.netlib(), numRows, kd, alpha, data,
+                kd + 1, xd, 1, 1, yd, 1);
 
         return y;
     }
@@ -150,7 +150,8 @@ abstract class AbstractSymmBandMatrix extends AbstractBandMatrix {
 
         intW info = new intW(0);
         LAPACK.getInstance().dpbsv(uplo.netlib(), numRows, kd, X.numColumns(),
-                data.clone(), Matrices.ld(kd + 1), Xd, Matrices.ld(numRows), info);
+                data.clone(), Matrices.ld(kd + 1), Xd, Matrices.ld(numRows),
+                info);
 
         if (info.val > 0)
             throw new MatrixNotSPDException();

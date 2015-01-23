@@ -77,7 +77,7 @@ public class DenseCholeskyTest extends TestCase {
         DenseCholesky c = new DenseCholesky(n, false);
         c.factor(L.copy());
 
-		assert I != null;
+        assert I != null;
         c.solve(I);
 
         Matrix J = I.mult(L, new DenseMatrix(n, n));

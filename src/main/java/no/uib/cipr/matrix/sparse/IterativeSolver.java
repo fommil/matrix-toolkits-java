@@ -24,8 +24,8 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 
 /**
- * Iterative linear solver. Solves <code>Ax=b</code> for <code>x</code>,
- * and it supports preconditioning and convergence monitoring.
+ * Iterative linear solver. Solves <code>Ax=b</code> for <code>x</code>, and it
+ * supports preconditioning and convergence monitoring.
  */
 public interface IterativeSolver {
 

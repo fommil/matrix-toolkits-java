@@ -27,13 +27,13 @@ package no.uib.cipr.matrix;
  * 
  * <h4>Basic operations</h4>
  * <p>
- * Use <code>numRows</code> and <code>numColumns</code> to get the basic
- * size of a matrix. <code>get(int,int)</code> gets an element, and there are
+ * Use <code>numRows</code> and <code>numColumns</code> to get the basic size of
+ * a matrix. <code>get(int,int)</code> gets an element, and there are
  * corresponding <code>set(int,int,double)</code> and
  * <code>add(int,int,double)</code> methods as well. Note that matrix indices
  * are zero-based (typical for Java and C). This means that the row-indices
- * range from 0 to <code>numRows-1</code>, likewise for the columns. It is
- * legal to have <code>numRows</code> or <code>numColumns</code> equal zero.
+ * range from 0 to <code>numRows-1</code>, likewise for the columns. It is legal
+ * to have <code>numRows</code> or <code>numColumns</code> equal zero.
  * </p>
  * <p>
  * Other basic operations are <code>zero</code> which zeros all the entries of
@@ -45,12 +45,11 @@ package no.uib.cipr.matrix;
  * 
  * <h4>Iterators</h4>
  * <p>
- * The matrix interface extends <code>Iterable</code>, and the iterator
- * returns a <code>MatrixEntry</code> which contains current index and entry
- * value. Note that the iterator may skip non-zero entries. Using an iterator,
- * many simple and efficient algorithms can be created. The iterator also
- * permits changing values in the matrix, however only non-zero entries can be
- * changed.
+ * The matrix interface extends <code>Iterable</code>, and the iterator returns
+ * a <code>MatrixEntry</code> which contains current index and entry value. Note
+ * that the iterator may skip non-zero entries. Using an iterator, many simple
+ * and efficient algorithms can be created. The iterator also permits changing
+ * values in the matrix, however only non-zero entries can be changed.
  * </p>
  * 
  * <h4>Basic linear algebra</h4>
@@ -67,9 +66,9 @@ package no.uib.cipr.matrix;
  * <dd>Matrices can be added to each other, even if their underlying matrix
  * structures are different.</dd>
  * <dt><i>Multiplications </i></dt>
- * <dd>A matrix can be multiplied with vectors and other matrices. For
- * increased efficiency, a multiplication can be combined with addition and
- * scaling, and transpose matrix multiplications are also available.</dd>
+ * <dd>A matrix can be multiplied with vectors and other matrices. For increased
+ * efficiency, a multiplication can be combined with addition and scaling, and
+ * transpose matrix multiplications are also available.</dd>
  * <dt><i>Rank-updates </i></dt>
  * <dd>A matrix can be efficiently updated using low-rank updates. The updates
  * can be contained in both matrices or vectors.</dd>
@@ -219,10 +218,10 @@ public interface Matrix extends Iterable<MatrixEntry> {
     Vector transMultAdd(double alpha, Vector x, Vector y);
 
     /**
-     * <code>x = A\b</code>. Not all matrices support this operation, those
-     * that do not throw <code>UnsupportedOperationException</code>. Note
-     * that it is often more efficient to use a matrix decomposition and its
-     * associated solver
+     * <code>x = A\b</code>. Not all matrices support this operation, those that
+     * do not throw <code>UnsupportedOperationException</code>. Note that it is
+     * often more efficient to use a matrix decomposition and its associated
+     * solver
      * 
      * @param b
      *            Vector of size <code>A.numRows()</code>
@@ -259,48 +258,48 @@ public interface Matrix extends Iterable<MatrixEntry> {
             MatrixNotSPDException;
 
     /**
-     * <code>A = x*x<sup>T</sup> + A</code>. The matrix must be square, and
-     * the vector of the same length
+     * <code>A = x*x<sup>T</sup> + A</code>. The matrix must be square, and the
+     * vector of the same length
      * 
      * @return A
      */
     Matrix rank1(Vector x);
 
     /**
-     * <code>A = alpha*x*x<sup>T</sup> + A</code>. The matrix must be
-     * square, and the vector of the same length
+     * <code>A = alpha*x*x<sup>T</sup> + A</code>. The matrix must be square,
+     * and the vector of the same length
      * 
      * @return A
      */
     Matrix rank1(double alpha, Vector x);
 
     /**
-     * <code>A = x*y<sup>T</sup> + A</code>. The matrix must be square, and
-     * the vectors of the same length
+     * <code>A = x*y<sup>T</sup> + A</code>. The matrix must be square, and the
+     * vectors of the same length
      * 
      * @return A
      */
     Matrix rank1(Vector x, Vector y);
 
     /**
-     * <code>A = alpha*x*y<sup>T</sup> + A</code>. The matrix must be
-     * square, and the vectors of the same length
+     * <code>A = alpha*x*y<sup>T</sup> + A</code>. The matrix must be square,
+     * and the vectors of the same length
      * 
      * @return A
      */
     Matrix rank1(double alpha, Vector x, Vector y);
 
     /**
-     * <code>A = x*y<sup>T</sup> + y*x<sup>T</sup> + A</code>. The matrix
-     * must be square, and the vectors of the same length
+     * <code>A = x*y<sup>T</sup> + y*x<sup>T</sup> + A</code>. The matrix must
+     * be square, and the vectors of the same length
      * 
      * @return A
      */
     Matrix rank2(Vector x, Vector y);
 
     /**
-     * <code>A = alpha*x*y<sup>T</sup> + alpha*y*x<sup>T</sup> + A</code>.
-     * The matrix must be square, and the vectors of the same length
+     * <code>A = alpha*x*y<sup>T</sup> + alpha*y*x<sup>T</sup> + A</code>. The
+     * matrix must be square, and the vectors of the same length
      * 
      * @return A
      */
@@ -515,17 +514,17 @@ public interface Matrix extends Iterable<MatrixEntry> {
     Matrix transABmultAdd(double alpha, Matrix B, Matrix C);
 
     /**
-     * <code>X = A\B</code>. Not all matrices support this operation, those
-     * that do not throw <code>UnsupportedOperationException</code>. Note
-     * that it is often more efficient to use a matrix decomposition and its
-     * associated solver
+     * <code>X = A\B</code>. Not all matrices support this operation, those that
+     * do not throw <code>UnsupportedOperationException</code>. Note that it is
+     * often more efficient to use a matrix decomposition and its associated
+     * solver
      * 
      * @param B
-     *            Matrix with the same number of rows as <code>A</code>, and
-     *            the same number of columns as <code>X</code>
+     *            Matrix with the same number of rows as <code>A</code>, and the
+     *            same number of columns as <code>X</code>
      * @param X
-     *            Matrix with a number of rows equal <code>A.numColumns()</code>,
-     *            and the same number of columns as <code>B</code>
+     *            Matrix with a number of rows equal <code>A.numColumns()</code>
+     *            , and the same number of columns as <code>B</code>
      * @return X
      * @throws MatrixSingularException
      *             If the matrix is singular
@@ -544,11 +543,11 @@ public interface Matrix extends Iterable<MatrixEntry> {
      * solver
      * 
      * @param B
-     *            Matrix with a number of rows equal <code>A.numColumns()</code>,
-     *            and the same number of columns as <code>X</code>
+     *            Matrix with a number of rows equal <code>A.numColumns()</code>
+     *            , and the same number of columns as <code>X</code>
      * @param X
-     *            Matrix with the same number of rows as <code>A</code>, and
-     *            the same number of columns as <code>B</code>
+     *            Matrix with the same number of rows as <code>A</code>, and the
+     *            same number of columns as <code>B</code>
      * @return X
      * @throws MatrixSingularException
      *             If the matrix is singular
@@ -560,89 +559,89 @@ public interface Matrix extends Iterable<MatrixEntry> {
             MatrixNotSPDException;
 
     /**
-     * <code>A = C*C<sup>T</sup> + A</code>. The matrices must be square
-     * and of the same size
+     * <code>A = C*C<sup>T</sup> + A</code>. The matrices must be square and of
+     * the same size
      * 
      * @return A
      */
     Matrix rank1(Matrix C);
 
     /**
-     * <code>A = alpha*C*C<sup>T</sup> + A</code>. The matrices must be
-     * square and of the same size
+     * <code>A = alpha*C*C<sup>T</sup> + A</code>. The matrices must be square
+     * and of the same size
      * 
      * @return A
      */
     Matrix rank1(double alpha, Matrix C);
 
     /**
-     * <code>A = C<sup>T</sup>*C + A</code> The matrices must be square and
-     * of the same size
+     * <code>A = C<sup>T</sup>*C + A</code> The matrices must be square and of
+     * the same size
      * 
      * @return A
      */
     Matrix transRank1(Matrix C);
 
     /**
-     * <code>A = alpha*C<sup>T</sup>*C + A</code> The matrices must be
-     * square and of the same size
+     * <code>A = alpha*C<sup>T</sup>*C + A</code> The matrices must be square
+     * and of the same size
      * 
      * @return A
      */
     Matrix transRank1(double alpha, Matrix C);
 
     /**
-     * <code>A = B*C<sup>T</sup> + C*B<sup>T</sup> + A</code>. This
-     * matrix must be square
+     * <code>A = B*C<sup>T</sup> + C*B<sup>T</sup> + A</code>. This matrix must
+     * be square
      * 
      * @param B
-     *            Matrix with the same number of rows as <code>A</code> and
-     *            the same number of columns as <code>C</code>
+     *            Matrix with the same number of rows as <code>A</code> and the
+     *            same number of columns as <code>C</code>
      * @param C
-     *            Matrix with the same number of rows as <code>A</code> and
-     *            the same number of columns as <code>B</code>
+     *            Matrix with the same number of rows as <code>A</code> and the
+     *            same number of columns as <code>B</code>
      * @return A
      */
     Matrix rank2(Matrix B, Matrix C);
 
     /**
-     * <code>A = alpha*B*C<sup>T</sup> + alpha*C*B<sup>T</sup> + A</code>.
-     * This matrix must be square
+     * <code>A = alpha*B*C<sup>T</sup> + alpha*C*B<sup>T</sup> + A</code>. This
+     * matrix must be square
      * 
      * @param B
-     *            Matrix with the same number of rows as <code>A</code> and
-     *            the same number of columns as <code>C</code>
+     *            Matrix with the same number of rows as <code>A</code> and the
+     *            same number of columns as <code>C</code>
      * @param C
-     *            Matrix with the same number of rows as <code>A</code> and
-     *            the same number of columns as <code>B</code>
+     *            Matrix with the same number of rows as <code>A</code> and the
+     *            same number of columns as <code>B</code>
      * @return A
      */
     Matrix rank2(double alpha, Matrix B, Matrix C);
 
     /**
-     * <code>A = B<sup>T</sup>*C + C<sup>T</sup>*B + A</code>. This
-     * matrix must be square
+     * <code>A = B<sup>T</sup>*C + C<sup>T</sup>*B + A</code>. This matrix must
+     * be square
      * 
      * @param B
-     *            Matrix with the same number of rows as <code>C</code> and
-     *            the same number of columns as <code>A</code>
+     *            Matrix with the same number of rows as <code>C</code> and the
+     *            same number of columns as <code>A</code>
      * @param C
-     *            Matrix with the same number of rows as <code>B</code> and
-     *            the same number of columns as <code>A</code>
+     *            Matrix with the same number of rows as <code>B</code> and the
+     *            same number of columns as <code>A</code>
      * @return A
      */
     Matrix transRank2(Matrix B, Matrix C);
 
     /**
-     * <code>A = alpha*B<sup>T</sup>*C + alpha*C<sup>T</sup>*B + A</code>.
-     * This matrix must be square
+     * <code>A = alpha*B<sup>T</sup>*C + alpha*C<sup>T</sup>*B + A</code>. This
+     * matrix must be square
      * 
      * @param B
-     *            Matrix with the same number of rows as <code>C</code> and
-     *            the same number of columns as <code>A</code>
+     *            Matrix with the same number of rows as <code>C</code> and the
+     *            same number of columns as <code>A</code>
      * @param C
-     *            Matrix with the same number of rows as <code>B</code> and
-     *            the same number of columns as <code>A</code>
+     *            Matrix with the same number of rows as <code>B</code> and the
+     *            same number of columns as <code>A</code>
      * @return A
      */
     Matrix transRank2(double alpha, Matrix B, Matrix C);
@@ -691,8 +690,8 @@ public interface Matrix extends Iterable<MatrixEntry> {
     Matrix transpose();
 
     /**
-     * Sets the tranpose of this matrix into <code>B</code>. Matrix
-     * dimensions must be compatible
+     * Sets the tranpose of this matrix into <code>B</code>. Matrix dimensions
+     * must be compatible
      * 
      * @param B
      *            Matrix with as many rows as this matrix has columns, and as
@@ -735,20 +734,21 @@ public interface Matrix extends Iterable<MatrixEntry> {
          */
         Maxvalue;
 
-		/**
-		 * @return the String as required by the netlib libraries to represent this norm.
-		 */
-		public String netlib() {
-			// TODO: this is a bit of a hack
-			// shouldn't need to know about the internals of netlib
-		    if (this == One)
-		        return "1";
-		    else if (this == Infinity)
-		        return "I";
-		    else
-		        throw new IllegalArgumentException(
-		                "Norm must be the 1 or the Infinity norm");
-		}
+        /**
+         * @return the String as required by the netlib libraries to represent
+         *         this norm.
+         */
+        public String netlib() {
+            // TODO: this is a bit of a hack
+            // shouldn't need to know about the internals of netlib
+            if (this == One)
+                return "1";
+            else if (this == Infinity)
+                return "I";
+            else
+                throw new IllegalArgumentException(
+                        "Norm must be the 1 or the Infinity norm");
+        }
 
     }
 

@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Upper symmetric packed matrix. Same storage as
  * {@link no.uib.cipr.matrix.UpperTriangPackMatrix UpperTriangPackMatrix}, but

@@ -23,7 +23,6 @@ package no.uib.cipr.matrix;
 import com.github.fommil.netlib.LAPACK;
 import org.netlib.util.intW;
 
-
 /**
  * Computes eigenvalues of symmetrical, packed matrices
  */
@@ -79,8 +78,9 @@ public class SymmPackEVD extends SymmEVD {
         double[] worksize = new double[1];
         int[] iworksize = new int[1];
         intW info = new intW(0);
-        LAPACK.getInstance().dspevd(job.netlib(), uplo.netlib(), n, new double[0],
-                new double[0], new double[0], Matrices.ld(n), worksize, -1, iworksize, -1, info);
+        LAPACK.getInstance().dspevd(job.netlib(), uplo.netlib(), n,
+                new double[0], new double[0], new double[0], Matrices.ld(n),
+                worksize, -1, iworksize, -1, info);
 
         // Allocate workspace
         int lwork = 0, liwork = 0;
@@ -159,8 +159,8 @@ public class SymmPackEVD extends SymmEVD {
 
         intW info = new intW(0);
         LAPACK.getInstance().dspevd(job.netlib(), uplo.netlib(), n, data, w,
-                job == JobEig.All ? Z.getData() : new double[0], Matrices.ld(n), work,
-                work.length, iwork, iwork.length, info);
+                job == JobEig.All ? Z.getData() : new double[0],
+                Matrices.ld(n), work, work.length, iwork, iwork.length, info);
 
         if (info.val > 0)
             throw new NotConvergedException(

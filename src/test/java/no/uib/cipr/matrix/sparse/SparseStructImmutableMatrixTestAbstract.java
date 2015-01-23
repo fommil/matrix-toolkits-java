@@ -25,8 +25,9 @@ import no.uib.cipr.matrix.StructImmutableMatrixTestAbstract;
 /**
  * Test of sparse matrices whose sparsity structure is immutable
  */
-public abstract class SparseStructImmutableMatrixTestAbstract extends
-        StructImmutableMatrixTestAbstract {
+public abstract class SparseStructImmutableMatrixTestAbstract
+        extends
+            StructImmutableMatrixTestAbstract {
 
     protected int bmax = 100, tmax = 10;
 

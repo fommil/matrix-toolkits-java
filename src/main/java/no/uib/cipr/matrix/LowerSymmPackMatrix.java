@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Lower symmetric packed matrix. Same storage as
  * {@link no.uib.cipr.matrix.LowerTriangPackMatrix LowerTriangPackMatrix}, but

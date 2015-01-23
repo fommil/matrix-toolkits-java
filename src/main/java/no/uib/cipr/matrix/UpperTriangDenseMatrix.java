@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Upper triangular dense matrix. It has the same storage layout as the
  * {@link no.uib.cipr.matrix.DenseMatrix DenseMatrix}, but only refers to
@@ -160,14 +159,14 @@ public class UpperTriangDenseMatrix extends AbstractTriangDenseMatrix {
                 set(e.row(), e.column(), e.get());
     }
 
-  @Override
-  public Matrix set(Matrix A) {
-    zero();
-    copy(A);
-    return this;
-  }
+    @Override
+    public Matrix set(Matrix A) {
+        zero();
+        copy(A);
+        return this;
+    }
 
-  @Override
+    @Override
     public UpperTriangDenseMatrix copy() {
         return new UpperTriangDenseMatrix(this);
     }

@@ -25,7 +25,9 @@ import no.uib.cipr.matrix.UnitUpperTriangDenseMatrix;
 /**
  * Test of UnitUpperTriangDenseMatrix
  */
-public class UnitUpperTriangDenseMatrixTest extends UnitTriangMatrixTestAbstract {
+public class UnitUpperTriangDenseMatrixTest
+        extends
+            UnitTriangMatrixTestAbstract {
 
     public UnitUpperTriangDenseMatrixTest(String arg0) {
         super(arg0);

@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Unit lower triangular banded matrix. The same storage as
  * {@link no.uib.cipr.matrix.LowerTriangBandMatrix LowerTriangBandMatrix}, but
@@ -65,8 +64,8 @@ public class UnitLowerTriangBandMatrix extends LowerTriangBandMatrix {
      * @param kd
      *            Number of bands below the main diagonal (subdiagonals)
      * @param deep
-     *            True for a deep copy. For shallow copies, <code>A</code>
-     *            must be a banded matrix
+     *            True for a deep copy. For shallow copies, <code>A</code> must
+     *            be a banded matrix
      */
     public UnitLowerTriangBandMatrix(Matrix A, int kd, boolean deep) {
         super(A, kd, deep, Diag.Unit);

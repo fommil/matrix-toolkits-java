@@ -109,8 +109,7 @@ public class SVD {
         intW info = new intW(0);
         LAPACK.getInstance().dgesdd(job.netlib(), m, n, new double[0],
                 Matrices.ld(m), new double[0], new double[0], Matrices.ld(m),
-                new double[0], Matrices.ld(n), worksize, -1,
-                iwork, info);
+                new double[0], Matrices.ld(n), worksize, -1, iwork, info);
 
         // Allocate workspace
         int lwork = -1;
@@ -119,14 +118,18 @@ public class SVD {
                 lwork = 3
                         * Math.min(m, n)
                         * Math.min(m, n)
-                        + Math.max(Math.max(m, n), 4 * Math.min(m, n)
-                                * Math.min(m, n) + 4 * Math.min(m, n));
+                        + Math.max(
+                                Math.max(m, n),
+                                4 * Math.min(m, n) * Math.min(m, n) + 4
+                                        * Math.min(m, n));
             else
                 lwork = 3
                         * Math.min(m, n)
                         * Math.min(m, n)
-                        + Math.max(Math.max(m, n), 5 * Math.min(m, n)
-                                * Math.min(m, n) + 4 * Math.min(m, n));
+                        + Math.max(
+                                Math.max(m, n),
+                                5 * Math.min(m, n) * Math.min(m, n) + 4
+                                        * Math.min(m, n));
         } else
             lwork = (int) worksize[0];
 
@@ -162,10 +165,10 @@ public class SVD {
             throw new IllegalArgumentException("A.numColumns() != n");
 
         intW info = new intW(0);
-        LAPACK.getInstance().dgesdd(job.netlib(), m, n, A.getData(), Matrices.ld(m), S,
-                vectors ? U.getData() : new double[0], Matrices.ld(m),
-                vectors ? Vt.getData() : new double[0], Matrices.ld(n), work, work.length,
-                iwork, info);
+        LAPACK.getInstance().dgesdd(job.netlib(), m, n, A.getData(),
+                Matrices.ld(m), S, vectors ? U.getData() : new double[0],
+                Matrices.ld(m), vectors ? Vt.getData() : new double[0],
+                Matrices.ld(n), work, work.length, iwork, info);
 
         if (info.val > 0)
             throw new NotConvergedException(

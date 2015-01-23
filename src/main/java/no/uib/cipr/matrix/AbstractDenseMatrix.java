@@ -47,13 +47,17 @@ abstract class AbstractDenseMatrix extends AbstractMatrix {
 
         // We know that numRows and numColumns is positive from the super
         // constructor.
-        
+
         final long size = (long) numRows * numColumns;
-        if (size > Integer.MAX_VALUE)
-        {
-            throw new IllegalArgumentException("Matrix of "
-                + numRows + " x " + numColumns
-                + " = " + size + " elements is too large to be allocated using a single Java array.");
+        if (size > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException(
+                    "Matrix of "
+                            + numRows
+                            + " x "
+                            + numColumns
+                            + " = "
+                            + size
+                            + " elements is too large to be allocated using a single Java array.");
         }
 
         data = new double[numRows * numColumns];
@@ -150,21 +154,22 @@ abstract class AbstractDenseMatrix extends AbstractMatrix {
         return this;
     }
 
-  @Override
-  public String toString() {
-    StringBuilder out = new StringBuilder();
-    DecimalFormat df = new DecimalFormat("####0.00");
+    @Override
+    public String toString() {
+        StringBuilder out = new StringBuilder();
+        DecimalFormat df = new DecimalFormat("####0.00");
 
-    for (int i = 0; i < numRows(); i++) {
-      for (int j = 0; j < numColumns(); j++) {
-        double value = get(i, j);
-        if (value >= 0) out.append(" ");
-        out.append(" " + df.format(value));
-      }
-      out.append("\n");
+        for (int i = 0; i < numRows(); i++) {
+            for (int j = 0; j < numColumns(); j++) {
+                double value = get(i, j);
+                if (value >= 0)
+                    out.append(" ");
+                out.append(" " + df.format(value));
+            }
+            out.append("\n");
+        }
+
+        return out.toString();
     }
-
-    return out.toString();
-  }
 
 }

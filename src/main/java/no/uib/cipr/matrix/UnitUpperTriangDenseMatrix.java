@@ -20,12 +20,11 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Unit upper triangular dense matrix. Almost the same as the
- * {@link no.uib.cipr.matrix.UpperTriangDenseMatrix UpperTriangDenseMatrix},
- * but additionally assumes the main diagonal to be all ones. However it does
- * not access it, so it may be actually be different.
+ * {@link no.uib.cipr.matrix.UpperTriangDenseMatrix UpperTriangDenseMatrix}, but
+ * additionally assumes the main diagonal to be all ones. However it does not
+ * access it, so it may be actually be different.
  */
 public class UnitUpperTriangDenseMatrix extends UpperTriangDenseMatrix {
 
@@ -60,8 +59,8 @@ public class UnitUpperTriangDenseMatrix extends UpperTriangDenseMatrix {
      *            Matrix to copy from. Only the strictly upper triangular part
      *            is copied
      * @param deep
-     *            If true, <code>A</code> is copied, else a shallow copy is
-     *            made and the matrices share underlying storage. For this,
+     *            If true, <code>A</code> is copied, else a shallow copy is made
+     *            and the matrices share underlying storage. For this,
      *            <code>A</code> must be a dense matrix
      */
     public UnitUpperTriangDenseMatrix(Matrix A, boolean deep) {

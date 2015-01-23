@@ -147,11 +147,11 @@ public class BandCholesky {
 
         intW info = new intW(0);
         if (upper)
-            LAPACK.getInstance().dpbtrf(UpLo.Upper.netlib(), n, kd, A.getData(),
-            	Matrices.ld(kd + 1), info);
+            LAPACK.getInstance().dpbtrf(UpLo.Upper.netlib(), n, kd,
+                    A.getData(), Matrices.ld(kd + 1), info);
         else
-            LAPACK.getInstance().dpbtrf(UpLo.Lower.netlib(), n, kd, A.getData(),
-            	Matrices.ld(kd + 1), info);
+            LAPACK.getInstance().dpbtrf(UpLo.Lower.netlib(), n, kd,
+                    A.getData(), Matrices.ld(kd + 1), info);
 
         if (info.val > 0)
             notspd = true;
@@ -217,11 +217,13 @@ public class BandCholesky {
         intW info = new intW(0);
         doubleW rcond = new doubleW(0);
         if (upper)
-            LAPACK.getInstance().dpbcon(UpLo.Upper.netlib(), n, kd, Cu.getData(),
-            	Matrices.ld(kd + 1), anorm, rcond, work, lwork, info);
+            LAPACK.getInstance().dpbcon(UpLo.Upper.netlib(), n, kd,
+                    Cu.getData(), Matrices.ld(kd + 1), anorm, rcond, work,
+                    lwork, info);
         else
-            LAPACK.getInstance().dpbcon(UpLo.Lower.netlib(), n, kd, Cl.getData(),
-            	Matrices.ld(kd + 1), anorm, rcond, work, lwork, info);
+            LAPACK.getInstance().dpbcon(UpLo.Lower.netlib(), n, kd,
+                    Cl.getData(), Matrices.ld(kd + 1), anorm, rcond, work,
+                    lwork, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
@@ -240,11 +242,13 @@ public class BandCholesky {
 
         intW info = new intW(0);
         if (upper)
-            LAPACK.getInstance().dpbtrs(UpLo.Upper.netlib(), n, kd, B.numColumns(),
-                    Cu.getData(), Matrices.ld(kd + 1), B.getData(), Matrices.ld(n), info);
+            LAPACK.getInstance().dpbtrs(UpLo.Upper.netlib(), n, kd,
+                    B.numColumns(), Cu.getData(), Matrices.ld(kd + 1),
+                    B.getData(), Matrices.ld(n), info);
         else
-            LAPACK.getInstance().dpbtrs(UpLo.Lower.netlib(), n, kd, B.numColumns(),
-                    Cl.getData(), Matrices.ld(kd + 1), B.getData(), Matrices.ld(n), info);
+            LAPACK.getInstance().dpbtrs(UpLo.Lower.netlib(), n, kd,
+                    B.numColumns(), Cl.getData(), Matrices.ld(kd + 1),
+                    B.getData(), Matrices.ld(n), info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();

@@ -49,8 +49,8 @@ public class QL extends OrthogonalComputer {
         {
             work = new double[1];
             intW info = new intW(0);
-            LAPACK.getInstance().dgeqlf(m, n, new double[0], Matrices.ld(m), new double[0],
-                    work, -1, info);
+            LAPACK.getInstance().dgeqlf(m, n, new double[0], Matrices.ld(m),
+                    new double[0], work, -1, info);
 
             if (info.val != 0)
                 lwork = n;
@@ -64,8 +64,8 @@ public class QL extends OrthogonalComputer {
         {
             workGen = new double[1];
             intW info = new intW(0);
-            LAPACK.getInstance().dorgql(m, n, k, new double[0],
-            	 Matrices.ld(m), new double[0], workGen, -1, info);
+            LAPACK.getInstance().dorgql(m, n, k, new double[0], Matrices.ld(m),
+                    new double[0], workGen, -1, info);
 
             if (info.val != 0)
                 lwork = n;
@@ -104,8 +104,8 @@ public class QL extends OrthogonalComputer {
          */
 
         intW info = new intW(0);
-        LAPACK.getInstance().dgeqlf(m, n, A.getData(), Matrices.ld(m), tau, work,
-                work.length, info);
+        LAPACK.getInstance().dgeqlf(m, n, A.getData(), Matrices.ld(m), tau,
+                work, work.length, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
@@ -119,8 +119,8 @@ public class QL extends OrthogonalComputer {
          * Generate the orthogonal matrix
          */
         info.val = 0;
-        LAPACK.getInstance().dorgql(m, n, k, A.getData(), Matrices.ld(m), tau, workGen,
-                workGen.length, info);
+        LAPACK.getInstance().dorgql(m, n, k, A.getData(), Matrices.ld(m), tau,
+                workGen, workGen.length, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();

@@ -185,10 +185,12 @@ public class PackCholesky {
         intW info = new intW(0);
         if (upper)
             LAPACK.getInstance().dpptrs(UpLo.Upper.netlib(), Cu.numRows(),
-                    B.numColumns(), Cu.getData(), B.getData(), Matrices.ld(Cu.numRows()), info);
+                    B.numColumns(), Cu.getData(), B.getData(),
+                    Matrices.ld(Cu.numRows()), info);
         else
             LAPACK.getInstance().dpptrs(UpLo.Lower.netlib(), Cl.numRows(),
-                    B.numColumns(), Cl.getData(), B.getData(), Matrices.ld(Cl.numRows()), info);
+                    B.numColumns(), Cl.getData(), B.getData(),
+                    Matrices.ld(Cl.numRows()), info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();
@@ -218,11 +220,11 @@ public class PackCholesky {
         intW info = new intW(0);
         doubleW rcond = new doubleW(0);
         if (upper)
-            LAPACK.getInstance().dppcon(UpLo.Upper.netlib(), n, Cu.getData(), anorm,
-                    rcond, work, iwork, info);
+            LAPACK.getInstance().dppcon(UpLo.Upper.netlib(), n, Cu.getData(),
+                    anorm, rcond, work, iwork, info);
         else
-            LAPACK.getInstance().dppcon(UpLo.Lower.netlib(), n, Cl.getData(), anorm,
-                    rcond, work, iwork, info);
+            LAPACK.getInstance().dppcon(UpLo.Lower.netlib(), n, Cl.getData(),
+                    anorm, rcond, work, iwork, info);
 
         if (info.val < 0)
             throw new IllegalArgumentException();

@@ -20,7 +20,6 @@
 
 package no.uib.cipr.matrix;
 
-
 /**
  * Upper symmetrix dense matrix. It has the same storage layout as the
  * {@link no.uib.cipr.matrix.DenseMatrix DenseMatrix}, but only refers to
