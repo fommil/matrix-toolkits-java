@@ -42,30 +42,29 @@ public class ILUTTest extends IncompleteFactorizationTestAbstract {
 
         assertEquals(0, r.norm(Vector.Norm.TwoRobust), 1e-5);
     }
-    
-    
-    /**Test for diagInd values exceeding row data array length after dropTol is applied
-     * causing ArrayOutOfBounds Error
+
+    /**
+     * Test for diagInd values exceeding row data array length after dropTol is
+     * applied causing ArrayOutOfBounds Error
      */
-    public void testILUTDropOutOfBoundsError(){
-    	int matrixSize = 100;
-    	FlexCompRowMatrix triDiagMatix = new FlexCompRowMatrix(matrixSize, matrixSize);
-    	
-    	
-    	double dropTol = 1e-6;
-    	int p = 50;
-    	
-    	for(int i = 0; i < matrixSize; i++){
-        	for(int j = 0; j < matrixSize; j++){
-        		if(i == j){
-        			triDiagMatix.set(i, j, 1);
-        		} else if(Math.abs(i - j) == 1){
-        		
-        			triDiagMatix.set(i, j, dropTol*1e-2);
-        		}
-        	}
-    	}
-    	
+    public void testILUTDropOutOfBoundsError() {
+        int matrixSize = 100;
+        FlexCompRowMatrix triDiagMatix = new FlexCompRowMatrix(matrixSize,
+                matrixSize);
+
+        double dropTol = 1e-6;
+        int p = 50;
+
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                if (i == j) {
+                    triDiagMatix.set(i, j, 1);
+                } else if (Math.abs(i - j) == 1) {
+                    triDiagMatix.set(i, j, dropTol * 1e-2);
+                }
+            }
+        }
+
         ILUT ilut = new ILUT(new FlexCompRowMatrix(triDiagMatix), dropTol, p);
         ilut.setMatrix(triDiagMatix);
     }
