@@ -195,7 +195,9 @@ public class ILUT implements Preconditioner {
             gather(LUi, rowi, taui, i);
 
             // Update diagonal index on row i if it is outdated
-            if (rowi.getIndex()[diagind[i]] != i) {
+            int diagIndex = diagind[i];
+            int[] rowiIndices = rowi.getIndex();
+            if (diagIndex >= rowiIndices.length || rowiIndices[diagIndex] != i) {
                 diagind[i] = findDiagonalIndex(rowi, i);
                 if (diagind[i] < 0)
                     throw new RuntimeException("Missing diagonal entry on row "
