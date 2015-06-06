@@ -117,4 +117,26 @@ public class SparseVectorTest extends VectorTestAbstract {
             assertEquals(d, v.data.length);
         }
     }
+
+    public void testGetRawIndex() {
+        SparseVector vector = new SparseVector(Integer.MAX_VALUE);
+        int[] index = vector.getRawIndex();
+        assertTrue(index != null);
+        assertTrue(index.length == 0);
+        assertSame(index, vector.index);
+        assertEquals(index.length, vector.getData().length);
+
+        vector.set(2, 1.0);
+        vector.set(1, 0.0);
+        vector.set(4, 2.0);
+
+        index = vector.getRawIndex();
+        assertSame(index, vector.index);
+        assertEquals(index.length, vector.getData().length);
+
+        // In this case, the raw index is larger than the used, so the raw
+        // indices have more entries than the other one.
+        assertTrue(index.length > vector.getUsed());
+        assertTrue(index.length > vector.getIndex().length);
+    }
 }
