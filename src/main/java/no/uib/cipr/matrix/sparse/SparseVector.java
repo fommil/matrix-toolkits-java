@@ -311,14 +311,20 @@ public class SparseVector extends AbstractVector implements ISparseVector {
     }
 
     /**
-     * Returns the internal data
+     * Returns the internal value array. This array may contain extra elements
+     * beyond the number that are used. If it is greater than the number used,
+     * the remaining values will be 0. Since this vector can resize its internal
+     * data, if it is modified, this array may no longer represent the internal
+     * state.
+     * 
+     * @return The internal array of values.
      */
     public double[] getData() {
         return data;
     }
 
     /**
-     * Returns the indices
+     * Returns the used indices
      */
     public int[] getIndex() {
         if (used == index.length)
@@ -327,10 +333,23 @@ public class SparseVector extends AbstractVector implements ISparseVector {
         // could run compact, or return subarray
         // compact();
         int[] indices = new int[used];
-        for (int i = 0; i < used; i++) {
-            indices[i] = index[i];
-        }
+        System.arraycopy(index, 0, indices, 0, used);
         return indices;
+    }
+
+    /**
+     * Gets the raw internal index array. This array may contain extra elements
+     * beyond the number that are used. If it is greater than the number used,
+     * the remaining indices will be 0. Since this vector can resize its
+     * internal data, if it is modified, this array may no longer represent the
+     * internal state.
+     * 
+     * @return The internal array of indices, whose length is greater than or
+     *         equal to the number of used elements. Indices in the array beyond
+     *         the used elements are not valid indices since they are unused.
+     */
+    public int[] getRawIndex() {
+        return index;
     }
 
     /**
