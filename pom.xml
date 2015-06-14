@@ -2,6 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!--
+        mvn release:clean
+        mvn release:prepare
+        mvn release:perform
+    -->
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -88,7 +93,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.14.8</version>
+            <version>1.16.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -122,6 +127,48 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.17</version>
+                    <configuration>
+                      <systemProperties>
+                          <property>
+                              <name>java.util.logging.config.file</name>
+                              <value>${project.build.directory}/test-classes/logging.properties</value>
+                          </property>
+                          <!-- force the java implementation of netlib-java -->
+                          <property>
+                            <name>com.github.fommil.netlib.BLAS</name>
+                            <value>com.github.fommil.netlib.F2jBLAS</value>
+                          </property>
+                          <property>
+                            <name>com.github.fommil.netlib.LAPACK</name>
+                            <value>com.github.fommil.netlib.F2jLAPACK</value>
+                          </property>
+                          <property>
+                            <name>com.github.fommil.netlib.ARPACK</name>
+                            <value>com.github.fommil.netlib.F2jARPACK</value>
+                          </property>
+                          <!-- force the native ref implementation -->
+                          <!--
+                          <property>
+                            <name>com.github.fommil.netlib.BLAS</name>
+                            <value>com.github.fommil.netlib.NativeRefBLAS</value>
+                          </property>
+                          <property>
+                            <name>com.github.fommil.netlib.LAPACK</name>
+                            <value>com.github.fommil.netlib.NativeRefLAPACK</value>
+                          </property>
+                          <property>
+                            <name>com.github.fommil.netlib.ARPACK</name>
+                            <value>com.github.fommil.netlib.NativeRefARPACK</value>
+                          </property>
+                          -->  
+                      </systemProperties>
+                      <forkCount>1</forkCount>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
@@ -188,5 +235,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>
