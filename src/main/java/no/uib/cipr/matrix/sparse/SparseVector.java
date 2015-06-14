@@ -353,6 +353,21 @@ public class SparseVector extends AbstractVector implements ISparseVector {
     }
 
     /**
+     * Gets the raw internal data array. This array may contain extra elements
+     * beyond the number that are used. If it is greater than the number used,
+     * the remaining indices will be 0. Since this vector can resize its
+     * internal data, if it is modified, this array may no longer represent the
+     * internal state.
+     * 
+     * @return The internal array of values, whose length is greater than or
+     *         equal to the number of used elements. Values in the array beyond
+     *         the used elements are not valid since they are unused.
+     */
+    public double[] getRawData() {
+        return data;
+    }
+
+    /**
      * Number of entries used in the sparse structure
      */
     public int getUsed() {
