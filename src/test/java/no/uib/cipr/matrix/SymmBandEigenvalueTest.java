@@ -20,6 +20,8 @@
 
 package no.uib.cipr.matrix;
 
+import org.junit.Ignore;
+
 import no.uib.cipr.matrix.LowerSymmBandMatrix;
 import no.uib.cipr.matrix.NotConvergedException;
 import no.uib.cipr.matrix.SymmBandEVD;
@@ -75,6 +77,7 @@ public class SymmBandEigenvalueTest extends SymmEigenvalueTestAbstract {
         assertEquals(U, evd.getEigenvalues(), evd.getEigenvectors());
     }
 
+    @Ignore
     public void testLowerRepeatFactor() throws NotConvergedException {
         SymmBandEVD evd = new SymmBandEVD(A.numRows(), false);
         evd.factor(L.copy());
@@ -83,6 +86,7 @@ public class SymmBandEigenvalueTest extends SymmEigenvalueTestAbstract {
         assertEquals(L, evd.getEigenvalues(), evd.getEigenvectors());
     }
 
+    @Ignore
     public void testUpperRepeatFactor() throws NotConvergedException {
         SymmBandEVD evd = new SymmBandEVD(A.numRows(), true);
         evd.factor(U.copy());
