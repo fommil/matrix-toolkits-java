@@ -136,14 +136,25 @@ public class QRP {
         intW info = new intW(0);
         LAPACK lapack = LAPACK.getInstance();
 
+        // the dgeqp3 work array is a different size than the dorgqr
+        // one (I'm not entirely convinced that we should be
+        // persisting the work arrays as fields).
+        double[] factorWorkOptimalSize = {0.0};
+        double[] factorWork;
+
+        lapack.dgeqp3(m, n, Afact.getData(), Matrices.ld(m), jpvt, tau,
+                factorWorkOptimalSize, -1, info);
+        factorWork = new double[(int) factorWorkOptimalSize[0]];
+
         /*
          * Calculate factorisation
          */
-        lapack.dgeqp3(m, n, Afact.getData(), Matrices.ld(m), jpvt, tau, work,
-                work.length, info);
+        lapack.dgeqp3(m, n, Afact.getData(), Matrices.ld(m), jpvt, tau,
+                factorWork, factorWork.length, info);
 
-        if (info.val < 0)
-            throw new IllegalArgumentException();
+        if (info.val < 0) {
+            throw new IllegalArgumentException("DGEQP3 was " + info.val);
+        }
 
         /*
          * Get R from Afact

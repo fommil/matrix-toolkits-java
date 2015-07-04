@@ -133,11 +133,13 @@
                     <version>2.17</version>
                     <configuration>
                       <systemProperties>
+                        <!--
                           <property>
                               <name>java.util.logging.config.file</name>
                               <value>${project.build.directory}/test-classes/logging.properties</value>
                           </property>
-                          <!-- force the java implementation of netlib-java -->
+                        -->
+                        <!-- force the java implementation of netlib-java
                           <property>
                             <name>com.github.fommil.netlib.BLAS</name>
                             <value>com.github.fommil.netlib.F2jBLAS</value>
@@ -150,8 +152,9 @@
                             <name>com.github.fommil.netlib.ARPACK</name>
                             <value>com.github.fommil.netlib.F2jARPACK</value>
                           </property>
-                          <!-- force the native ref implementation -->
-                          <!--
+                        -->
+                        <!-- force the native ref implementation of netlib-java -->
+                        <!--
                           <property>
                             <name>com.github.fommil.netlib.BLAS</name>
                             <value>com.github.fommil.netlib.NativeRefBLAS</value>
@@ -164,7 +167,7 @@
                             <name>com.github.fommil.netlib.ARPACK</name>
                             <value>com.github.fommil.netlib.NativeRefARPACK</value>
                           </property>
-                          -->  
+                        -->  
                       </systemProperties>
                       <forkCount>1</forkCount>
                     </configuration>
