@@ -346,7 +346,7 @@ public abstract class AbstractMatrix implements Matrix {
                     + numColumns + " != " + B.numRows() + ")");
         if (B.numColumns() != C.numColumns())
             throw new IndexOutOfBoundsException(
-                    "B.numColumns != C.numColumns (" + B.numRows() + " != "
+                    "B.numColumns != C.numColumns (" + B.numColumns() + " != "
                             + C.numColumns() + ")");
     }
 
