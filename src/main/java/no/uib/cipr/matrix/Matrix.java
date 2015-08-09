@@ -751,5 +751,4 @@ public interface Matrix extends Iterable<MatrixEntry> {
         }
 
     }
-
 }
