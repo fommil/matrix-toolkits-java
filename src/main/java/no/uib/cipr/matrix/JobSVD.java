@@ -24,40 +24,45 @@ package no.uib.cipr.matrix;
  * vectors are computed, all the singular values are always computed
  */
 enum JobSVD {
-    /** Compute all of the singular vectors */
-    All,
+    /**
+     * Compute all of the singular vectors <br>
+     * 'A'
+     */
+    All("A"),
 
-    /** Do not compute any singular vectors */
-    None,
+    /**
+     * Do not compute any singular vectors <br>
+     * 'N'
+     */
+    None("N"),
 
     /**
      * Overwrite passed data. For an <code>M*N</code> matrix, this either
      * overwrites the passed matrix with as many singular vectors as there is
-     * room for. Details depend on the actual algorithm
+     * room for. Details depend on the actual algorithm <br>
+     * 'O'
      */
-    Overwrite,
+    Overwrite("O"),
 
     /**
      * Compute parts of the singular vectors. For an <code>M*N</code> matrix,
-     * this computes <code>min(M,N)</code> singular vectors
+     * this computes <code>min(M,N)</code> singular vectors <br>
+     * 'S'
      */
-    Part;
+    Part("S");
 
     /**
      * @return the netlib character version of this designation, for use with
      *         F2J.
      */
+
+    final private String netlib;
+    JobSVD(String netlib) {
+        this.netlib = netlib;
+    }
+
     public String netlib() {
-        switch (this) {
-            case All :
-                return "A";
-            case Part :
-                return "S";
-            case Overwrite :
-                return "O";
-            default :
-                return "N";
-        }
+        return netlib;
     }
 
 }
