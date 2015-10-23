@@ -8,3 +8,5 @@
 *.iml
 .idea
 target
+
+build.sbt
