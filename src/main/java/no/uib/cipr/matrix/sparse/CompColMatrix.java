@@ -153,7 +153,7 @@ public class CompColMatrix extends AbstractMatrix {
      * @param numColumns
      *            Number of columns
      * @param nz
-     *            The nonzero column indices on each column
+     *            The nonzero row indices on each column
      */
     public CompColMatrix(int numRows, int numColumns, int[][] nz) {
         super(numRows, numColumns);
