@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/fommil/matrix-toolkits-java.svg?branch=master)](https://travis-ci.org/fommil/matrix-toolkits-java)
 [![Coverage Status](https://coveralls.io/repos/fommil/matrix-toolkits-java/badge.svg?branch=master)](https://coveralls.io/r/fommil/matrix-toolkits-java?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.googlecode.matrix-toolkits-java/mtj/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.googlecode.matrix-toolkits-java/mtj)
+[![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.googlecode.matrix-toolkits-java/mtj/badge.svg)](http://www.javadoc.io/doc/com.googlecode.matrix-toolkits-java/mtj)
 
 matrix-toolkits-java 
 ====================
