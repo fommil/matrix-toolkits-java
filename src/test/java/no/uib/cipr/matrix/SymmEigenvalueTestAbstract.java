@@ -20,15 +20,15 @@
 
 package no.uib.cipr.matrix;
 
-import no.uib.cipr.matrix.DenseMatrix;
-import no.uib.cipr.matrix.Matrices;
-import no.uib.cipr.matrix.Matrix;
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the symmetric eigenvalue computers
  */
-public abstract class SymmEigenvalueTestAbstract extends TestCase {
+public abstract class SymmEigenvalueTestAbstract {
 
     /**
      * Initial work-matrix
@@ -40,22 +40,18 @@ public abstract class SymmEigenvalueTestAbstract extends TestCase {
      */
     private final int max = 100;
 
-    public SymmEigenvalueTestAbstract(String arg0) {
-        super(arg0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         int n = Utilities.getInt(1, max);
         A = Matrices.random(n, n);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         A = null;
     }
 
-    protected void assertEquals(Matrix A, double[] w, DenseMatrix Z) {
+    protected void assertEqualsWZ(Matrix A, double[] w, DenseMatrix Z) {
         // A*X
         Matrix left = A.mult(Z, new DenseMatrix(A.numRows(), A.numColumns()));
 

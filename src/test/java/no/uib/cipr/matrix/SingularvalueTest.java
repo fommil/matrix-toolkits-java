@@ -1,18 +1,18 @@
 /*
  * Copyright (C) 2003-2006 Bjørn-Ove Heimsund
- * 
+ *
  * This file is part of MTJ.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation,
  * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
@@ -20,17 +20,16 @@
 
 package no.uib.cipr.matrix;
 
-import no.uib.cipr.matrix.DenseMatrix;
-import no.uib.cipr.matrix.Matrix;
-import no.uib.cipr.matrix.NotConvergedException;
-import no.uib.cipr.matrix.SVD;
-import no.uib.cipr.matrix.TridiagMatrix;
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test the singular value solver
  */
-public class SingularvalueTest extends TestCase {
+public class SingularvalueTest {
 
     /**
      * Matrix to decompose
@@ -42,31 +41,29 @@ public class SingularvalueTest extends TestCase {
      */
     private final int max = 100;
 
-    public SingularvalueTest(String arg0) {
-        super(arg0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         int n = Utilities.getInt(1, max);
         A = new DenseMatrix(n, n);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         A = null;
     }
 
+    @Test
     public void testStaticFactorize() throws NotConvergedException {
-        assertEquals(A, SVD.factorize(A));
+        assertEqualsSVD(A, SVD.factorize(A));
     }
 
+    @Test
     public void testFactor() throws NotConvergedException {
         SVD svd = new SVD(A.numRows(), A.numColumns());
-        assertEquals(A, svd.factor(A.copy()));
+        assertEqualsSVD(A, svd.factor(A.copy()));
     }
 
-    private void assertEquals(Matrix A, SVD svd) {
+    private void assertEqualsSVD(Matrix A, SVD svd) {
         TridiagMatrix S = new TridiagMatrix(svd.getS().length);
         System.arraycopy(svd.getS(), 0, S.getDiagonal(), 0, svd.getS().length);
         DenseMatrix U = svd.getU();

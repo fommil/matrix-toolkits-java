@@ -1,18 +1,18 @@
 /*
  * Copyright (C) 2003-2006 Bjørn-Ove Heimsund
- * 
+ *
  * This file is part of MTJ.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation,
  * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
@@ -20,13 +20,17 @@
 
 package no.uib.cipr.matrix;
 
-import junit.framework.TestCase;
 import no.uib.cipr.matrix.Vector.Norm;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test of vectors
  */
-public abstract class VectorTestAbstract extends TestCase {
+public abstract class VectorTestAbstract {
 
     /**
      * Max vector size
@@ -58,12 +62,8 @@ public abstract class VectorTestAbstract extends TestCase {
      */
     protected double tol = 1e-5;
 
-    public VectorTestAbstract(String arg0) {
-        super(arg0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         createPrimary();
         createAuxillerary();
     }
@@ -79,38 +79,44 @@ public abstract class VectorTestAbstract extends TestCase {
         zd = Matrices.getArray(z);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         x = null;
         xd = null;
     }
 
+    @Test
     public void testSize() {
         assertEquals(xd.length, x.size());
     }
 
+    @Test
     public void testCopy() {
         Vector y = x.copy();
-        assertEquals(xd, y);
+        assertVectorEquals(xd, y);
         y.scale(Math.random());
-        assertEquals(xd, x);
+        assertVectorEquals(xd, x);
     }
 
+    @Test
     public void testZero() {
-        assertEquals(scale(0), x.zero());
+        assertVectorEquals(scale(0), x.zero());
     }
 
+    @Test
     public void testScale() {
         double alpha = Math.random();
-        assertEquals(scale(alpha), x.scale(alpha));
+        assertVectorEquals(scale(alpha), x.scale(alpha));
     }
 
+    @Test
     public void testScaleZero() {
-        assertEquals(scale(0), x.scale(0));
+        assertVectorEquals(scale(0), x.scale(0));
     }
 
+    @Test
     public void testScaleOne() {
-        assertEquals(scale(1), x.scale(1));
+        assertVectorEquals(scale(1), x.scale(1));
     }
 
     protected double[] scale(double alpha) {
@@ -122,31 +128,35 @@ public abstract class VectorTestAbstract extends TestCase {
     /*
      * Test for Vector set(Vector)
      */
+    @Test
     public void testSetVectorDense() {
-        assertEquals(set(1, yd, 0, zd), x.set(yDense));
+        assertVectorEquals(set(1, yd, 0, zd), x.set(yDense));
     }
 
     /*
      * Test for Vector set(double, Vector)
      */
+    @Test
     public void testSetdoubleVectorDense() {
         double alpha = Math.random();
-        assertEquals(set(alpha, yd, 0, zd), x.set(alpha, yDense));
+        assertVectorEquals(set(alpha, yd, 0, zd), x.set(alpha, yDense));
     }
 
     /*
      * Test for Vector set(Vector)
      */
+    @Test
     public void testSetVector() {
-        assertEquals(set(1, yd, 0, zd), x.set(y));
+        assertVectorEquals(set(1, yd, 0, zd), x.set(y));
     }
 
     /*
      * Test for Vector set(double, Vector)
      */
+    @Test
     public void testSetDoubleVector() {
         double alpha = Math.random();
-        assertEquals(set(alpha, yd, 0, zd), x.set(alpha, y));
+        assertVectorEquals(set(alpha, yd, 0, zd), x.set(alpha, y));
     }
 
     protected double[] set(double alpha, double[] yd, double beta, double[] zd) {
@@ -158,31 +168,35 @@ public abstract class VectorTestAbstract extends TestCase {
     /*
      * Test for Vector add(double, Vector)
      */
+    @Test
     public void testAddDoubleVectorDense() {
         double alpha = Math.random();
-        assertEquals(add(alpha, yd), x.add(alpha, yDense));
+        assertVectorEquals(add(alpha, yd), x.add(alpha, yDense));
     }
 
     /*
      * Test for Vector add(Vector)
      */
+    @Test
     public void testAddVectorDense() {
-        assertEquals(add(1, yd), x.add(yDense));
+        assertVectorEquals(add(1, yd), x.add(yDense));
     }
 
     /*
      * Test for Vector add(double, Vector)
      */
+    @Test
     public void testAddDoubleVector() {
         double alpha = Math.random();
-        assertEquals(add(alpha, yd), x.add(alpha, y));
+        assertVectorEquals(add(alpha, yd), x.add(alpha, y));
     }
 
     /*
      * Test for Vector add(Vector)
      */
+    @Test
     public void testAddVector() {
-        assertEquals(add(1, yd), x.add(y));
+        assertVectorEquals(add(1, yd), x.add(y));
     }
 
     protected double[] add(double alpha, double[] yd) {
@@ -191,16 +205,18 @@ public abstract class VectorTestAbstract extends TestCase {
         return xd;
     }
 
+    @Test
     public void testDotDense() {
         assertEquals(dot(yd), x.dot(yDense), tol);
-        assertEquals(xd, x);
-        assertEquals(yd, yDense);
+        assertVectorEquals(xd, x);
+        assertVectorEquals(yd, yDense);
     }
 
+    @Test
     public void testDot() {
         assertEquals(dot(yd), x.dot(y), tol);
-        assertEquals(xd, x);
-        assertEquals(yd, y);
+        assertVectorEquals(xd, x);
+        assertVectorEquals(yd, y);
     }
 
     protected double dot(double[] yd) {
@@ -210,6 +226,7 @@ public abstract class VectorTestAbstract extends TestCase {
         return dot;
     }
 
+    @Test
     public void testCardinality() {
         assertEquals(cardinality(), Matrices.cardinality(x));
     }
@@ -222,14 +239,17 @@ public abstract class VectorTestAbstract extends TestCase {
         return nz;
     }
 
+    @Test
     public void testNorm1() {
         assertEquals(norm1(), x.norm(Norm.One), tol);
     }
 
+    @Test
     public void testNorm2() {
         assertEquals(norm2(), x.norm(Norm.Two), tol);
     }
 
+    @Test
     public void testNormInf() {
         assertEquals(normInf(), x.norm(Norm.Infinity), tol);
     }
@@ -255,6 +275,7 @@ public abstract class VectorTestAbstract extends TestCase {
         return norm;
     }
 
+    @Test
     public void testIteratorSetGet() {
         double alpha = Math.random();
         double[] data = new double[x.size()];
@@ -263,32 +284,34 @@ public abstract class VectorTestAbstract extends TestCase {
             e.set(alpha * e.get());
             e.set(e.get() / alpha);
         }
-        assertEquals(xd, x);
-        assertEquals(xd, data);
+        assertVectorEquals(xd, x);
+        assertVectorEquals(xd, data);
     }
 
+    @Test
     public void testIteratorGet() {
         double[] data = new double[x.size()];
         for (VectorEntry e : x)
             data[e.index()] = e.get();
-        assertEquals(xd, x);
-        assertEquals(xd, data);
+        assertVectorEquals(xd, x);
+        assertVectorEquals(xd, data);
     }
 
+    @Test
     public void testIteratorSet() {
         double alpha = Math.random();
         for (VectorEntry e : x)
             e.set(alpha * e.get());
-        assertEquals(scale(alpha), x);
+        assertVectorEquals(scale(alpha), x);
     }
 
-    protected void assertEquals(double[] xd, Vector x) {
+    protected void assertVectorEquals(double[] xd, Vector x) {
         assertEquals(xd.length, x.size());
         for (int i = 0; i < xd.length; ++i)
             assertEquals(xd[i], x.get(i), tol);
     }
 
-    protected void assertEquals(double[] xd, double[] yd) {
+    protected void assertVectorEquals(double[] xd, double[] yd) {
         for (int i = 0; i < xd.length; ++i)
             assertEquals(xd[i], yd[i], tol);
     }

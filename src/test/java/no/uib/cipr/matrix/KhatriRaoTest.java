@@ -1,17 +1,18 @@
 /*
  * Copyright (C) 2015 Rogério Pontes
- * 
+ *
  */
 
 package no.uib.cipr.matrix;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Test of the Khatri Rao Multiplication.
  */
-public class KhatriRaoTest extends TestCase {
+public class KhatriRaoTest {
 
+    @Test
     public void testEqualSizeKhatriRao() {
         Matrix A = new DenseMatrix(new double[][]{{1, 2, 3}, {4, 5, 6},
                 {7, 8, 9}});
@@ -23,10 +24,11 @@ public class KhatriRaoTest extends TestCase {
         KR mult = new KR(A, B);
         Matrix C = new DenseMatrix(A.numRows() * B.numRows(), A.numColumns());
         C = mult.multiply(C);
-        MatrixTestAbstract.assertEquals(C, res);
+        MatrixTestAbstract.assertMatrixEquals(C, res);
 
     }
 
+    @Test
     public void testEqualColumnKhatriRao() {
         Matrix A = new DenseMatrix(new double[][]{{1, 2}, {4, 2}, {7, 8}});
         Matrix B = new DenseMatrix(new double[][]{{1, 4}, {8, 5}, {5, 4},
@@ -37,10 +39,11 @@ public class KhatriRaoTest extends TestCase {
         KR mult = new KR(A, B);
         Matrix C = new DenseMatrix(A.numRows() * B.numRows(), A.numColumns());
         C = mult.multiply(C);
-        MatrixTestAbstract.assertEquals(C, res);
+        MatrixTestAbstract.assertMatrixEquals(C, res);
 
     }
 
+    @Test
     public void testEqualRowKhatriRao() {
         Matrix A = new DenseMatrix(new double[][]{{1, 2, 4, 5, 6},
                 {2, 8, 9, 2, 3}});
@@ -53,7 +56,7 @@ public class KhatriRaoTest extends TestCase {
         KR mult = new KR(A, B);
         Matrix C = new DenseMatrix(A.numRows() * B.numRows(), A.numColumns());
         C = mult.multiply(C);
-        MatrixTestAbstract.assertEquals(C, res);
+        MatrixTestAbstract.assertMatrixEquals(C, res);
     }
 
 }

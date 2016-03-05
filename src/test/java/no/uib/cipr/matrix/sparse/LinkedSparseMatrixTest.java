@@ -3,26 +3,25 @@ package no.uib.cipr.matrix.sparse;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import junit.framework.Assert;
 import lombok.Cleanup;
 import lombok.extern.java.Log;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.MatrixEntry;
 import no.uib.cipr.matrix.Utilities;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Sam Halliday
  */
 @Log
 public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
-    public LinkedSparseMatrixTest(String arg0) {
-        super(arg0);
-    }
 
     @Override
     protected void createPrimary() throws Exception {
@@ -37,14 +36,14 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
             int row = e.row();
             int col = e.column();
             double expect = Ad[row][col];
-            Assert.assertEquals(expect, e.get(), 0);
-            Assert.assertEquals(expect, A.get(row, col), 0);
+            assertEquals(expect, e.get(), 0);
+            assertEquals(expect, A.get(row, col), 0);
         }
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 double expect = Ad[i][j];
-                Assert.assertEquals(expect, A.get(i, j), 0);
+                assertEquals(expect, A.get(i, j), 0);
             }
         }
 
@@ -52,13 +51,13 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
         LinkedSparseMatrix.Node node = head;
         while (node != null) {
             // log.info(node.toString());
-            Assert.assertEquals(Ad[node.row][node.col], node.val);
+            assertEquals(Ad[node.row][node.col], node.val, 0.0);
             node = node.rowTail;
         }
         node = head;
         while (node != null) {
             // log.info(node.toString());
-            Assert.assertEquals(Ad[node.row][node.col], node.val);
+            assertEquals(Ad[node.row][node.col], node.val, 0.0);
             node = node.colTail;
         }
     }
@@ -118,10 +117,12 @@ public class LinkedSparseMatrixTest extends SparseMatrixTestAbstract {
         }
     }
 
+    @Test
     @Override
     public void testIteratorSet() {
     }
 
+    @Test
     @Override
     public void testIteratorSetGet() {
     }

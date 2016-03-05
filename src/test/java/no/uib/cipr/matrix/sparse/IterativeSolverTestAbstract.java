@@ -1,18 +1,18 @@
 /*
  * Copyright (C) 2003-2006 Bjørn-Ove Heimsund
- * 
+ *
  * This file is part of MTJ.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation,
  * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
@@ -20,21 +20,18 @@
 
 package no.uib.cipr.matrix.sparse;
 
-import no.uib.cipr.matrix.DenseLU;
-import no.uib.cipr.matrix.Matrices;
-import no.uib.cipr.matrix.Matrix;
-import no.uib.cipr.matrix.Vector;
-import no.uib.cipr.matrix.sparse.FlexCompRowMatrix;
-import no.uib.cipr.matrix.sparse.IterativeSolver;
-import no.uib.cipr.matrix.sparse.IterativeSolverNotConvergedException;
-import no.uib.cipr.matrix.sparse.Preconditioner;
-import no.uib.cipr.matrix.Utilities;
-import junit.framework.TestCase;
+import no.uib.cipr.matrix.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Test of the iterative solvers and preconditioners
  */
-public abstract class IterativeSolverTestAbstract extends TestCase {
+public abstract class IterativeSolverTestAbstract {
 
     /**
      * Number of times to repeat tests
@@ -82,15 +79,8 @@ public abstract class IterativeSolverTestAbstract extends TestCase {
      */
     protected Preconditioner M;
 
-    /**
-     * Constructor for IterativeSolverTestAbstract
-     */
-    public IterativeSolverTestAbstract(String arg0) {
-        super(arg0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         createMatrix();
 
         int n = A.numRows();
@@ -139,14 +129,15 @@ public abstract class IterativeSolverTestAbstract extends TestCase {
             A.add(i, i, shift);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         A = null;
         b = bt = x = null;
         xd = null;
         solver = null;
     }
 
+    @Test
     public void testSolve() {
         try {
             solver.solve(A, b, x);
@@ -157,6 +148,7 @@ public abstract class IterativeSolverTestAbstract extends TestCase {
         }
     }
 
+    @Test
     public void testRepeatSolve() {
         try {
             for (int i = 0; i < repeat; ++i) {

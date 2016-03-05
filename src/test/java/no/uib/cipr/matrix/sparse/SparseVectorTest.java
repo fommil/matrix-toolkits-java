@@ -1,18 +1,18 @@
 /*
  * Copyright (C) 2003-2006 Bjørn-Ove Heimsund
- * 
+ *
  * This file is part of MTJ.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation,
  * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
@@ -28,15 +28,16 @@ import no.uib.cipr.matrix.Vector;
 import no.uib.cipr.matrix.Utilities;
 import no.uib.cipr.matrix.VectorEntry;
 import no.uib.cipr.matrix.VectorTestAbstract;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test of SparseVector
  */
 public class SparseVectorTest extends VectorTestAbstract {
-
-    public SparseVectorTest(String arg0) {
-        super(arg0);
-    }
 
     @Override
     protected void createPrimary() throws Exception {
@@ -46,6 +47,7 @@ public class SparseVectorTest extends VectorTestAbstract {
         xd = Utilities.populate(x, m);
     }
 
+    @Test
     public void testSparseVectorIndices() {
         /*
          * MTJ subtlety in getIndex() for SparseVector. before calling
@@ -82,6 +84,7 @@ public class SparseVectorTest extends VectorTestAbstract {
                 + index.length + ", with elements " + Arrays.toString(index);
     }
 
+    @Test
     public void testBug27() {
         double[] tfVector = {0.0, 0.5, 0.0, 0.4, 0.0};
         DenseVector dense = new DenseVector(tfVector, false);
@@ -102,6 +105,7 @@ public class SparseVectorTest extends VectorTestAbstract {
      * Unit test checking that the sparse vector does not end up ever using more
      * than "size" elements.
      */
+    @Test
     public void testOverAllocation() {
         for (int d = 0; d < 10; d++) {
             SparseVector v = new SparseVector(d, 0);
@@ -118,6 +122,7 @@ public class SparseVectorTest extends VectorTestAbstract {
         }
     }
 
+    @Test
     public void testGetRawIndex() {
         SparseVector vector = new SparseVector(Integer.MAX_VALUE);
         int[] index = vector.getRawIndex();
@@ -140,6 +145,7 @@ public class SparseVectorTest extends VectorTestAbstract {
         assertTrue(index.length > vector.getIndex().length);
     }
 
+    @Test
     public void testGetRawData() {
         SparseVector vector = new SparseVector(Integer.MAX_VALUE);
         double[] data = vector.getRawData();
