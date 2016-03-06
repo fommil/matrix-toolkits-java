@@ -44,14 +44,10 @@ public class SVD {
     private final int m, n;
 
     /**
-     * Compute the singular vectors fully?
+     * Job to do. <br>
+     * if job2 = null then GDESDD is used else GDESVD is used.
      */
-    private final boolean vectors;
-
-    /**
-     * Job to do
-     */
-    private final JobSVD job;
+    private final JobSVD job1, job2;
 
     /**
      * The singular values
@@ -61,7 +57,12 @@ public class SVD {
     /**
      * Singular vectors
      */
-    private final DenseMatrix U, Vt;
+    private DenseMatrix U, Vt;
+
+    /**
+     * Leading Dimensions of A, U, and Vt.
+     */
+    private final int lda, ldu, ldvt;
 
     /**
      * Creates an empty SVD which will compute all singular values and vectors
@@ -87,54 +88,193 @@ public class SVD {
      *            singular values
      */
     public SVD(int m, int n, boolean vectors) {
+        this(m, n, vectors ? JobSVD.All : JobSVD.None);
+    }
+
+    /**
+     * Creates and empty SVD which will apply the {@link LAPACK#dgesvd}
+     * algorithm. Compared to {@link LAPACK#dgesdd}, this is generally slower,
+     * uses less memory and is more numerically stable on some implementations.<br>
+     * {@link JobSVD} arguments <code>jobU</code> and <code>jobVT</code>
+     * independently control the left and right singular vector computation.<br>
+     * 
+     * jobU and jobVT cannot both be Overwrite.
+     * 
+     * @param m
+     *            Number of rows
+     * @param n
+     *            Number of Columns
+     * @param jobU
+     *            Job for left singular vectors, (All|None|Partial|Overwrite)
+     * @param jobVT
+     *            Job for right singular vectors, (All|None|Partial|Overwrite)
+     */
+    public SVD(int m, int n, JobSVD jobU, JobSVD jobVT) {
         this.m = m;
         this.n = n;
-        this.vectors = vectors;
+        int min = Math.min(m, n);
+        job1 = jobU;
+        job2 = jobVT;
+
+        lda = Matrices.ld(m);
+
+        if (jobU == JobSVD.None) { // N
+            ldu = 1;
+            U = new DenseMatrix(0, 0);
+        } else if (jobU == JobSVD.Part) { // S
+            ldu = m;
+            U = new DenseMatrix(ldu, min);
+        } else if (jobU == JobSVD.Overwrite) { // O
+            ldu = 1;
+            U = new DenseMatrix(0, 0);
+        } else { // All //A
+            ldu = m;
+            U = new DenseMatrix(ldu, m);
+        }
+
+        if (jobVT == JobSVD.None) { // N
+            ldvt = 1;
+            Vt = new DenseMatrix(0, 0);
+        } else if (jobVT == JobSVD.Part) { // S
+            ldvt = min;
+            Vt = new DenseMatrix(ldvt, n);
+        } else if (jobVT == JobSVD.Overwrite) { // O
+            ldvt = 1;
+            Vt = new DenseMatrix(0, 0);
+        } else { // All
+            ldvt = n;
+            Vt = new DenseMatrix(ldvt, n);
+        }
+
+        int lwork = queryOptimalDgesvdWorksize(m, n, lda, ldu, ldvt, jobU,
+                jobVT);
 
         // Allocate space for the decomposition
-        S = new double[Math.min(m, n)];
-        if (vectors) {
-            U = new DenseMatrix(m, m);
-            Vt = new DenseMatrix(n, n);
-        } else
-            U = Vt = null;
+        S = new double[min];
+        iwork = null;
+        work = new double[Math.max(1, lwork)];
+    }
 
-        job = vectors ? JobSVD.All : JobSVD.None;
+    /**
+     * Creates and empty SVD which will apply the {@link LAPACK#dgesdd}
+     * algorithm.<br>
+     * Compared to the {@link LAPACK#dgesvd} algorithm, this is typically 5-10x
+     * faster for large matrices, potentially uses more memory, and some
+     * implementations are less numerically stable.<br>
+     * <br>
+     * When {@link JobSVD} argument <code>jobz</code> is Overwrite:<br>
+     * if m >= n then<br>
+     * &emsp;first m cols of U and written to A<br>
+     * else<br>
+     * &emsp;first n rows of Vt are written to A<br>
+     * 
+     * @param m
+     * @param n
+     * @param jobz
+     *            Job for both singular vectors, (All|None|Partial|Overwrite)
+     */
+    public SVD(int m, int n, JobSVD jobz) {
+        this.m = m;
+        this.n = n;
+        int min = Math.min(m, n);
+        job1 = jobz;
+        job2 = null;
+
+        lda = Matrices.ld(m);
 
         // Find workspace requirements
+        if (jobz == JobSVD.None) { // N
+            ldu = 1;
+            U = new DenseMatrix(0, 0); // ldu
+            ldvt = 1;
+            Vt = new DenseMatrix(0, 0); // ldvt
+        } else if (jobz == JobSVD.Part) { // S
+            ldu = Matrices.ld(m);
+            U = new DenseMatrix(ldu, min);
+            ldvt = Matrices.ld(min);
+            Vt = new DenseMatrix(ldvt, n);
+        } else if (jobz == JobSVD.Overwrite) { // O
+            if (m >= n) {
+                ldvt = Matrices.ld(n);
+                Vt = new DenseMatrix(ldvt, n);
+                ldu = 1;
+                U = new DenseMatrix(0, 0); // ldu
+            } else {
+                ldvt = 1;
+                Vt = new DenseMatrix(0, 0); // ldvt
+                ldu = Matrices.ld(m);
+                U = new DenseMatrix(ldu, m);
+            }
+        } else { // All //A
+            ldu = Matrices.ld(m);
+            U = new DenseMatrix(ldu, m);
+            ldvt = Matrices.ld(n);
+            Vt = new DenseMatrix(ldvt, n);
+        }
+
+        int lwork = queryOptimalDgesddWorksize(m, n, lda, ldu, ldvt, jobz);
+
+        // Allocate space for the decomposition
+        S = new double[min];
         iwork = new int[8 * Math.min(m, n)];
+        work = new double[lwork];
+    }
+
+    // Query optimal workspace
+    private static int queryOptimalDgesvdWorksize(int m, int n, int lda,
+            int ldu, int ldvt, JobSVD jobU, JobSVD jobVT) {
+        int min = Math.min(m, n);
+        int max = Math.max(m, n);
+        double[] worksize = new double[1];
+        intW info = new intW(0);
+        LAPACK.getInstance().dgesvd(jobU.netlib(), jobVT.netlib(), m, n,
+                new double[0], lda, // A
+                new double[0], // S
+                new double[0], ldu, // U
+                new double[0], ldvt, // Vt
+                worksize, -1, info);
+
+        int lwork = Math.max(3 * min + max, 5 * min);
+        if (info.val == 0) {
+            lwork = (int) worksize[0];
+        }
+
+        return Math.max(lwork, 1);
+    }
+
+    // Query optimal workspace
+    private static int queryOptimalDgesddWorksize(int m, int n, int lda,
+            int ldu, int ldvt, JobSVD jobz) {
+        int min = Math.min(m, n);
+        int max = Math.max(m, n);
 
         // Query optimal workspace
         double[] worksize = new double[1];
         intW info = new intW(0);
-        LAPACK.getInstance().dgesdd(job.netlib(), m, n, new double[0],
-                Matrices.ld(m), new double[0], new double[0], Matrices.ld(m),
-                new double[0], Matrices.ld(n), worksize, -1, iwork, info);
+        LAPACK.getInstance().dgesdd(jobz.netlib(), m, n, new double[0], lda, // A
+                new double[0], // S
+                new double[0], ldu, // U
+                new double[0], ldvt, // Vt
+                worksize, -1, new int[8 * min], info);
 
-        // Allocate workspace
-        int lwork = -1;
-        if (info.val != 0) {
-            if (vectors)
-                lwork = 3
-                        * Math.min(m, n)
-                        * Math.min(m, n)
-                        + Math.max(
-                                Math.max(m, n),
-                                4 * Math.min(m, n) * Math.min(m, n) + 4
-                                        * Math.min(m, n));
-            else
-                lwork = 3
-                        * Math.min(m, n)
-                        * Math.min(m, n)
-                        + Math.max(
-                                Math.max(m, n),
-                                5 * Math.min(m, n) * Math.min(m, n) + 4
-                                        * Math.min(m, n));
-        } else
+        int lwork;
+        if (info.val == 0) {
             lwork = (int) worksize[0];
+        } else {
+            if (jobz == JobSVD.None) { // N
+                lwork = 3 * min + Math.max(max, 7 * min);
+            } else if (jobz == JobSVD.Part) { // S
+                lwork = 3 * min * min + Math.max(max, 4 * min * min + 4 * min);
+            } else if (jobz == JobSVD.Overwrite) { // O
+                lwork = 3 * min * min + Math.max(max, 5 * min * min + 4 * min);
+            } else { // All //A
+                lwork = 3 * min * min + Math.max(max, 4 * min * min + 4 * min);
+            }
+        }
 
         lwork = Math.max(lwork, 1);
-        work = new double[lwork];
+
+        return lwork;
     }
 
     /**
@@ -165,10 +305,36 @@ public class SVD {
             throw new IllegalArgumentException("A.numColumns() != n");
 
         intW info = new intW(0);
-        LAPACK.getInstance().dgesdd(job.netlib(), m, n, A.getData(),
-                Matrices.ld(m), S, vectors ? U.getData() : new double[0],
-                Matrices.ld(m), vectors ? Vt.getData() : new double[0],
-                Matrices.ld(n), work, work.length, iwork, info);
+
+        if (job2 == null) {
+            LAPACK.getInstance().dgesdd(job1.netlib(), m, n, A.getData(), lda,
+                    S, U.getData(), ldu, Vt.getData(), ldvt, work, work.length,
+                    iwork, info);
+
+            if (job1 == JobSVD.Overwrite) {
+                if (A.numRows >= A.numColumns) {
+                    U = A;
+                } else {
+                    Vt = A;
+                }
+            }
+
+        } else {
+            LAPACK.getInstance().dgesvd(job1.netlib(), job2.netlib(), m, n,
+                    A.getData(), lda, // A
+                    S, // S
+                    U.getData(), ldu, // U
+                    Vt.getData(), ldvt, // Vt
+                    work, work.length, info);
+
+            if (job1 == JobSVD.Overwrite) {
+                U = A;
+            }
+
+            if (job2 == JobSVD.Overwrite) {
+                Vt = A;
+            }
+        }
 
         if (info.val > 0)
             throw new NotConvergedException(
@@ -183,7 +349,22 @@ public class SVD {
      * True if singular vectors are stored
      */
     public boolean hasSingularVectors() {
-        return U != null;
+        return job2 == null ? job1 != JobSVD.None : job1 != JobSVD.None
+                || job2 != JobSVD.None;
+    }
+
+    /**
+     * True if left singular vectors (U) are stored
+     */
+    public boolean hasLeftSingularVectors() {
+        return job1 != JobSVD.None;
+    }
+
+    /**
+     * True if right singular vectors (Vt) are stored
+     */
+    public boolean hasRightSingularVectors() {
+        return job2 == null ? job1 != JobSVD.None : job2 != JobSVD.None;
     }
 
     /**
