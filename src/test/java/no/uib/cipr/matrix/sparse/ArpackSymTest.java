@@ -1,22 +1,25 @@
 package no.uib.cipr.matrix.sparse;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
 import lombok.extern.java.Log;
 import no.uib.cipr.matrix.*;
 import no.uib.cipr.matrix.io.MatrixVectorReader;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 /**
  * @author Sam Halliday
  */
 @Log
-public class ArpackSymTest extends TestCase {
+public class ArpackSymTest {
 
+    @Test
     public void testRandomEigensystem() throws NotConvergedException {
         for (int i = 100; i <= 500; i = i + 100) {
             UpperSymmDenseMatrix matrix = new UpperSymmDenseMatrix(i);
@@ -28,7 +31,7 @@ public class ArpackSymTest extends TestCase {
 
             Map<Double, DenseVectorSub> results = solver.solve(todo,
                     ArpackSym.Ritz.LA);
-            Assert.assertEquals(todo, results.size());
+            assertEquals(todo, results.size());
             for (Map.Entry<Double, DenseVectorSub> e : results.entrySet()) {
                 // exact match of eigenvector / eigenvalue is not important for
                 // random matrices

@@ -1,18 +1,18 @@
 /*
  * Copyright (C) 2003-2006 Bjørn-Ove Heimsund
- * 
+ *
  * This file is part of MTJ.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation,
  * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
@@ -20,12 +20,16 @@
 
 package no.uib.cipr.matrix;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests a matrix
  */
-public abstract class MatrixTestAbstract extends TestCase {
+public abstract class MatrixTestAbstract {
 
     /**
      * Matrix to test
@@ -82,23 +86,16 @@ public abstract class MatrixTestAbstract extends TestCase {
      */
     protected int max = 100;
 
-    /**
-     * Constructor for MatrixTestAbstract
-     */
-    public MatrixTestAbstract(String arg0) {
-        super(arg0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         createPrimary();
         createAuxillerary();
     }
 
     protected abstract void createPrimary() throws Exception;
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         A = B = Bdense = null;
         Ad = Bd = null;
         xC = xDenseC = xDenseR = xR = yC = yDenseC = yDenseR = yR = null;
@@ -132,6 +129,7 @@ public abstract class MatrixTestAbstract extends TestCase {
         ydR = Matrices.getArray(yR);
     }
 
+    @Test
     public void testMatrixRank2Dense() {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
@@ -143,12 +141,13 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.rank2(alpha, B, C);
             rank2(Ad, alpha, Bd, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Bd, B);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Bd, B);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixRank2() {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
@@ -161,12 +160,13 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.rank2(alpha, B, C);
             rank2(Ad, alpha, Bd, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Bd, B);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Bd, B);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixTransRank2Dense() {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
@@ -178,12 +178,13 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.transRank2(alpha, B, C);
             transRank2(Ad, alpha, Bd, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Bd, B);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Bd, B);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixTransRank2() {
         if (A.isSquare()) {
             int n = Utilities.getInt(1, max);
@@ -196,12 +197,13 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.transRank2(alpha, B, C);
             transRank2(Ad, alpha, Bd, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Bd, B);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Bd, B);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixRank1Dense() {
         if (A.isSquare()) {
             Matrix C = Matrices.random(A.numRows(), A.numColumns());
@@ -211,11 +213,12 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.rank1(alpha, C);
             rank1(Ad, alpha, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixRank1() {
         if (A.isSquare()) {
             Matrix C = Matrices.synchronizedMatrix(Matrices.random(A.numRows(),
@@ -226,11 +229,12 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.rank1(alpha, C);
             rank1(Ad, alpha, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixTransRank1Dense() {
         if (A.isSquare()) {
             Matrix C = Matrices.random(A.numRows(), A.numColumns());
@@ -240,11 +244,12 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.transRank1(alpha, C);
             transRank1(Ad, alpha, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixTransRank1() {
         if (A.isSquare()) {
             Matrix C = Matrices.synchronizedMatrix(Matrices.random(A.numRows(),
@@ -255,11 +260,12 @@ public abstract class MatrixTestAbstract extends TestCase {
             A = A.transRank1(alpha, C);
             transRank1(Ad, alpha, Cd);
 
-            assertEquals(Ad, A);
-            assertEquals(Cd, C);
+            assertMatrixEquals(Ad, A);
+            assertMatrixEquals(Cd, C);
         }
     }
 
+    @Test
     public void testMatrixMultDense() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(k, n), C = Matrices.random(m, n);
@@ -269,11 +275,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.mult(alpha, B, C);
         Cd = mult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixMult() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(k, n)), C = Matrices
@@ -284,11 +291,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.mult(alpha, B, C);
         Cd = mult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransAmultDense() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(k, n), C = Matrices.random(m, n);
@@ -298,11 +306,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transAmult(alpha, B, C);
         Cd = transAmult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransAmult() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(k, n)), C = Matrices
@@ -313,11 +322,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transAmult(alpha, B, C);
         Cd = transAmult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransABmultDense() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(n, k), C = Matrices.random(m, n);
@@ -327,11 +337,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transABmult(alpha, B, C);
         Cd = transABmult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransABmult() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(n, k)), C = Matrices
@@ -342,11 +353,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transABmult(alpha, B, C);
         Cd = transABmult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransBmultDense() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(n, k), C = Matrices.random(m, n);
@@ -356,11 +368,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transBmult(alpha, B, C);
         Cd = transBmult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransBmult() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(n, k)), C = Matrices
@@ -371,11 +384,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transBmult(alpha, B, C);
         Cd = transBmult(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixMultAddDense() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(k, n), C = Matrices.random(m, n);
@@ -385,11 +399,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.multAdd(alpha, B, C);
         Cd = multAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixMultAdd() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(k, n)), C = Matrices
@@ -400,11 +415,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.multAdd(alpha, B, C);
         Cd = multAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransAmultAddDense() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(k, n), C = Matrices.random(m, n);
@@ -414,11 +430,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transAmultAdd(alpha, B, C);
         Cd = transAmultAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransAmultAdd() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(k, n)), C = Matrices
@@ -429,11 +446,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transAmultAdd(alpha, B, C);
         Cd = transAmultAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransABmultAddDense() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(n, k), C = Matrices.random(m, n);
@@ -443,11 +461,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transABmultAdd(alpha, B, C);
         Cd = transABmultAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransABmultAdd() {
         int m = A.numColumns(), k = A.numRows(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(n, k)), C = Matrices
@@ -458,11 +477,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transABmultAdd(alpha, B, C);
         Cd = transABmultAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransBmultAddDense() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.random(n, k), C = Matrices.random(m, n);
@@ -472,11 +492,12 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transBmultAdd(alpha, B, C);
         Cd = transBmultAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
+    @Test
     public void testMatrixTransBmultAdd() {
         int m = A.numRows(), k = A.numColumns(), n = Utilities.getInt(1, max);
         Matrix B = Matrices.synchronizedMatrix(Matrices.random(n, k)), C = Matrices
@@ -487,9 +508,9 @@ public abstract class MatrixTestAbstract extends TestCase {
         C = A.transBmultAdd(alpha, B, C);
         Cd = transBmultAdd(Ad, alpha, Bd, Cd);
 
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
-        assertEquals(Cd, C);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
+        assertMatrixEquals(Cd, C);
     }
 
     protected double[][] rank2(double[][] Ad, double alpha, double[][] Bd,
@@ -510,33 +531,37 @@ public abstract class MatrixTestAbstract extends TestCase {
         return transAmultAdd(Cd, alpha, Cd, Ad);
     }
 
+    @Test
     public void testVectorRank2Dense() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank2(alpha, xdR, ydR),
+            assertMatrixEquals(rank2(alpha, xdR, ydR),
                     A.rank2(alpha, xDenseR, yDenseR));
         }
     }
 
+    @Test
     public void testVectorRank2() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank2(alpha, xdR, ydR), A.rank2(alpha, xR, yR));
+            assertMatrixEquals(rank2(alpha, xdR, ydR), A.rank2(alpha, xR, yR));
         }
     }
 
+    @Test
     public void testVectorRank1Dense() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank1(alpha, xdR, ydR),
+            assertMatrixEquals(rank1(alpha, xdR, ydR),
                     A.rank1(alpha, xDenseR, yDenseR));
         }
     }
 
+    @Test
     public void testVectorRank1() {
         if (A.isSquare()) {
             double alpha = Math.random();
-            assertEquals(rank1(alpha, xdR, ydR), A.rank1(alpha, xR, yR));
+            assertMatrixEquals(rank1(alpha, xdR, ydR), A.rank1(alpha, xR, yR));
         }
     }
 
@@ -553,22 +578,24 @@ public abstract class MatrixTestAbstract extends TestCase {
         return Ad;
     }
 
+    @Test
     public void testVectorTransMultAddDense() {
         double alpha = Math.random();
-        assertEquals(transMultAdd(alpha, xdR, ydC),
+        assertVectorEquals(transMultAdd(alpha, xdR, ydC),
                 A.transMultAdd(alpha, xDenseR, yDenseC));
-        assertEquals(Ad, A);
-        assertEquals(xdR, xDenseR);
-        assertEquals(ydC, yDenseC);
+        assertMatrixEquals(Ad, A);
+        assertVectorEquals(xdR, xDenseR);
+        assertVectorEquals(ydC, yDenseC);
     }
 
+    @Test
     public void testVectorTransMultAdd() {
         double alpha = Math.random();
-        assertEquals(transMultAdd(alpha, xdR, ydC),
+        assertVectorEquals(transMultAdd(alpha, xdR, ydC),
                 A.transMultAdd(alpha, xR, yC));
-        assertEquals(Ad, A);
-        assertEquals(xdR, xR);
-        assertEquals(ydC, yC);
+        assertMatrixEquals(Ad, A);
+        assertVectorEquals(xdR, xR);
+        assertVectorEquals(ydC, yC);
     }
 
     protected double[] transMultAdd(double alpha, double[] xd, double[] yd) {
@@ -586,20 +613,23 @@ public abstract class MatrixTestAbstract extends TestCase {
         return yd;
     }
 
+    @Test
     public void testVectorMultDense() {
         double alpha = Math.random();
-        assertEquals(mult(alpha, xdC, ydR), A.mult(alpha, xDenseC, yDenseR));
-        assertEquals(Ad, A);
-        assertEquals(xdC, xDenseC);
-        assertEquals(ydR, yDenseR);
+        assertVectorEquals(mult(alpha, xdC, ydR),
+                A.mult(alpha, xDenseC, yDenseR));
+        assertMatrixEquals(Ad, A);
+        assertVectorEquals(xdC, xDenseC);
+        assertVectorEquals(ydR, yDenseR);
     }
 
+    @Test
     public void testVectorMult() {
         double alpha = Math.random();
-        assertEquals(mult(alpha, xdC, ydR), A.mult(alpha, xC, yR));
-        assertEquals(Ad, A);
-        assertEquals(xdC, xC);
-        assertEquals(ydR, yR);
+        assertVectorEquals(mult(alpha, xdC, ydR), A.mult(alpha, xC, yR));
+        assertMatrixEquals(Ad, A);
+        assertVectorEquals(xdC, xC);
+        assertVectorEquals(ydR, yR);
     }
 
     protected double[] mult(double alpha, double[] xd, double[] yd) {
@@ -612,21 +642,24 @@ public abstract class MatrixTestAbstract extends TestCase {
         return yd;
     }
 
+    @Test
     public void testVectorMultAddDense() {
         double alpha = Math.random();
-        assertEquals(multAdd(Ad, alpha, xdC, ydR),
+        assertVectorEquals(multAdd(Ad, alpha, xdC, ydR),
                 A.multAdd(alpha, xDenseC, yDenseR));
-        assertEquals(Ad, A);
-        assertEquals(xdC, xDenseC);
-        assertEquals(ydR, yDenseR);
+        assertMatrixEquals(Ad, A);
+        assertVectorEquals(xdC, xDenseC);
+        assertVectorEquals(ydR, yDenseR);
     }
 
+    @Test
     public void testVectorMultAdd() {
         double alpha = Math.random();
-        assertEquals(multAdd(Ad, alpha, xdC, ydR), A.multAdd(alpha, xC, yR));
-        assertEquals(Ad, A);
-        assertEquals(xdC, xC);
-        assertEquals(ydR, yR);
+        assertVectorEquals(multAdd(Ad, alpha, xdC, ydR),
+                A.multAdd(alpha, xC, yR));
+        assertMatrixEquals(Ad, A);
+        assertVectorEquals(xdC, xC);
+        assertVectorEquals(ydR, yR);
     }
 
     protected double[] multAdd(double[][] Ad, double alpha, double[] xd,
@@ -773,91 +806,100 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Tests <code>A = A + alpha*B</code>
      */
+    @Test
     public void testRandomMatrixAdd() {
         double alpha = Math.random();
         A = A.add(alpha, B);
         add(Ad, alpha, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = A + B</code>
      */
+    @Test
     public void testMatrixAdd() {
         A = A.add(B);
         add(Ad, 1, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = A + 1*B</code>
      */
+    @Test
     public void testOneMatrixAdd() {
         A = A.add(1, B);
         add(Ad, 1, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = A + 0*B</code>
      */
+    @Test
     public void testZeroMatrixAdd() {
         A = A.add(0, B);
         add(Ad, 0, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = alpha*B</code>
      */
+    @Test
     public void testRandomMatrixSet() {
         double alpha = Math.random();
         A = A.set(alpha, B);
         set(Ad, alpha, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = B</code>
      */
+    @Test
     public void testMatrixSet() {
         A = A.set(B);
         set(Ad, 1, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = 1*B</code>
      */
+    @Test
     public void testOneMatrixSet() {
         A = A.set(1, B);
         set(Ad, 1, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Tests <code>A = 0*B</code>
      */
+    @Test
     public void testZeroMatrixSet() {
         A = A.set(0, B);
         set(Ad, 0, Bd);
-        assertEquals(Ad, A);
-        assertEquals(Bd, B);
+        assertMatrixEquals(Ad, A);
+        assertMatrixEquals(Bd, B);
     }
 
     /**
      * Checks transpose
      */
+    @Test
     public void testTranspose() {
         Matrix At = Matrices.random(A.numColumns(), A.numRows());
-        assertEquals(transpose(), A.transpose(At));
+        assertMatrixEquals(transpose(), A.transpose(At));
     }
 
     protected void set(double[][] A, double alpha, double[][] B) {
@@ -886,6 +928,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Test of direct matrix solver
      */
+    @Test
     public void testMatrixSolve() {
         while (true) {
             try {
@@ -895,7 +938,7 @@ public abstract class MatrixTestAbstract extends TestCase {
 
                 Matrix Y = A.multAdd(X, X.copy().set(-1, B));
                 assertEquals(0, Y.norm(Matrix.Norm.Frobenius), tol);
-                assertEquals(Ad, A);
+                assertMatrixEquals(Ad, A);
                 return;
             } catch (MatrixSingularException e) {
                 Utilities.addDiagonal(A, Ad, 1);
@@ -908,6 +951,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Test of direct transpose matrix solver
      */
+    @Test
     public void testTransMatrixSolve() {
         while (true) {
             try {
@@ -917,7 +961,7 @@ public abstract class MatrixTestAbstract extends TestCase {
 
                 Matrix Y = A.transAmultAdd(X, X.copy().set(-1, B));
                 assertEquals(0, Y.norm(Matrix.Norm.Frobenius), tol);
-                assertEquals(Ad, A);
+                assertMatrixEquals(Ad, A);
                 return;
             } catch (MatrixSingularException e) {
                 Utilities.addDiagonal(A, Ad, 1);
@@ -930,6 +974,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Test of direct vector solver
      */
+    @Test
     public void testVectorSolve() {
         while (true) {
             try {
@@ -939,7 +984,7 @@ public abstract class MatrixTestAbstract extends TestCase {
 
                 Vector y = A.multAdd(-1, x, x.copy().set(b));
                 assertEquals(0, y.norm(Vector.Norm.Two), tol);
-                assertEquals(Ad, A);
+                assertMatrixEquals(Ad, A);
                 return;
             } catch (MatrixSingularException e) {
                 Utilities.addDiagonal(A, Ad, 1);
@@ -952,6 +997,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Test of direct transpose vector solver
      */
+    @Test
     public void testTransVectorSolve() {
         while (true) {
             try {
@@ -961,7 +1007,7 @@ public abstract class MatrixTestAbstract extends TestCase {
 
                 Vector y = A.transMultAdd(-1, x, x.copy().set(b));
                 assertEquals(0, y.norm(Vector.Norm.Two), tol);
-                assertEquals(Ad, A);
+                assertMatrixEquals(Ad, A);
                 return;
             } catch (MatrixSingularException e) {
                 Utilities.addDiagonal(A, Ad, 1);
@@ -974,47 +1020,52 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Test additions using iterators
      */
+    @Test
     public void testAdd() {
         double alpha = Math.random();
         for (MatrixEntry e : A) {
             A.add(e.row(), e.column(), alpha);
             A.add(e.row(), e.column(), -alpha);
         }
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     /**
      * Checks that copy is deep, not reference
      */
+    @Test
     public void testCopy() {
         Matrix Ac = A.copy();
         A = A.zero();
-        assertEquals(Ad, Ac);
+        assertMatrixEquals(Ad, Ac);
     }
 
     /**
      * Test iterator get
      */
+    @Test
     public void testIterator() {
         double[][] Ac = new double[A.numRows()][A.numColumns()];
         for (MatrixEntry e : A)
             Ac[e.row()][e.column()] = e.get();
-        assertEquals(Ad, Ac);
+        assertMatrixEquals(Ad, Ac);
     }
 
     /**
      * Test iterator set
      */
+    @Test
     public void testIteratorSet() {
         double alpha = Math.random();
         for (MatrixEntry e : A)
             e.set(e.get() * alpha);
-        assertEquals(scale(alpha), A);
+        assertMatrixEquals(scale(alpha), A);
     }
 
     /**
      * Test iterator read and write
      */
+    @Test
     public void testIteratorSetGet() {
         double alpha = Math.random();
         double[][] Ac = new double[A.numRows()][A.numColumns()];
@@ -1023,15 +1074,16 @@ public abstract class MatrixTestAbstract extends TestCase {
             e.set(alpha * e.get());
             e.set(e.get() / alpha);
         }
-        assertEquals(Ad, Ac);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, Ac);
+        assertMatrixEquals(Ad, A);
     }
 
     /**
      * Checks zero()
      */
+    @Test
     public void testZero() {
-        assertEquals(zero(), A.zero());
+        assertMatrixEquals(zero(), A.zero());
     }
 
     protected double[][] zero() {
@@ -1044,6 +1096,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Cardinality computation
      */
+    @Test
     public void testCardinality() {
         assertEquals(Matrices.cardinality(A), cardinality());
     }
@@ -1060,37 +1113,41 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Checks in-place transpose for square matrices
      */
+    @Test
     public void testTransposeInplace() {
         if (A.isSquare())
-            assertEquals(transpose(), A.copy().transpose());
+            assertMatrixEquals(transpose(), A.copy().transpose());
     }
 
     /**
      * Scaling with an arbitrary scalar
      */
+    @Test
     public void testScale() {
         double alpha = Math.random();
         A = A.scale(alpha);
         scale(alpha);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     /**
      * Scaling by zero
      */
+    @Test
     public void testZeroScale() {
         A = A.scale(0);
         scale(0);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     /**
      * Scaling by one
      */
+    @Test
     public void testOneScale() {
         A = A.scale(1);
         scale(1);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     protected double[][] scale(double alpha) {
@@ -1103,25 +1160,28 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Checks the 1 norm
      */
+    @Test
     public void testOneNorm() {
         assertEquals(norm1(Ad), A.norm(Matrix.Norm.One), tol);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     /**
      * Checks the Frobenius norm
      */
+    @Test
     public void testFrobeniusNorm() {
         assertEquals(normF(Ad), A.norm(Matrix.Norm.Frobenius), tol);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     /**
      * Checks the infinity norm
      */
+    @Test
     public void testInfinityNorm() {
         assertEquals(normInf(Ad), A.norm(Matrix.Norm.Infinity), tol);
-        assertEquals(Ad, A);
+        assertMatrixEquals(Ad, A);
     }
 
     protected double norm1(double[][] A) {
@@ -1161,7 +1221,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Checks for equality between the matrix and the array
      */
-    protected void assertEquals(double[][] Ad, Matrix A) {
+    protected void assertMatrixEquals(double[][] Ad, Matrix A) {
         assertTrue(A != null);
         assertTrue(Ad != null);
         assertTrue(A.numRows() == Ad.length);
@@ -1175,7 +1235,7 @@ public abstract class MatrixTestAbstract extends TestCase {
     /**
      * Checks for equality between two arrays
      */
-    protected void assertEquals(double[][] Ad, double[][] Ac) {
+    protected void assertMatrixEquals(double[][] Ad, double[][] Ac) {
         assertTrue(Ac.length == Ad.length);
         for (int i = 0; i < A.numRows(); ++i) {
             assertTrue(Ac[i].length == Ad[i].length);
@@ -1184,18 +1244,18 @@ public abstract class MatrixTestAbstract extends TestCase {
         }
     }
 
-    protected void assertEquals(double[] xd, Vector x) {
+    protected void assertVectorEquals(double[] xd, Vector x) {
         assertEquals(xd.length, x.size());
         for (int i = 0; i < xd.length; ++i)
             assertEquals(xd[i], x.get(i), tol);
     }
 
-    protected void assertEquals(double[] xd, double[] yd) {
+    protected void assertVectorEquals(double[] xd, double[] yd) {
         for (int i = 0; i < xd.length; ++i)
             assertEquals(xd[i], yd[i], tol);
     }
 
-    public static void assertEquals(Matrix expected, Matrix test) {
+    public static void assertMatrixEquals(Matrix expected, Matrix test) {
         assertEquals(expected.numRows(), test.numRows());
         assertEquals(expected.numColumns(), test.numColumns());
         for (int i = 0; i < test.numRows(); i++) {
@@ -1205,7 +1265,7 @@ public abstract class MatrixTestAbstract extends TestCase {
         }
     }
 
-    public static void assertEquals(Vector expected, Vector test) {
+    public static void assertVectorEquals(Vector expected, Vector test) {
         assertEquals(expected.size(), test.size());
         for (int i = 0; i < test.size(); i++) {
             assertEquals(expected.get(i), test.get(i), 0.0001);

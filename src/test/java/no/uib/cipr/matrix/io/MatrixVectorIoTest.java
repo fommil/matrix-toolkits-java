@@ -1,18 +1,19 @@
 package no.uib.cipr.matrix.io;
 
-import junit.framework.TestCase;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.MatrixTestAbstract;
 import no.uib.cipr.matrix.sparse.CompRowMatrix;
+import org.junit.Test;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-public class MatrixVectorIoTest extends TestCase {
+public class MatrixVectorIoTest {
 
+    @Test
     public void testWriteRead() throws Exception {
         DenseMatrix mat = new DenseMatrix(
                 new double[][]{{1.1, 1.2}, {1.3, 1.4}});
@@ -29,9 +30,10 @@ public class MatrixVectorIoTest extends TestCase {
         Matrix newMat = new DenseMatrix(new MatrixVectorReader(new FileReader(
                 matrixFile)));
 
-        MatrixTestAbstract.assertEquals(mat, newMat);
+        MatrixTestAbstract.assertMatrixEquals(mat, newMat);
     }
 
+    @Test
     public void testSparseWriteRead() throws Exception {
         CompRowMatrix mat = new CompRowMatrix(3, 3, new int[][]{{1, 2}, {0, 2},
                 {1}});
@@ -55,7 +57,7 @@ public class MatrixVectorIoTest extends TestCase {
         out.close();
         CompRowMatrix newMat = new CompRowMatrix(new MatrixVectorReader(
                 new FileReader(testFile)));
-        MatrixTestAbstract.assertEquals(mat, newMat);
+        MatrixTestAbstract.assertMatrixEquals(mat, newMat);
     }
 
     private int[] buildRowArray(CompRowMatrix mat) {

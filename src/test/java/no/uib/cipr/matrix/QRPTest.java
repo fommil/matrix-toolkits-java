@@ -19,22 +19,26 @@
  */
 package no.uib.cipr.matrix;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * QRP test
  */
-public class QRPTest extends TestCase {
+public class QRPTest {
 
+    @Test
     public void testIdentity() {
         Matrix A = Matrices.identity(5);
 
         QRP qrp = QRP.factorize(A);
 
-        assertEquals(A,
+        assertMatrixEquals(A,
                 mult(qrp.getQ(), qrp.getPVector(), qrp.getR(), A.copy().zero()));
     }
 
+    @Test
     public void testRectangularIdentity1() {
         Matrix A = new DenseMatrix(5, 6);
         for (MatrixEntry i : A) {
@@ -44,10 +48,11 @@ public class QRPTest extends TestCase {
 
         QRP qrp = QRP.factorize(A);
 
-        assertEquals(A,
+        assertMatrixEquals(A,
                 mult(qrp.getQ(), qrp.getPVector(), qrp.getR(), A.copy().zero()));
     }
 
+    @Test
     public void testRectangularIdentity2() {
         Matrix A = new DenseMatrix(6, 5);
         for (MatrixEntry i : A) {
@@ -57,10 +62,11 @@ public class QRPTest extends TestCase {
 
         QRP qrp = QRP.factorize(A);
 
-        assertEquals(A,
+        assertMatrixEquals(A,
                 mult(qrp.getQ(), qrp.getPVector(), qrp.getR(), A.copy().zero()));
     }
 
+    @Test
     public void testOrthogonality() {
         Matrix A = Matrices.random(6, 4);
 
@@ -68,10 +74,11 @@ public class QRPTest extends TestCase {
 
         Matrix QP = qrp.getQ();
 
-        assertEquals(Matrices.identity(QP.numRows()),
+        assertMatrixEquals(Matrices.identity(QP.numRows()),
                 QP.transAmult(QP, QP.copy().zero()));
     }
 
+    @Test
     public void testOrthogonality2() {
         Matrix A = Matrices.random(4, 6);
 
@@ -79,10 +86,11 @@ public class QRPTest extends TestCase {
 
         Matrix QP = qrp.getQ();
 
-        assertEquals(Matrices.identity(QP.numRows()),
+        assertMatrixEquals(Matrices.identity(QP.numRows()),
                 QP.transAmult(QP, QP.copy().zero()));
     }
 
+    @Test
     public void testRandSquare() {
         Matrix A = Matrices.random(5, 5);
 
@@ -91,27 +99,30 @@ public class QRPTest extends TestCase {
         Matrix R = qrp.getR();
         int P[] = qrp.getPVector();
 
-        assertEquals(A, mult(Q, P, R, A.copy().zero()));
+        assertMatrixEquals(A, mult(Q, P, R, A.copy().zero()));
     }
 
+    @Test
     public void testRandRectangular1() {
         Matrix A = Matrices.random(4, 6);
 
         QRP qrp = QRP.factorize(A);
 
-        assertEquals(A,
+        assertMatrixEquals(A,
                 mult(qrp.getQ(), qrp.getPVector(), qrp.getR(), A.copy().zero()));
     }
 
+    @Test
     public void testRandRectangular2() {
         Matrix A = Matrices.random(6, 4);
 
         QRP qrp = QRP.factorize(A);
 
-        assertEquals(A,
+        assertMatrixEquals(A,
                 mult(qrp.getQ(), qrp.getPVector(), qrp.getR(), A.copy().zero()));
     }
 
+    @Test
     public void testPivotingMatrix() {
         Matrix A = Matrices.random(6, 4);
 
@@ -126,9 +137,10 @@ public class QRPTest extends TestCase {
         Q.mult(R, C);
         C.transBmult(P, D);
 
-        assertEquals(A, D);
+        assertMatrixEquals(A, D);
     }
 
+    @Test
     public void testRank1() {
         Matrix rand = Matrices.random(6, 4);
 
@@ -140,6 +152,7 @@ public class QRPTest extends TestCase {
         assertEquals(Math.min(rand.numRows(), rand.numColumns()), qrp.getRank());
     }
 
+    @Test
     public void testRank2() {
         Matrix rand = Matrices.random(4, 6);
 
@@ -181,7 +194,7 @@ public class QRPTest extends TestCase {
     /**
      * Assert that the given matrices are identical
      */
-    protected void assertEquals(Matrix A, Matrix B) {
+    protected void assertMatrixEquals(Matrix A, Matrix B) {
         assertEquals(A.numRows(), B.numRows());
         assertEquals(A.numColumns(), B.numColumns());
         for (int i = 0; i < A.numRows(); ++i) {
