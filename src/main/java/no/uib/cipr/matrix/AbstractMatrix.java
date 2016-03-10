@@ -22,6 +22,7 @@ package no.uib.cipr.matrix;
 
 import java.util.Formatter;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * Partial implementation of <code>Matrix</code>. The following methods throw
@@ -60,6 +61,8 @@ import java.util.Iterator;
  */
 public abstract class AbstractMatrix implements Matrix {
 
+    private static final Logger LOGGER = Logger.getLogger(AbstractMatrix.class
+            .getName());
     /**
      * Number of rows
      */
@@ -794,23 +797,33 @@ public abstract class AbstractMatrix implements Matrix {
     @Override
     public String toString() {
         // Output into coordinate format. Indices start from 1 instead of 0
-        Formatter out = new Formatter();
+        Formatter out = null;
+        String output = null;
+        try {
+            out = new Formatter();
 
-        out.format("%10d %10d %19d%n", numRows, numColumns,
-                Matrices.cardinality(this));
+            out.format("%10d %10d %19d\n", numRows, numColumns,
+                    Matrices.cardinality(this));
 
-        int i = 0;
-        for (MatrixEntry e : this) {
-            if (e.get() != 0)
-                out.format("%10d %10d % .12e\n", e.row() + 1, e.column() + 1,
-                        e.get());
-            if (++i == 100) {
-                out.format("...\n");
-                break;
+            int i = 0;
+            for (MatrixEntry e : this) {
+                if (e.get() != 0)
+                    out.format("%10d %10d % .12e\n", e.row() + 1,
+                            e.column() + 1, e.get());
+                if (++i == 100) {
+                    out.format("...\n");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.info("Exception in toString: " + e.getMessage());
+        } finally {
+            if (out != null) {
+                output = out.toString();
+                out.close();
             }
         }
-
-        return out.toString();
+        return output;
     }
 
     public Iterator<MatrixEntry> iterator() {

@@ -107,7 +107,7 @@ public class ILU implements Preconditioner {
                             + (i + 1) + " during ILU process");
 
                 // Elimination factor
-                double LUki = (data[i] /= LUii);
+                double LUki = data[i] /= LUii;
 
                 // Traverse the sparse row i, reducing on row k
                 for (int j = diagind[index] + 1, l = rowptr[k] + 1; j < rowptr[index + 1]; ++j) {
