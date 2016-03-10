@@ -33,6 +33,10 @@ import java.util.List;
  */
 public class MatrixVectorReader extends BufferedReader {
 
+    private static final String UNKNOWN_TOKEN_FOUND_DURING_PARSING = "Unknown token found during parsing";
+    private static final String END_OF_FILE_ENCOUNTERED_DURING_PARSING = "End-of-File encountered during parsing";
+    private static final String ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE = "All arrays must be of the same size";
+    private static final String MATRIX_MARKET = "%%MatrixMarket";
     /**
      * Reads the entries of the matrix or vector
      */
@@ -126,7 +130,7 @@ public class MatrixVectorReader extends BufferedReader {
                     "Current line unparsable. It must consist of 5 tokens");
 
         // Read header
-        if (!component[0].equalsIgnoreCase("%%MatrixMarket"))
+        if (!component[0].equalsIgnoreCase(MATRIX_MARKET))
             throw new IOException("Not in Matrix Market exchange format");
 
         // This will always be "matrix"
@@ -185,7 +189,7 @@ public class MatrixVectorReader extends BufferedReader {
                     "Current line unparsable. It must consist of 4 tokens");
 
         // Read header
-        if (!component[0].equalsIgnoreCase("%%MatrixMarket"))
+        if (!component[0].equalsIgnoreCase(MATRIX_MARKET))
             throw new IOException("Not in Matrix Market exchange format");
 
         // This will always be "vector"
@@ -230,7 +234,7 @@ public class MatrixVectorReader extends BufferedReader {
         String[] component = readTrimmedLine().split(" +");
         reset();
 
-        return component[0].equalsIgnoreCase("%%MatrixMarket");
+        return component[0].equalsIgnoreCase(MATRIX_MARKET);
     }
 
     /**
@@ -365,7 +369,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = dataR.length;
         if (size != dataI.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             dataR[i] = getDouble();
             dataI[i] = getDouble();
@@ -380,7 +384,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = dataR.length;
         if (size != dataI.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             dataR[i] = getFloat();
             dataI[i] = getFloat();
@@ -394,7 +398,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = index.length;
         if (size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             index[i] = getInt();
             data[i] = getDouble();
@@ -408,7 +412,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = index.length;
         if (size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             index[i] = getInt();
             data[i] = getFloat();
@@ -422,7 +426,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = index.length;
         if (size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             index[i] = getInt();
             data[i] = getInt();
@@ -436,7 +440,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = index.length;
         if (size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             index[i] = getInt();
             data[i] = getLong();
@@ -452,7 +456,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = index.length;
         if (size != dataR.length || size != dataI.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             index[i] = getInt();
             dataR[i] = getFloat();
@@ -469,7 +473,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = index.length;
         if (size != dataR.length || size != dataI.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             index[i] = getInt();
             dataR[i] = getDouble();
@@ -494,7 +498,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = row.length;
         if (size != column.length || size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -510,7 +514,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = row.length;
         if (size != column.length || size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -526,7 +530,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = row.length;
         if (size != column.length || size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -542,7 +546,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = row.length;
         if (size != column.length || size != data.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -557,7 +561,7 @@ public class MatrixVectorReader extends BufferedReader {
         int size = row.length;
         if (size != column.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -574,7 +578,7 @@ public class MatrixVectorReader extends BufferedReader {
         if (size != column.length || size != dataR.length
                 || size != dataI.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -593,7 +597,7 @@ public class MatrixVectorReader extends BufferedReader {
         if (size != column.length || size != dataR.length
                 || size != dataI.length)
             throw new IllegalArgumentException(
-                    "All arrays must be of the same size");
+                    ALL_ARRAYS_MUST_BE_OF_THE_SAME_SIZE);
         for (int i = 0; i < size; ++i) {
             row[i] = getInt();
             column[i] = getInt();
@@ -610,9 +614,9 @@ public class MatrixVectorReader extends BufferedReader {
         if (st.ttype == StreamTokenizer.TT_WORD)
             return Double.valueOf(st.sval).intValue();
         else if (st.ttype == StreamTokenizer.TT_EOF)
-            throw new EOFException("End-of-File encountered during parsing");
+            throw new EOFException(END_OF_FILE_ENCOUNTERED_DURING_PARSING);
         else
-            throw new IOException("Unknown token found during parsing");
+            throw new IOException(UNKNOWN_TOKEN_FOUND_DURING_PARSING);
     }
 
     /**
@@ -623,9 +627,9 @@ public class MatrixVectorReader extends BufferedReader {
         if (st.ttype == StreamTokenizer.TT_WORD)
             return Long.parseLong(st.sval);
         else if (st.ttype == StreamTokenizer.TT_EOF)
-            throw new EOFException("End-of-File encountered during parsing");
+            throw new EOFException(END_OF_FILE_ENCOUNTERED_DURING_PARSING);
         else
-            throw new IOException("Unknown token found during parsing");
+            throw new IOException(UNKNOWN_TOKEN_FOUND_DURING_PARSING);
     }
 
     /**
@@ -636,9 +640,9 @@ public class MatrixVectorReader extends BufferedReader {
         if (st.ttype == StreamTokenizer.TT_WORD)
             return Double.parseDouble(st.sval);
         else if (st.ttype == StreamTokenizer.TT_EOF)
-            throw new EOFException("End-of-File encountered during parsing");
+            throw new EOFException(END_OF_FILE_ENCOUNTERED_DURING_PARSING);
         else
-            throw new IOException("Unknown token found during parsing");
+            throw new IOException(UNKNOWN_TOKEN_FOUND_DURING_PARSING);
     }
 
     /**
@@ -649,9 +653,9 @@ public class MatrixVectorReader extends BufferedReader {
         if (st.ttype == StreamTokenizer.TT_WORD)
             return Float.parseFloat(st.sval);
         else if (st.ttype == StreamTokenizer.TT_EOF)
-            throw new EOFException("End-of-File encountered during parsing");
+            throw new EOFException(END_OF_FILE_ENCOUNTERED_DURING_PARSING);
         else
-            throw new IOException("Unknown token found during parsing");
+            throw new IOException(UNKNOWN_TOKEN_FOUND_DURING_PARSING);
     }
 
 }
