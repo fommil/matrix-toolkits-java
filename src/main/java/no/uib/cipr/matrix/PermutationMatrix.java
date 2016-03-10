@@ -24,7 +24,7 @@ public class PermutationMatrix extends AbstractMatrix {
      * @param pivots
      *            using fortran (1-indexed) notation.
      */
-    public static PermutationMatrix fromPartialPivots(int pivots[]) {
+    public static PermutationMatrix fromPartialPivots(int[] pivots) {
         int[] permutations = new int[pivots.length];
         for (int i = 0; i < pivots.length; i++) {
             permutations[i] = i;
@@ -48,13 +48,13 @@ public class PermutationMatrix extends AbstractMatrix {
 
     // the instantaneous permutations to perform (zero-indexed)
     // http://en.wikipedia.org/wiki/Permutation_matrix
-    public PermutationMatrix(int permutations[]) {
+    public PermutationMatrix(int[] permutations) {
         this(permutations, null);
     }
 
     // permutations - instantaneous (zero-indexed)
     // pivots - sequential (fortran-indexed)
-    private PermutationMatrix(int permutations[], int pivots[]) {
+    private PermutationMatrix(int[] permutations, int[] pivots) {
         super(permutations.length, permutations.length);
         this.permutations = permutations;
         BitSet bitset = new BitSet();
