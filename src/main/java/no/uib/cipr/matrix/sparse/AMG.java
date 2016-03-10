@@ -458,7 +458,7 @@ public class AMG implements Preconditioner {
         /**
          * Finds the diagonal indices of the matrix
          */
-        private int[] findDiagonalIndices(CompRowMatrix A) {
+        private static int[] findDiagonalIndices(CompRowMatrix A) {
             int[] rowptr = A.getRowPointers();
             int[] colind = A.getColumnIndices();
 
@@ -509,7 +509,7 @@ public class AMG implements Preconditioner {
         /**
          * Creates the initial R-set by including only the connected nodes
          */
-        private boolean[] createInitialR(CompRowMatrix A) {
+        private static boolean[] createInitialR(CompRowMatrix A) {
             boolean[] R = new boolean[A.numRows()];
 
             int[] rowptr = A.getRowPointers();
@@ -564,8 +564,8 @@ public class AMG implements Preconditioner {
         /**
          * Enlarges the aggregates
          */
-        private List<Set<Integer>> enlargeAggregates(List<Set<Integer>> C,
-                List<Set<Integer>> N, boolean[] R) {
+        private static List<Set<Integer>> enlargeAggregates(
+                List<Set<Integer>> C, List<Set<Integer>> N, boolean[] R) {
 
             // Contains the aggregates each node is coupled to
             List<List<Integer>> belong = new ArrayList<List<Integer>>(R.length);
@@ -616,8 +616,8 @@ public class AMG implements Preconditioner {
         /**
          * Creates final aggregates from the remaining unallocated nodes
          */
-        private List<Set<Integer>> createFinalAggregates(List<Set<Integer>> C,
-                List<Set<Integer>> N, boolean[] R) {
+        private static List<Set<Integer>> createFinalAggregates(
+                List<Set<Integer>> C, List<Set<Integer>> N, boolean[] R) {
 
             for (int i = 0; i < R.length; ++i) {
 
@@ -714,7 +714,8 @@ public class AMG implements Preconditioner {
          * in a single array. Its length equals the number of fine nodes, and
          * the entries are the indices to the corresponding aggregate (C-set).
          */
-        private int[] createTentativeProlongation(List<Set<Integer>> C, int n) {
+        private static int[] createTentativeProlongation(List<Set<Integer>> C,
+                int n) {
             int[] pt = new int[n];
             Arrays.fill(pt, -1);
 
@@ -729,8 +730,8 @@ public class AMG implements Preconditioner {
          * Creates the Galerkin operator using the assumption of disjoint
          * (non-smoothed) aggregates
          */
-        private CompRowMatrix createGalerkinFast(CompRowMatrix A, int[] pt,
-                int c) {
+        private static CompRowMatrix createGalerkinFast(CompRowMatrix A,
+                int[] pt, int c) {
             int n = pt.length;
 
             FlexCompRowMatrix Ac = new FlexCompRowMatrix(c, c);
@@ -786,7 +787,7 @@ public class AMG implements Preconditioner {
          * Creates the interpolation (prolongation) matrix based on the
          * non-smoothed aggregates
          */
-        private CompColMatrix createInterpolationMatrix(int[] pt, int c) {
+        private static CompColMatrix createInterpolationMatrix(int[] pt, int c) {
             FlexCompColMatrix If = new FlexCompColMatrix(pt.length, c);
 
             for (int i = 0; i < pt.length; ++i)
@@ -807,7 +808,7 @@ public class AMG implements Preconditioner {
          * Creates the smoothes interpolation (prolongation) operator by a
          * single sweep of the damped Jacobi method
          */
-        private List<Map<Integer, Double>> createSmoothedProlongation(
+        private static List<Map<Integer, Double>> createSmoothedProlongation(
                 List<Set<Integer>> C, List<Set<Integer>> N, CompRowMatrix A,
                 int[] diagind, double omega, int[] pt) {
 
@@ -880,7 +881,7 @@ public class AMG implements Preconditioner {
          * <code>Ac = I<sup>T</sup> A I</code>. This is a very time-consuming
          * operation
          */
-        private CompRowMatrix createGalerkinSlow(CompColMatrix I,
+        private static CompRowMatrix createGalerkinSlow(CompColMatrix I,
                 CompRowMatrix A) {
             int n = I.numRows(), c = I.numColumns();
             FlexCompRowMatrix Ac = new FlexCompRowMatrix(c, c);

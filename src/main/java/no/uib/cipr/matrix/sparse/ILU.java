@@ -124,7 +124,7 @@ public class ILU implements Preconditioner {
         U = new UpperCompRowMatrix(LU, diagind);
     }
 
-    private int[] findDiagonalIndices(int m, int[] colind, int[] rowptr) {
+    private static int[] findDiagonalIndices(int m, int[] colind, int[] rowptr) {
         int[] diagind = new int[m];
 
         for (int k = 0; k < m; ++k) {

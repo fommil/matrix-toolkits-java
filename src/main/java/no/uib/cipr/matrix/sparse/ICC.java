@@ -138,7 +138,7 @@ public class ICC implements Preconditioner {
         Rt = new UpperCompRowMatrix(R, diagind);
     }
 
-    private int[] findDiagonalIndices(int m, int[] colind, int[] rowptr) {
+    private static int[] findDiagonalIndices(int m, int[] colind, int[] rowptr) {
         int[] diagind = new int[m];
 
         for (int k = 0; k < m; ++k) {

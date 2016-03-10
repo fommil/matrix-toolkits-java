@@ -38,7 +38,7 @@ public class KR {
      * @param A
      * @param B
      */
-    private void checkKhatriRaoArguments(Matrix A, Matrix B) {
+    private static void checkKhatriRaoArguments(Matrix A, Matrix B) {
         if (A.numColumns() != B.numColumns())
             throw new IndexOutOfBoundsException(
                     "A.numColumns != B.numColumns (" + A.numColumns() + " != "

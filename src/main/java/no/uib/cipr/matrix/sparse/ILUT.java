@@ -209,7 +209,7 @@ public class ILUT implements Preconditioner {
         U = new UpperFlexCompRowMatrix(LU, diagind);
     }
 
-    private int findDiagonalIndex(SparseVector v, int k) {
+    private static int findDiagonalIndex(SparseVector v, int k) {
         return no.uib.cipr.matrix.sparse.Arrays.binarySearch(v.getIndex(), k,
                 0, v.getUsed());
     }
@@ -217,7 +217,7 @@ public class ILUT implements Preconditioner {
     /**
      * Copies the sparse vector into a dense array
      */
-    private void scatter(SparseVector v, double[] z) {
+    private static void scatter(SparseVector v, double[] z) {
         int[] index = v.getIndex();
         int used = v.getUsed();
         double[] data = v.getData();
