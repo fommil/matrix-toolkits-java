@@ -56,7 +56,7 @@ class SuperIterator<T extends Iterable<E>, E>
         entry = new SuperIteratorEntry<E>();
 
         // Try to be somewhat fault tolerant
-        if (iterable.size() == 0) {
+        if (iterable.isEmpty()) {
             current = new DummyIterator();
             next = new DummyIterator();
         } else {

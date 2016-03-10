@@ -33,12 +33,12 @@ public class IterativeSolverNotConvergedException extends NotConvergedException 
     /**
      * Iteration count when this exception was thrown
      */
-    private int iterations;
+    private final int iterations;
 
     /**
      * Final residual
      */
-    private double r;
+    private final double r;
 
     /**
      * Constructor for IterativeSolverNotConvergedException

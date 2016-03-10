@@ -242,7 +242,7 @@ public class AMG implements Preconditioner {
 
             // If no aggregates were created, no interpolation operator will be
             // created, and the setup phase stops
-            if (aggregator.getAggregates().size() == 0)
+            if (aggregator.getAggregates().isEmpty())
                 break;
 
             // Create an interpolation operator using smoothing. This also

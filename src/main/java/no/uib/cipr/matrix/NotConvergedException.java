@@ -51,7 +51,7 @@ public class NotConvergedException extends Exception {
     /**
      * The reason for this exception
      */
-    protected Reason reason;
+    protected final Reason reason;
 
     /**
      * Constructor for NotConvergedException
