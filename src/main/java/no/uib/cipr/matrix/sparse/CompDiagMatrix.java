@@ -53,6 +53,57 @@ public class CompDiagMatrix extends AbstractMatrix {
     int[] ind;
 
     /**
+     * Creates a new sparse matrix without preallocation
+     */
+    public CompDiagMatrix(int numRows, int numColumns) {
+        this(numRows, numColumns, new int[0]);
+    }
+
+    /**
+     * Creates a new sparse matrix copied from the given matrix. Can take a deep
+     * copy or a shallow copy. For the latter, the supplied matrix must be a
+     * CompDiagMatrix. Preallocation is also possible, but is only used for the
+     * deep copy.
+     */
+    public CompDiagMatrix(Matrix A, int[] diagonal, boolean deep) {
+        super(A);
+
+        if (deep) {
+            construct(diagonal);
+            set(A);
+        } else {
+            CompDiagMatrix Ac = (CompDiagMatrix) A;
+            diag = Ac.getDiagonals();
+            ind = Ac.getIndex();
+        }
+    }
+
+    /**
+     * Creates a new sparse matrix copied from the given matrix. Takes a deep
+     * copy, with possibility to specify preallocation
+     */
+    public CompDiagMatrix(Matrix A, int[] diagonal) {
+        this(A, diagonal, true);
+    }
+
+    /**
+     * Creates a new sparse matrix copied from the given matrix. Can take a deep
+     * copy or a shallow copy. For the latter, the supplied matrix must be a
+     * CompDiagMatrix. No preallocation is done
+     */
+    public CompDiagMatrix(Matrix A, boolean deep) {
+        this(A, new int[0], deep);
+    }
+
+    /**
+     * Creates a new sparse matrix copied from the given matrix. Takes a deep
+     * copy without preallocation
+     */
+    public CompDiagMatrix(Matrix A) {
+        this(A, new int[0], true);
+    }
+
+    /**
      * Constructor for CompDiagMatrix
      * 
      * @param r
@@ -158,57 +209,6 @@ public class CompDiagMatrix extends AbstractMatrix {
             ind[i] = sortedDiagonal[i];
             diag[i] = new double[getDiagSize(sortedDiagonal[i])];
         }
-    }
-
-    /**
-     * Creates a new sparse matrix without preallocation
-     */
-    public CompDiagMatrix(int numRows, int numColumns) {
-        this(numRows, numColumns, new int[0]);
-    }
-
-    /**
-     * Creates a new sparse matrix copied from the given matrix. Can take a deep
-     * copy or a shallow copy. For the latter, the supplied matrix must be a
-     * CompDiagMatrix. Preallocation is also possible, but is only used for the
-     * deep copy.
-     */
-    public CompDiagMatrix(Matrix A, int[] diagonal, boolean deep) {
-        super(A);
-
-        if (deep) {
-            construct(diagonal);
-            set(A);
-        } else {
-            CompDiagMatrix Ac = (CompDiagMatrix) A;
-            diag = Ac.getDiagonals();
-            ind = Ac.getIndex();
-        }
-    }
-
-    /**
-     * Creates a new sparse matrix copied from the given matrix. Takes a deep
-     * copy, with possibility to specify preallocation
-     */
-    public CompDiagMatrix(Matrix A, int[] diagonal) {
-        this(A, diagonal, true);
-    }
-
-    /**
-     * Creates a new sparse matrix copied from the given matrix. Can take a deep
-     * copy or a shallow copy. For the latter, the supplied matrix must be a
-     * CompDiagMatrix. No preallocation is done
-     */
-    public CompDiagMatrix(Matrix A, boolean deep) {
-        this(A, new int[0], deep);
-    }
-
-    /**
-     * Creates a new sparse matrix copied from the given matrix. Takes a deep
-     * copy without preallocation
-     */
-    public CompDiagMatrix(Matrix A) {
-        this(A, new int[0], true);
     }
 
     /**

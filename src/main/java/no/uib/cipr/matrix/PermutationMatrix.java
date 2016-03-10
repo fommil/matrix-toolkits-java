@@ -13,6 +13,30 @@ import java.util.BitSet;
  */
 public class PermutationMatrix extends AbstractMatrix {
 
+    private int[] permutations, pivots;
+    private boolean transposed;
+
+    // the instantaneous permutations to perform (zero-indexed)
+    // http://en.wikipedia.org/wiki/Permutation_matrix
+    public PermutationMatrix(int permutations[]) {
+        this(permutations, null);
+    }
+
+    // permutations - instantaneous (zero-indexed)
+    // pivots - sequential (fortran-indexed)
+    private PermutationMatrix(int permutations[], int pivots[]) {
+        super(permutations.length, permutations.length);
+        this.permutations = permutations;
+        BitSet bitset = new BitSet();
+        for (int i : permutations) {
+            if (bitset.get(i))
+                throw new IllegalArgumentException("non-unique permutations: "
+                        + i);
+            bitset.set(i);
+        }
+        this.pivots = pivots;
+    }
+
     /**
      * The sequential row permutations to perform, e.g. (2, 3, 3) means: permute
      * row 1 with row 2, then permute row 2 with row 3, then permute row 3 with
@@ -40,31 +64,6 @@ public class PermutationMatrix extends AbstractMatrix {
         }
 
         return new PermutationMatrix(permutations, pivots);
-    }
-
-    private int[] permutations, pivots;
-
-    private boolean transposed;
-
-    // the instantaneous permutations to perform (zero-indexed)
-    // http://en.wikipedia.org/wiki/Permutation_matrix
-    public PermutationMatrix(int[] permutations) {
-        this(permutations, null);
-    }
-
-    // permutations - instantaneous (zero-indexed)
-    // pivots - sequential (fortran-indexed)
-    private PermutationMatrix(int[] permutations, int[] pivots) {
-        super(permutations.length, permutations.length);
-        this.permutations = permutations;
-        BitSet bitset = new BitSet();
-        for (int i : permutations) {
-            if (bitset.get(i))
-                throw new IllegalArgumentException("non-unique permutations: "
-                        + i);
-            bitset.set(i);
-        }
-        this.pivots = pivots;
     }
 
     @Override

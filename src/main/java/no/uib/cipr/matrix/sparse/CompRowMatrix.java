@@ -53,6 +53,30 @@ public class CompRowMatrix extends AbstractMatrix {
     /**
      * Constructor for CompRowMatrix
      * 
+     * @param A
+     *            Copies from this matrix
+     * @param deep
+     *            True if the copy is to be deep. If it is a shallow copy,
+     *            <code>A</code> must be a <code>CompRowMatrix</code>
+     */
+    public CompRowMatrix(Matrix A, boolean deep) {
+        super(A);
+        construct(A, deep);
+    }
+
+    /**
+     * Constructor for CompRowMatrix
+     * 
+     * @param A
+     *            Copies from this matrix. The copy will be deep
+     */
+    public CompRowMatrix(Matrix A) {
+        this(A, true);
+    }
+
+    /**
+     * Constructor for CompRowMatrix
+     * 
      * @param r
      *            Reader to get sparse matrix from
      */
@@ -220,30 +244,6 @@ public class CompRowMatrix extends AbstractMatrix {
             rowPointer = Ac.getRowPointers();
             data = Ac.getData();
         }
-    }
-
-    /**
-     * Constructor for CompRowMatrix
-     * 
-     * @param A
-     *            Copies from this matrix
-     * @param deep
-     *            True if the copy is to be deep. If it is a shallow copy,
-     *            <code>A</code> must be a <code>CompRowMatrix</code>
-     */
-    public CompRowMatrix(Matrix A, boolean deep) {
-        super(A);
-        construct(A, deep);
-    }
-
-    /**
-     * Constructor for CompRowMatrix
-     * 
-     * @param A
-     *            Copies from this matrix. The copy will be deep
-     */
-    public CompRowMatrix(Matrix A) {
-        this(A, true);
     }
 
     /**
