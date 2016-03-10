@@ -462,18 +462,18 @@ public class AMG implements Preconditioner {
             int[] rowptr = A.getRowPointers();
             int[] colind = A.getColumnIndices();
 
-            int[] diagind = new int[A.numRows()];
+            int[] diagIndices = new int[A.numRows()];
 
             for (int i = 0; i < A.numRows(); ++i) {
-                diagind[i] = no.uib.cipr.matrix.sparse.Arrays.binarySearch(
+                diagIndices[i] = no.uib.cipr.matrix.sparse.Arrays.binarySearch(
                         colind, i, rowptr[i], rowptr[i + 1]);
-                if (diagind[i] < 0)
+                if (diagIndices[i] < 0)
                     throw new RuntimeException(
                             "Matrix is missing a diagonal entry on row "
                                     + (i + 1));
             }
 
-            return diagind;
+            return diagIndices;
         }
 
         /**
@@ -733,7 +733,7 @@ public class AMG implements Preconditioner {
                 int c) {
             int n = pt.length;
 
-            FlexCompRowMatrix Ac = new FlexCompRowMatrix(c, c);
+            FlexCompRowMatrix acMatrix = new FlexCompRowMatrix(c, c);
 
             int[] rowptr = A.getRowPointers();
             int[] colind = A.getColumnIndices();
@@ -743,9 +743,9 @@ public class AMG implements Preconditioner {
                 if (pt[i] != -1)
                     for (int j = rowptr[i]; j < rowptr[i + 1]; ++j)
                         if (pt[colind[j]] != -1)
-                            Ac.add(pt[i], pt[colind[j]], data[j]);
+                            acMatrix.add(pt[i], pt[colind[j]], data[j]);
 
-            return new CompRowMatrix(Ac);
+            return new CompRowMatrix(acMatrix);
         }
 
         /**
@@ -883,7 +883,7 @@ public class AMG implements Preconditioner {
         private CompRowMatrix createGalerkinSlow(CompColMatrix I,
                 CompRowMatrix A) {
             int n = I.numRows(), c = I.numColumns();
-            FlexCompRowMatrix Ac = new FlexCompRowMatrix(c, c);
+            FlexCompRowMatrix acMatrix = new FlexCompRowMatrix(c, c);
 
             double[] aiCol = new double[n];
             double[] iCol = new double[n];
@@ -912,10 +912,10 @@ public class AMG implements Preconditioner {
                 // Store non-zeros into Ac
                 for (int i = 0; i < c; ++i)
                     if (itaiCol[i] != 0)
-                        Ac.set(i, k, itaiCol[i]);
+                        acMatrix.set(i, k, itaiCol[i]);
             }
 
-            return new CompRowMatrix(Ac);
+            return new CompRowMatrix(acMatrix);
         }
 
         /**

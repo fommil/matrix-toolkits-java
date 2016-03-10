@@ -21,7 +21,9 @@
 package no.uib.cipr.matrix.sparse;
 
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 
 import no.uib.cipr.matrix.Vector;
 
@@ -42,7 +44,8 @@ public class OutputIterationReporter implements IterationReporter {
      *            Writes iteration count and current residual here
      */
     public OutputIterationReporter(OutputStream out) {
-        this.out = new PrintWriter(out, true);
+        this.out = new PrintWriter(new OutputStreamWriter(out,
+                Charset.forName("UTF-8")), true);
     }
 
     /**
