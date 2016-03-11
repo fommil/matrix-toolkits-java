@@ -36,7 +36,7 @@ import org.netlib.util.intW;
 public class QRP {
 
     /** Pivoting vector */
-    int jpvt[];
+    int[] jpvt;
     /**
      * Scales for the reflectors
      */
@@ -86,8 +86,8 @@ public class QRP {
 
         int lwork1, lwork2;
         intW info = new intW(0);
-        double dummy[] = new double[1];
-        double ret[] = new double[1];
+        double[] dummy = new double[1];
+        double[] ret = new double[1];
 
         LAPACK lapack = LAPACK.getInstance();
 
