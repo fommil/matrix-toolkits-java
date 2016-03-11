@@ -53,7 +53,7 @@ public class OutputIterationReporter implements IterationReporter {
     }
 
     public void monitor(double r, int i) {
-        out.format("%10d % .12e\n", i, r);
+        out.format("%10d % .12e%n", i, r);
         out.flush();
     }
 

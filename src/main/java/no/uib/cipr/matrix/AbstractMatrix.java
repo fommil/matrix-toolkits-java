@@ -796,7 +796,7 @@ public abstract class AbstractMatrix implements Matrix {
         // Output into coordinate format. Indices start from 1 instead of 0
         Formatter out = new Formatter();
 
-        out.format("%10d %10d %19d\n", numRows, numColumns,
+        out.format("%10d %10d %19d%n", numRows, numColumns,
                 Matrices.cardinality(this));
 
         int i = 0;
