@@ -255,11 +255,11 @@ public class CompDiagMatrix extends AbstractMatrix {
         diag[diagonal][getOnDiagIndex(row, column)] = value;
     }
 
-    private int getDiagonal(int row, int column) {
+    private static int getDiagonal(int row, int column) {
         return column - row;
     }
 
-    private int getOnDiagIndex(int row, int column) {
+    private static int getOnDiagIndex(int row, int column) {
         return row > column ? column : row;
     }
 
