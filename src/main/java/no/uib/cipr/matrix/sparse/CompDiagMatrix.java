@@ -159,16 +159,16 @@ public class CompDiagMatrix extends AbstractMatrix {
                     diags.add(getDiagonal(column[i], row[i]));
 
         // Convert into an integer array
-        int[] ind = new int[diags.size()];
+        int[] diagonalIndces = new int[diags.size()];
         {
             Integer[] ints = new Integer[diags.size()];
             diags.toArray(ints);
             for (int i = 0; i < diags.size(); ++i)
-                ind[i] = ints[i];
+                diagonalIndces[i] = ints[i];
         }
 
         // Create the structure with preallocation
-        construct(ind);
+        construct(diagonalIndces);
 
         // Insert the entries
         for (int i = 0; i < size.numEntries(); ++i)
