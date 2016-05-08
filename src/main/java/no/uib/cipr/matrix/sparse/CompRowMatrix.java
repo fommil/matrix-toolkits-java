@@ -31,7 +31,10 @@ import java.util.*;
 import java.util.Arrays;
 
 /**
- * Compressed row storage (CRS) matrix
+ * Compressed row storage (CRS) matrix.
+ * 
+ * Only use this class if the matrix structure (the location of nonzeros) is
+ * known and static (does not change).
  */
 public class CompRowMatrix extends AbstractMatrix {
 
@@ -420,7 +423,7 @@ public class CompRowMatrix extends AbstractMatrix {
         int i = no.uib.cipr.matrix.sparse.Arrays.binarySearch(columnIndex,
                 column, rowPointer[row], rowPointer[row + 1]);
 
-        if (i != -1 && columnIndex[i] == column)
+        if (i >= 0 && columnIndex[i] == column)
             return i;
         else
             throw new IndexOutOfBoundsException("Entry (" + (row + 1) + ", "

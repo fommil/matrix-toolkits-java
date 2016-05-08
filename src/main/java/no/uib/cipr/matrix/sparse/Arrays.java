@@ -114,7 +114,7 @@ class Arrays {
      *            Start posisiton in the index
      * @param end
      *            One past the end position in the index
-     * @return Integer index to key. -1 if not found
+     * @return Integer index to key. A negative integer if not found
      */
     public static int binarySearch(int[] index, int key, int begin, int end) {
         return java.util.Arrays.binarySearch(index, begin, end, key);
