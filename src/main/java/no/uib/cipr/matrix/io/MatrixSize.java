@@ -61,7 +61,7 @@ public class MatrixSize {
         if (info.isGeneral())
             numEntries = numRows * numColumns;
         else if (info.isSymmetric() || info.isHermitian())
-            numEntries = ((numRows * numColumns - numRows) / 2 + numRows);
+            numEntries = (numRows * numColumns - numRows) / 2 + numRows;
         else if (info.isSkewSymmetric())
             numEntries = (numRows * numColumns - numRows) / 2;
     }
