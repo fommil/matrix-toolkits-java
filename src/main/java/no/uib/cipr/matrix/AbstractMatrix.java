@@ -60,6 +60,11 @@ import java.util.Iterator;
  */
 public abstract class AbstractMatrix implements Matrix {
 
+    private static final String A_NUM_COLUMNS_NOT_EQUALS_B_NUM_ROWS = "A.numColumns != B.numRows (";
+    private static final String B_NUM_COLUMNS_NOT_EQUALS_C_NUM_COLUMNS = "B.numColumns != C.numColumns (";
+    private static final String A_NUM_ROWS_NOT_EQUALS_C_NUM_ROWS = "A.numRows != C.numRows (";
+    private static final String A_IS_NOT_SQUARE = "!A.isSquare";
+
     /**
      * Number of rows
      */
@@ -224,7 +229,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkSolve(Vector b, Vector x) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (numRows != b.size())
             throw new IndexOutOfBoundsException("numRows != b.size (" + numRows
                     + " != " + b.size() + ")");
@@ -265,7 +270,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkRank1(Vector x, Vector y) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (x.size() != numRows)
             throw new IndexOutOfBoundsException("x.size != A.numRows ("
                     + x.size() + " != " + numRows + ")");
@@ -298,7 +303,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkRank2(Vector x, Vector y) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (x.size() != numRows)
             throw new IndexOutOfBoundsException("x.size != A.numRows ("
                     + x.size() + " != " + numRows + ")");
@@ -339,15 +344,17 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkMultAdd(Matrix B, Matrix C) {
         if (numRows != C.numRows())
-            throw new IndexOutOfBoundsException("A.numRows != C.numRows ("
-                    + numRows + " != " + C.numRows() + ")");
+            throw new IndexOutOfBoundsException(
+                    A_NUM_ROWS_NOT_EQUALS_C_NUM_ROWS + numRows + " != "
+                            + C.numRows() + ")");
         if (numColumns != B.numRows())
-            throw new IndexOutOfBoundsException("A.numColumns != B.numRows ("
-                    + numColumns + " != " + B.numRows() + ")");
+            throw new IndexOutOfBoundsException(
+                    A_NUM_COLUMNS_NOT_EQUALS_B_NUM_ROWS + numColumns + " != "
+                            + B.numRows() + ")");
         if (B.numColumns() != C.numColumns())
             throw new IndexOutOfBoundsException(
-                    "B.numColumns != C.numColumns (" + B.numColumns() + " != "
-                            + C.numColumns() + ")");
+                    B_NUM_COLUMNS_NOT_EQUALS_C_NUM_COLUMNS + B.numColumns()
+                            + " != " + C.numColumns() + ")");
     }
 
     public Matrix transAmult(Matrix B, Matrix C) {
@@ -390,8 +397,8 @@ public abstract class AbstractMatrix implements Matrix {
                     + numColumns + " != " + C.numRows() + ")");
         if (B.numColumns() != C.numColumns())
             throw new IndexOutOfBoundsException(
-                    "B.numColumns != C.numColumns (" + B.numColumns() + " != "
-                            + C.numColumns() + ")");
+                    B_NUM_COLUMNS_NOT_EQUALS_C_NUM_COLUMNS + B.numColumns()
+                            + " != " + C.numColumns() + ")");
     }
 
     public Matrix transBmult(Matrix B, Matrix C) {
@@ -431,8 +438,9 @@ public abstract class AbstractMatrix implements Matrix {
                     "A.numColumns != B.numColumns (" + numColumns + " != "
                             + B.numColumns() + ")");
         if (numRows != C.numRows())
-            throw new IndexOutOfBoundsException("A.numRows != C.numRows ("
-                    + numRows + " != " + C.numRows() + ")");
+            throw new IndexOutOfBoundsException(
+                    A_NUM_ROWS_NOT_EQUALS_C_NUM_ROWS + numRows + " != "
+                            + C.numRows() + ")");
         if (B.numRows() != C.numColumns())
             throw new IndexOutOfBoundsException("B.numRows != C.numColumns ("
                     + B.numRows() + " != " + C.numColumns() + ")");
@@ -495,7 +503,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkSolve(Matrix B, Matrix X) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (B.numRows() != numRows)
             throw new IndexOutOfBoundsException("B.numRows != A.numRows ("
                     + B.numRows() + " != " + numRows + ")");
@@ -526,10 +534,11 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkRank1(Matrix C) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (numRows != C.numRows())
-            throw new IndexOutOfBoundsException("A.numRows != C.numRows ("
-                    + numRows + " != " + C.numRows() + ")");
+            throw new IndexOutOfBoundsException(
+                    A_NUM_ROWS_NOT_EQUALS_C_NUM_ROWS + numRows + " != "
+                            + C.numRows() + ")");
     }
 
     public Matrix transRank1(Matrix C) {
@@ -550,7 +559,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkTransRank1(Matrix C) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (numRows != C.numColumns())
             throw new IndexOutOfBoundsException("A.numRows != C.numColumns ("
                     + numRows + " != " + C.numColumns() + ")");
@@ -574,14 +583,14 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkRank2(Matrix B, Matrix C) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (B.numRows() != C.numRows())
             throw new IndexOutOfBoundsException("B.numRows != C.numRows ("
                     + B.numRows() + " != " + C.numRows() + ")");
         if (B.numColumns() != C.numColumns())
             throw new IndexOutOfBoundsException(
-                    "B.numColumns != C.numColumns (" + B.numColumns() + " != "
-                            + C.numColumns() + ")");
+                    B_NUM_COLUMNS_NOT_EQUALS_C_NUM_COLUMNS + B.numColumns()
+                            + " != " + C.numColumns() + ")");
     }
 
     public Matrix transRank2(Matrix B, Matrix C) {
@@ -602,7 +611,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkTransRank2(Matrix B, Matrix C) {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
         if (numRows != B.numColumns())
             throw new IndexOutOfBoundsException("A.numRows != B.numColumns ("
                     + numRows + " != " + B.numColumns() + ")");
@@ -611,8 +620,8 @@ public abstract class AbstractMatrix implements Matrix {
                     + B.numRows() + " != " + C.numRows() + ")");
         if (B.numColumns() != C.numColumns())
             throw new IndexOutOfBoundsException(
-                    "B.numColumns != C.numColumns (" + B.numColumns() + " != "
-                            + C.numColumns() + ")");
+                    B_NUM_COLUMNS_NOT_EQUALS_C_NUM_COLUMNS + B.numColumns()
+                            + " != " + C.numColumns() + ")");
     }
 
     public Matrix scale(double alpha) {
@@ -692,7 +701,7 @@ public abstract class AbstractMatrix implements Matrix {
      */
     protected void checkTranspose() {
         if (!isSquare())
-            throw new IndexOutOfBoundsException("!A.isSquare");
+            throw new IndexOutOfBoundsException(A_IS_NOT_SQUARE);
     }
 
     public Matrix transpose(Matrix B) {
@@ -716,8 +725,9 @@ public abstract class AbstractMatrix implements Matrix {
             throw new IndexOutOfBoundsException("A.numRows != B.numColumns ("
                     + numRows + " != " + B.numColumns() + ")");
         if (numColumns != B.numRows())
-            throw new IndexOutOfBoundsException("A.numColumns != B.numRows ("
-                    + numColumns + " != " + B.numRows() + ")");
+            throw new IndexOutOfBoundsException(
+                    A_NUM_COLUMNS_NOT_EQUALS_B_NUM_ROWS + numColumns + " != "
+                            + B.numRows() + ")");
     }
 
     public double norm(Norm type) {
