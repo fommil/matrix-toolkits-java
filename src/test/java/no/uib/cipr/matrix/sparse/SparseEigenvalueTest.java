@@ -82,21 +82,25 @@ public class SparseEigenvalueTest  {
 
     @Test
     public void testEigenValue() throws Exception {
-        ArpackGen generalSolver = new ArpackGen(A);
+        testLargestEigenvalue(A);
+    }
+
+    private void testLargestEigenvalue(CompColMatrix matrix) {
+        ArpackGen generalSolver = new ArpackGen(matrix);
         generalSolver.setComputeOnlyEigenvalues(true);
         Map<Double, DenseVectorSub> eigenValueMap = generalSolver.solve(3, ArpackGen.Ritz.LR);
 
-        RealMatrix commonsA = new Array2DRowRealMatrix(A.numRows(), A.numColumns());
-        double[] data = A.getData();
+        RealMatrix commonsA = new Array2DRowRealMatrix(matrix.numRows(), matrix.numColumns());
+        double[] data = matrix.getData();
         int col = 0;
         int row;
         double val;
         for (int elem = 0; elem < data.length; elem++){
-            row = A.getRowIndices()[elem];
-            if (A.getColumnPointers()[col+1] <= elem){
+            row = matrix.getRowIndices()[elem];
+            if (matrix.getColumnPointers()[col+1] <= elem){
                 col++;
             }
-            val = A.get(row, col);
+            val = matrix.get(row, col);
             commonsA.setEntry(row, col, val);
 
         }
@@ -172,5 +176,32 @@ public class SparseEigenvalueTest  {
         System.out.println(successCount + " correct eigenvalue/eigenvector computations.");
         System.out.println(errorcount + " failures in "+ iteration+" iterations!");
         System.out.println("Convergence / imprecision errors "+errors.getN()+" \t average: "+errors.getMean());
+    }
+
+    @Test
+    public void testEigenValuesExhaustively() throws Exception {
+        int dim = 5;
+        int errorcount = 0;
+        int successCount = 0;
+        int iteration = 0;
+        DescriptiveStatistics errors = new DescriptiveStatistics();
+        for (iteration = 0; iteration < 100; iteration++){
+            CompColMatrix m = createRandomMatrix(dim+iteration,dim+iteration,5);
+            try {
+                testLargestEigenvalue(m);
+                successCount++;
+            } catch (IllegalStateException e){
+                e.printStackTrace();
+                errorcount++;
+            } catch (AssertionError e) {
+                String[] parts = e.getMessage().split("<");
+                double expected = Double.valueOf(parts[1].split(">")[0]);
+                double actual = Double.valueOf(parts[2].split(">")[0]);
+                errors.addValue(expected-actual);
+            }
+        }
+        System.out.println(successCount + " correct eigenvalue computations.");
+        System.out.println(errorcount + " failures in "+ iteration+" iterations!");
+        System.out.println(errors.getN() + " convergence / imprecision errors.\n error "+errors.toString());
     }
 }
